@@ -4,6 +4,23 @@
              xmlns:local="clr-namespace:TestingServerApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!-- Create instance of main view model for using in all pages-->
+            <local:BaseVM x:Key="baseVM"/>
+
+            <!-- Converters --><!--
+            <local:IsAdminModeToVisibilityBoolToEnumConverter x:Key="isAdminModeToVisibilityBoolToEnumConverter"/>
+            <local:ContentTextToQuantityIntToBoolConverter x:Key="contentTextToQuantityIntToBoolConverter"/>
+
+            --><!-- Styles --><!--
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/TextBlock.xaml"/>
+                <ResourceDictionary Source="Styles/TextBox.xaml"/>
+                <ResourceDictionary Source="Styles/DataGrid.xaml"/>
+                <ResourceDictionary Source="Styles/Button.xaml"/>
+                <ResourceDictionary Source="Styles/ComboBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>-->
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
