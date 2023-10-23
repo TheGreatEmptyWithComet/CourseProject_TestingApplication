@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace TestingServerApp.DbEntities
+namespace TestingServerApp
 {
     public class Context : DbContext
     {

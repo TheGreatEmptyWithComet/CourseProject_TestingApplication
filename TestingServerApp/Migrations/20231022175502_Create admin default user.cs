@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System.Collections;
 using System;
-using TestingServerApp.Utilites;
 
 #nullable disable
 

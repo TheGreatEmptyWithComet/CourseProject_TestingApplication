@@ -1,0 +1,36 @@
+﻿<Page x:Class="TestingServerApp.Styles.TestCategoriesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestingServerApp.Viewes"
+      mc:Ignorable="d"
+      DataContext="{StaticResource baseVM}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TestCategoriesPage">
+
+    <DockPanel>
+        <!-- Page info header -->
+        <TextBlock Text="Test categories" Style="{DynamicResource Style_WindowTextBlock}" DockPanel.Dock="Top" Margin="5 5 0 0"/>
+
+        <!-- Command buttons -->
+        <StackPanel Width="100" DockPanel.Dock="Right" Orientation="Vertical">
+            <!-- New button -->
+            <Button Command="{Binding TestCategoryPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}">Add</Button>
+
+            <!-- Edit button -->
+            <Button Command="{Binding TestCategoryPageVM.EditCommand}" Content="Edit" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}"/>
+
+            <!-- Delete button -->
+            <Button Command="{Binding TestCategoryPageVM.DeleteCommand}" Content="Delete" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}"/>
+        </StackPanel>
+
+        <!-- Data table -->
+        <DataGrid x:Name="DataGrid" Style="{DynamicResource Style_DataGridBase}" ItemsSource="{Binding TestCategoryPageVM.TestCategories}" SelectedItem="{Binding TestCategoryPageVM.SelectedTestCategory}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Test category" Binding="{Binding Path=Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
+</Page>

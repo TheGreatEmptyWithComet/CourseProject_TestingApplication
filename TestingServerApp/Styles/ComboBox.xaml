@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Style TargetType="{x:Type ComboBox}" x:Key="Style_ComboBoxBase">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="0 0 0 10"/>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}" x:Key="Style_ComboBox_Book" BasedOn="{StaticResource Style_ComboBoxBase}">
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text=", "/>
+                        <TextBlock Text="{Binding Author.FirstName}"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding Author.LastName}"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding Author.MiddleName}"/>
+                        <TextBlock Text=", "/>
+                        <TextBlock Text="{Binding PublicationYear, StringFormat='dd.MM.yyyy'}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,41 @@
+﻿<Page x:Class="TestingServerApp.Viewes.Tests"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestingServerApp.Viewes"
+      mc:Ignorable="d"
+      DataContext="{StaticResource baseVM}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Tests">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Catalogues and Documents -->
+        <StackPanel Orientation="Vertical" Grid.Column="0">
+            <TextBlock Text="Catalogues and Documents" Margin="3" FontWeight="Bold"/>
+            <TextBlock Margin="3">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestCategoriesPage.xaml" Foreground="Black" TextDecorations="None">Test categories</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestsListPage.xaml" Foreground="Black" TextDecorations="None">Tests</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Tests performing -->
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+            <TextBlock Text="Tests performing" Margin="3" FontWeight="Bold"/>
+            <TextBlock Margin="3">
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Foreground="Black" TextDecorations="None">Issue tests</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3">
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Foreground="Black" TextDecorations="None">Tests results</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+    </Grid>
+</Page>

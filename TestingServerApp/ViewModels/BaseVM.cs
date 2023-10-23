@@ -1,19 +1,80 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace TestingServerApp
 {
-    public class BaseVM
+    public class BaseVM: NotifyPropertyChangeHandler
     {
+        #region Properties
+        /****************************************************************************************/
+        private readonly Context context;
+
+        private string currentPage;
+        public string CurrentPage
+        {
+            get { return currentPage; }
+            set
+            {
+                currentPage = value;
+                NotifyPropertyChanged(nameof(CurrentPage));
+            }
+        }
+        #endregion
+
+
+        #region Inner view models
+        /****************************************************************************************/
+        public TestCategoryPageVM TestCategoryPageVM { get; private set; }
+        #endregion
+
+
+
+        #region Commands
+        /****************************************************************************************/
+        public ICommand PageNavigationCommand { get; private set; }
+
+        #endregion
+
+
+        #region Constructor
+        /****************************************************************************************/
         public BaseVM()
         {
+            context = new Context();
             
+            // Set the start page
+            CurrentPage = "UsersPage.xaml";
+
+            // Init inner view models
+            TestCategoryPageVM = new TestCategoryPageVM(context);
+
+            InitCommands();
 
         }
+        #endregion
+
+
+        #region Methods
+        /****************************************************************************************/
+        private void InitCommands()
+        {
+            PageNavigationCommand = new RelayCommand<string>(p => CurrentPage = p);
+        }
+
+
+        #endregion
+
+        //var users = context.Users.ToList();
+        //byte[] adminSalt = context.Users.Where(u => u.Login == "admin").Select(u => u.PasswordSalt).FirstOrDefault()!;
+        //string adminHash = context.Users.Where(u => u.Login == "admin").Select(u => u.PasswordHash).FirstOrDefault()!;
+
+        //var result = adminHash == PasswordEncryption.GetPasswordHash("admin2", adminSalt);
 
 
 
