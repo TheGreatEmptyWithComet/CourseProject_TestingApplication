@@ -14,15 +14,15 @@
         <TextBlock Text="Test categories" Style="{DynamicResource Style_WindowTextBlock}" DockPanel.Dock="Top" Margin="5 5 0 0"/>
 
         <!-- Command buttons -->
-        <StackPanel Width="100" DockPanel.Dock="Right" Orientation="Vertical">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <!-- New button -->
-            <Button Command="{Binding TestCategoryPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}">Add</Button>
+            <Button Content="Add"  Command="{Binding TestCategoryPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
 
             <!-- Edit button -->
-            <Button Command="{Binding TestCategoryPageVM.EditCommand}" Content="Edit" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}"/>
+            <Button Content="Edit" Command="{Binding TestCategoryPageVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
             <!-- Delete button -->
-            <Button Command="{Binding TestCategoryPageVM.DeleteCommand}" Content="Delete" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}"/>
+            <Button Content="Delete" Command="{Binding TestCategoryPageVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
         </StackPanel>
 
         <!-- Data table -->

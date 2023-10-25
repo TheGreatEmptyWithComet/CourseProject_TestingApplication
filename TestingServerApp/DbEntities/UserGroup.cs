@@ -16,7 +16,7 @@ namespace TestingServerApp
 
 
         // Navigation properties
-        public ICollection<User> Users { get; set; } = null!;
-        public ICollection<IssuedTest> IssuedTests { get; set; } = null!;
+        public ObservableCollection<User> Users { get; set; } = null!;
+        public ObservableCollection<IssuedTest> IssuedTests { get; set; } = null!;
     }
 }

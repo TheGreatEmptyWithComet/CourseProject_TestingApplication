@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -24,8 +25,8 @@ namespace TestingServerApp
         
         // Navigation properties
         public TestCategory TestCategory { get; set; } = null!;
-        public ICollection<Question> Questions { get; set; } = null!;
-        public ICollection<IssuedTest> IssuedTests { get; set; } = null!;
-        public ICollection<ShortResult> ShortResult { get; set; } = null!;
+        public ObservableCollection<Question> Questions { get; set; } = null!;
+        public ObservableCollection<IssuedTest> IssuedTests { get; set; } = null!;
+        public ObservableCollection<ShortResult> ShortResult { get; set; } = null!;
     }
 }

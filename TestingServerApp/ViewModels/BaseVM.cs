@@ -31,6 +31,7 @@ namespace TestingServerApp
         #region Inner view models
         /****************************************************************************************/
         public TestCategoryPageVM TestCategoryPageVM { get; private set; }
+        public TestsListPageVM TestsListPageVM { get; private set; }
         #endregion
 
 
@@ -53,6 +54,8 @@ namespace TestingServerApp
 
             // Init inner view models
             TestCategoryPageVM = new TestCategoryPageVM(context);
+            TestsListPageVM = new TestsListPageVM(context);
+            TestsListPageVM.OnCurrentPageChanged += (page) => CurrentPage = page;
 
             InitCommands();
 
@@ -66,6 +69,7 @@ namespace TestingServerApp
         {
             PageNavigationCommand = new RelayCommand<string>(p => CurrentPage = p);
         }
+
 
 
         #endregion

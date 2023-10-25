@@ -6,11 +6,35 @@
       xmlns:local="clr-namespace:TestingServerApp.Viewes"
       mc:Ignorable="d"
       DataContext="{StaticResource baseVM}"
-      Background="Bisque"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TestsListPage">
 
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <!-- Page info header -->
+        <TextBlock Text="Tests" Style="{DynamicResource Style_WindowTextBlock}" DockPanel.Dock="Top" Margin="5 5 0 0"/>
+
+        <!-- Command buttons -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <!-- New button -->
+            <Button Content="Add" Command="{Binding TestsListPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+
+            <!-- Edit button -->
+            <Button Content="Edit" Command="{Binding TestsListPageVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+
+            <!-- Delete button -->
+            <Button Content="Delete" Command="{Binding TestsListPageVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+        </StackPanel>
+
+        <!-- Data table -->
+        <DataGrid x:Name="DataGrid" Style="{DynamicResource Style_DataGridBase}" ItemsSource="{Binding TestsListPageVM.Tests}" SelectedItem="{Binding TestsListPageVM.SelectedTest}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Category" Binding="{Binding Path=TestCategory.Name}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                <DataGridTextColumn Header="Questions&#x0a;for test" Binding="{Binding Path=QuestionsAmountForTest}" />
+                <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
+                <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </DockPanel>
 </Page>

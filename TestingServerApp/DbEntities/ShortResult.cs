@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace TestingServerApp
 {
@@ -19,6 +20,6 @@ namespace TestingServerApp
         // Navigation properties
         public User User { get; set; } = null!;
         public Test Test { get; set; } = null!;
-        public ICollection<DetailedResult> DetailedResults { get; set; } = null!;
+        public ObservableCollection<DetailedResult> DetailedResults { get; set; } = null!;
     }
 }

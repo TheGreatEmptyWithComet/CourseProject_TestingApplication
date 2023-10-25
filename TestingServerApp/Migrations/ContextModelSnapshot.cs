@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using TestingServerApp;
 
 #nullable disable
 
@@ -41,7 +42,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.DetailedResult", b =>
@@ -65,7 +66,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("ShortResultId");
 
-                    b.ToTable("DetailedResults");
+                    b.ToTable("DetailedResults", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.IssuedTest", b =>
@@ -95,7 +96,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("UserGroupId");
 
-                    b.ToTable("IssuedTests");
+                    b.ToTable("IssuedTests", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.Question", b =>
@@ -129,7 +130,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("TestId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.ShortResult", b =>
@@ -159,7 +160,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShortResults");
+                    b.ToTable("ShortResults", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.Test", b =>
@@ -193,7 +194,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("TestCategoryId");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Tests", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.TestCategory", b =>
@@ -209,7 +210,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestCategories");
+                    b.ToTable("TestCategories", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.User", b =>
@@ -245,7 +246,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasIndex("UserGroupId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.UserGroup", b =>
@@ -261,7 +262,7 @@ namespace TestingServerApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserGroups");
+                    b.ToTable("UserGroups", (string)null);
                 });
 
             modelBuilder.Entity("TestingServerApp.Answer", b =>

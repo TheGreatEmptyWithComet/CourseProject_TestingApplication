@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,6 @@ namespace TestingServerApp
 
 
         // Navigation properties
-        public ICollection<Test> Tests { get; set; } = null!;
+        public ObservableCollection<Test> Tests { get; set; } = null!;
     }
 }
