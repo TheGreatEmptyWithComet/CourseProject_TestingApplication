@@ -10,13 +10,31 @@
       Title="TestCategoriesPage">
 
     <DockPanel>
-        <!-- Page info header -->
-        <TextBlock Text="Test categories" Style="{DynamicResource Style_WindowTextBlock}" DockPanel.Dock="Top" Margin="5 5 0 0"/>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Page info header -->
+            <TextBlock Text="Test categories" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
+            <!-- Exit button -->
+            <!--<Button Command="{Binding TestCategoryPageVM.AddCommand}" Width="25" Height="25" Grid.Column="1" >
+                <Button.Background>
+                <ImageBrush ImageSource="/Images/1.png"/>
+                --><!--<Image Source="/Images/CloseButtonImage.png"/>--><!--
+                </Button.Background>
+            </Button>-->
+
+            <Button Command="{Binding TestCategoryPageVM.AddCommand}" Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+
+        </Grid>
+
 
         <!-- Command buttons -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <!-- New button -->
-            <Button Content="Add"  Command="{Binding TestCategoryPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+            <Button Content="Add" Command="{Binding TestCategoryPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
 
             <!-- Edit button -->
             <Button Content="Edit" Command="{Binding TestCategoryPageVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
