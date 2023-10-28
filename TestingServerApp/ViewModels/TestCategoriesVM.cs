@@ -12,7 +12,7 @@ using TestingServerApp.Viewes;
 
 namespace TestingServerApp
 {
-    public class TestCategoryPageVM : NotifyPropertyChangeHandler
+    public class TestCategoriesVM : NotifyPropertyChangeHandler
     {
         #region Properties
         /****************************************************************************************/
@@ -73,7 +73,7 @@ namespace TestingServerApp
 
         #region Constructor
         /****************************************************************************************/
-        public TestCategoryPageVM(Context context)
+        public TestCategoriesVM(Context context)
         {
             this.context = context;
             LoadDataFromDB();

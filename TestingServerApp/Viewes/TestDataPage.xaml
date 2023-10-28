@@ -10,21 +10,31 @@
       Title="TestDataPage">
 
     <DockPanel>
-        <!-- Page info header -->
-        <TextBlock Text="Test" Style="{DynamicResource Style_WindowTextBlock}" DockPanel.Dock="Top" Margin="5 5 0 0"/>
+        <!-- Header & exit button -->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Page info header -->
+            <TextBlock Text="Tests" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
+            <!-- Exit button -->
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml"  Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+        </Grid>
 
         <!-- Command buttons -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <!-- Save and exit button -->
-            <Button Content="Save and exit" Command="{Binding TestsListPageVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="100"/>
+            <Button Content="Save and exit" Command="{Binding TestMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
 
             <!-- Questions button -->
-            <Button Content="Questions" Command="{Binding TestListPageVM.EditCommand}"  Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" Width="100"/>
+            <Button Content="Questions" Command="{Binding PageNavigationCommand}" CommandParameter="QuestionsDirectoryPage.xaml" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
         </StackPanel>
 
         <!-- test data -->
-        <StackPanel>
+        <StackPanel Margin="5">
             <!-- Category -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -32,7 +42,7 @@
                     <ColumnDefinition Width="70*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Category:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <ComboBox ItemsSource="{Binding TestCategoryPageVM.TestCategories}" SelectedItem="{Binding TestsListPageVM.CurrentTest.TestCategory}" Grid.Column="1" Style="{DynamicResource Style_ComboBoxBase}">
+                <ComboBox ItemsSource="{Binding TestCategoriesVM.TestCategories}" SelectedItem="{Binding TestMaterialsVM.CurrentTest.TestCategory}" Grid.Column="1" Style="{DynamicResource Style_ComboBoxBase}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
@@ -48,7 +58,7 @@
                     <ColumnDefinition Width="70*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Name:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestsListPageVM.CurrentTest.Name }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.Name }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
             </Grid>
 
             <!-- Amount of questions for test -->
@@ -58,7 +68,7 @@
                     <ColumnDefinition Width="70*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Amount of questions for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestsListPageVM.CurrentTest.QuestionsAmountForTest }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.QuestionsAmountForTest }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
             </Grid>
 
             <!-- Minutes for test -->
@@ -68,7 +78,7 @@
                     <ColumnDefinition Width="70*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Minutes for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestsListPageVM.CurrentTest.MinutsForTest }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.MinutsForTest }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
             </Grid>
 
             <!-- Scores for test -->
@@ -78,10 +88,10 @@
                     <ColumnDefinition Width="70*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Scores for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestsListPageVM.CurrentTest.MaxTestScores }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.MaxTestScores }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
             </Grid>
             <!-- Error message -->
-            <TextBox Text="{Binding TestsListPageVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red"/>
+            <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red"/>
         </StackPanel>
     
     </DockPanel>

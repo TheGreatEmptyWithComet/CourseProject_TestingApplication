@@ -30,8 +30,8 @@ namespace TestingServerApp
 
         #region Inner view models
         /****************************************************************************************/
-        public TestCategoryPageVM TestCategoryPageVM { get; private set; }
-        public TestsListPageVM TestsListPageVM { get; private set; }
+        public TestCategoriesVM TestCategoriesVM { get; private set; }
+        public TestMaterialsVM TestMaterialsVM { get; private set; }
         #endregion
 
 
@@ -50,12 +50,12 @@ namespace TestingServerApp
             context = new Context();
             
             // Set the start page
-            CurrentPage = "UsersPage.xaml";
+            CurrentPage = "UsersMenuPage.xaml";
 
             // Init inner view models
-            TestCategoryPageVM = new TestCategoryPageVM(context);
-            TestsListPageVM = new TestsListPageVM(context);
-            TestsListPageVM.OnCurrentPageChanged += (page) => CurrentPage = page;
+            TestCategoriesVM = new TestCategoriesVM(context);
+            TestMaterialsVM = new TestMaterialsVM(context);
+            TestMaterialsVM.OnCurrentPageChanged += (page) => CurrentPage = page;
 
             InitCommands();
 

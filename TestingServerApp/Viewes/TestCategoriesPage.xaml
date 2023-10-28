@@ -10,6 +10,7 @@
       Title="TestCategoriesPage">
 
     <DockPanel>
+        <!-- Header & exit button -->
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -19,32 +20,23 @@
             <!-- Page info header -->
             <TextBlock Text="Test categories" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
-            <!--<Button Command="{Binding TestCategoryPageVM.AddCommand}" Width="25" Height="25" Grid.Column="1" >
-                <Button.Background>
-                <ImageBrush ImageSource="/Images/1.png"/>
-                --><!--<Image Source="/Images/CloseButtonImage.png"/>--><!--
-                </Button.Background>
-            </Button>-->
-
-            <Button Command="{Binding TestCategoryPageVM.AddCommand}" Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
-
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
-
 
         <!-- Command buttons -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <!-- New button -->
-            <Button Content="Add" Command="{Binding TestCategoryPageVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+            <Button Content="Add" Command="{Binding TestCategoriesVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
 
             <!-- Edit button -->
-            <Button Content="Edit" Command="{Binding TestCategoryPageVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <Button Content="Edit" Command="{Binding TestCategoriesVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
             <!-- Delete button -->
-            <Button Content="Delete" Command="{Binding TestCategoryPageVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <Button Content="Delete" Command="{Binding TestCategoriesVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
         </StackPanel>
 
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" Style="{DynamicResource Style_DataGridBase}" ItemsSource="{Binding TestCategoryPageVM.TestCategories}" SelectedItem="{Binding TestCategoryPageVM.SelectedTestCategory}">
+        <DataGrid x:Name="DataGrid" Style="{DynamicResource Style_DataGridBase}" ItemsSource="{Binding TestCategoriesVM.TestCategories}" SelectedItem="{Binding TestCategoriesVM.SelectedTestCategory}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Test category" Binding="{Binding Path=Name}" Width="*"/>
             </DataGrid.Columns>

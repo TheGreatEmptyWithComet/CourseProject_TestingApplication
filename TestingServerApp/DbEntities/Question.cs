@@ -21,10 +21,10 @@ namespace TestingServerApp
         public bool MultipleAnswersAllowed { get; set; } = false;
         public bool PartialAnswersAllowed { get; set; } = false;
         public int QuestionWeight { get; set; }
+        public Test Test { get; set; } = null!;
 
         
         // Navigation properties
-        public Test Test { get; set; } = null!;
         public ObservableCollection<Answer> Answers { get; set; } = null!;
     }
 }

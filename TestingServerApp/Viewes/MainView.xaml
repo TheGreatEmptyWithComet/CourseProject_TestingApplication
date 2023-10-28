@@ -9,16 +9,16 @@
         Title="MainView" Height="450" Width="800">
     <DockPanel>
         <!-- Main menu -->
-        <Menu DockPanel.Dock="Top"  Background="Goldenrod">
+        <Menu DockPanel.Dock="Top" Background="{DynamicResource MainMenuColor}" FontSize="16" FontWeight="Bold">
             <!-- Users -->
-            <MenuItem Header="Users" Command="{Binding PageNavigationCommand}" CommandParameter="UsersPage.xaml" BorderThickness="0">
+            <MenuItem Header="Users" Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml" BorderThickness="0">
                 <!-- Change menu item color when page is active -->
                 <MenuItem.Style>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Background" Value="Goldenrod"/>
+                        <Setter Property="Background" Value="{DynamicResource MainMenuColor}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentPage}" Value="UsersPage.xaml">
-                                <Setter Property="Background" Value="Beige"/>
+                            <DataTrigger Binding="{Binding CurrentPage}" Value="UsersMenuPage.xaml">
+                                <Setter Property="Background" Value="{DynamicResource SelectedMenuColor}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -26,14 +26,14 @@
             </MenuItem>
 
             <!-- Tests -->
-            <MenuItem Header="Tests" Command="{Binding PageNavigationCommand}" CommandParameter="TestsPage.xaml" BorderThickness="0">
+            <MenuItem Header="Tests" Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml" BorderThickness="0">
                 <!-- Change menu item color when page is active -->
                 <MenuItem.Style>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Background" Value="Goldenrod"/>
+                        <Setter Property="Background" Value="{DynamicResource MainMenuColor}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentPage}" Value="TestsPage.xaml">
-                                <Setter Property="Background" Value="Beige"/>
+                            <DataTrigger Binding="{Binding CurrentPage}" Value="TestsMenuPage.xaml">
+                                <Setter Property="Background" Value="{DynamicResource SelectedMenuColor}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

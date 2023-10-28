@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using TestingServerApp.Viewes;
-using static TestingServerApp.TestsListPageVM;
+using static TestingServerApp.TestMaterialsVM;
 
 namespace TestingServerApp
 {
-    public class TestsListPageVM : NotifyPropertyChangeHandler
+    public class TestMaterialsVM : NotifyPropertyChangeHandler
     {
         #region Properties
         /****************************************************************************************/
@@ -52,7 +52,6 @@ namespace TestingServerApp
         }
 
         // Error message for data window
-
         private string errorMessage;
         public string ErrorMessage
         {
@@ -81,7 +80,7 @@ namespace TestingServerApp
 
         #region Constructor
         /****************************************************************************************/
-        public TestsListPageVM(Context context)
+        public TestMaterialsVM(Context context)
         {
             this.context = context;
             LoadDataFromDB();
@@ -102,26 +101,40 @@ namespace TestingServerApp
 
         private void SaveTestEndExit()
         {
-            if (TestDataIsCorrect())
-            {
-                context.Add(CurrentTest.Model);
-                SaveChanges();
-                OnCurrentPageChanged?.Invoke("TestsListPage.xaml");
-            }
-            else
+            if (!TestDataIsCorrect())
             {
                 return;
             }
+
+            if (!editDataMode)
+            {
+                context.Add(CurrentTest.Model);
+            }
+            else
+            {
+                // If test was edited substitute selected test with edited one  
+                SelectedTest.TestCategory = CurrentTest.TestCategory;
+                SelectedTest.Name = CurrentTest.Name;
+                SelectedTest.QuestionsAmountForTest = CurrentTest.QuestionsAmountForTest;
+                SelectedTest.MaxTestScores = CurrentTest.MaxTestScores;
+                SelectedTest.MinutsForTest = CurrentTest.MinutsForTest;
+            }
+
+            SaveChanges();
+
+            OpenPage("TestsDirectoryPage.xaml");
         }
 
         private void AddNewTest()
         {
+            editDataMode = false;
+
             // Create new entity
             Test newTest = new Test();
             CurrentTest = new TestVM(newTest);
             ErrorMessage = string.Empty;
 
-            OnCurrentPageChanged?.Invoke("TestDataPage.xaml");
+            OpenPage("TestDataPage.xaml");
         }
         private void EditTest()
         {
@@ -134,32 +147,18 @@ namespace TestingServerApp
                 Name = SelectedTest.Name,
                 QuestionsAmountForTest = SelectedTest.QuestionsAmountForTest,
                 MaxTestScores = SelectedTest.MaxTestScores,
-                MinutsForTest = SelectedTest.MinutsForTest,
-                Questions = SelectedTest.Model.Questions
+                MinutsForTest = SelectedTest.MinutsForTest
             };
             CurrentTest = new TestVM(editedTest);
             ErrorMessage = string.Empty;
 
-            // Create and show window
-            TestDataWindow = new TestDataWindow();
-            TestDataWindow.Owner = Application.Current.MainWindow;
-
-            if (TestDataWindow.ShowDialog() == true)
-            {
-                // change data
-                SelectedTest.Name = editedTest.Name;
-
-                editDataMode = false;
-
-                // update db
-                SaveChanges();
-            }
+            // Open test data page
+            OpenPage("TestDataPage.xaml");
         }
         private void DeleteTest()
         {
             // remove record
             context.Remove(SelectedTest.Model);
-            allTests.Remove(SelectedTest.Model);
 
             // update db
             SaveChanges();
@@ -194,7 +193,6 @@ namespace TestingServerApp
             }
 
             return true;
-           
         }
 
         public void LoadDataFromDB()
@@ -214,6 +212,10 @@ namespace TestingServerApp
                 string innerMessage = ex.InnerException != null ? ex.InnerException.Message : string.Empty;
                 MessageBox.Show(ex.Message + "\n" + innerMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+        private void OpenPage(string pageName)
+        {
+            OnCurrentPageChanged?.Invoke(pageName);
         }
         #endregion
     }

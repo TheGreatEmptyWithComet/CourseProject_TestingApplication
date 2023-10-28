@@ -22,7 +22,7 @@
                 <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestCategoriesPage.xaml" Foreground="Black" TextDecorations="None">Test categories</Hyperlink>
             </TextBlock>
             <TextBlock Margin="3">
-                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestsListPage.xaml" Foreground="Black" TextDecorations="None">Tests</Hyperlink>
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Tests</Hyperlink>
             </TextBlock>
         </StackPanel>
 

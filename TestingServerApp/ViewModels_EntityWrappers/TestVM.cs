@@ -40,7 +40,7 @@ namespace TestingServerApp
         }
         public BitmapImage? GetImage
         {
-            get => Model.Image != null ? ByteArrayToBitmapImage(Model.Image) : null;
+            get => Model.Image != null ? ImageConverter.ByteArrayToBitmapImage(Model.Image) : null;
         }
         public int QuestionsAmountForTest
         {
@@ -83,7 +83,7 @@ namespace TestingServerApp
             get => new TestCategoryVM(Model.TestCategory);
             set
             {
-                if (Model.TestCategory != value.Model)
+                if (Model.TestCategory != null && Model.TestCategory != value.Model)
                 {
                     Model.TestCategory = value.Model;
                     NotifyPropertyChanged(nameof(TestCategory));
@@ -95,22 +95,6 @@ namespace TestingServerApp
         public TestVM(Test test)
         {
             Model = test;
-        }
-
-
-        private BitmapImage ByteArrayToBitmapImage(byte[] array)
-        {
-            using (var ms = new MemoryStream(array))
-            {
-                var image = new BitmapImage();
-                image.BeginInit();
-                // Width for best image quality when image is resized
-                image.DecodePixelWidth = Properties.Settings.Default.TestImageWidth;
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = ms;
-                image.EndInit();
-                return image;
-            }
         }
     }
 }

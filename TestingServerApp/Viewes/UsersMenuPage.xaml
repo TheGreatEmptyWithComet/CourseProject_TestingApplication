@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:TestingServerApp.Viewes"
       mc:Ignorable="d"
       DataContext="{StaticResource baseVM}"
-      Background="Beige"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Users">
 

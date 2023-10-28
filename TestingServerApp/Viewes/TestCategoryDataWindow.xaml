@@ -15,14 +15,14 @@
             <StackPanel Orientation="Vertical" Height="110">
                 <!-- Name -->
                 <TextBlock Text="Test category:" Style="{DynamicResource Style_WindowTextBlock}"/>
-                <TextBox Text="{Binding TestCategoryPageVM.CurrentTestCategory.Name}" Style="{DynamicResource Style_WindowTextBox}"/>
+                <TextBox Text="{Binding TestCategoriesVM.CurrentTestCategory.Name}" Style="{DynamicResource Style_WindowTextBox}"/>
 
                 <!-- Error message -->
-                <TextBlock Text="{Binding  TestCategoryPageVM.ErrorMessage}" Style="{DynamicResource Style_WindowErrorMessageTextBlock}" />
+                <TextBlock Text="{Binding  TestCategoriesVM.ErrorMessage}" Style="{DynamicResource Style_WindowErrorMessageTextBlock}" />
             </StackPanel>
 
             <!-- Command button -->
-            <Button Content="Save" Command="{Binding TestCategoryPageVM.SaveCommand}" FontSize="16"/>
+            <Button Content="Save" Command="{Binding TestCategoriesVM.SaveCommand}" FontSize="16"/>
         </StackPanel>
     </Grid>
 </Window>
