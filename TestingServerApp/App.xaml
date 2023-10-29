@@ -9,6 +9,7 @@
             <local:BaseVM x:Key="baseVM"/>
 
             <!-- Converters -->
+            <local:IntToIntIncrementConverter x:Key="intToIntIncrementConverter" />
             <!--<local:IsAdminModeToVisibilityBoolToEnumConverter x:Key="isAdminModeToVisibilityBoolToEnumConverter"/>
             <local:ContentTextToQuantityIntToBoolConverter x:Key="contentTextToQuantityIntToBoolConverter"/>-->
 

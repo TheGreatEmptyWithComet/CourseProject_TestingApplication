@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace TestingServerApp
 {
-    class QuestionVM : NotifyPropertyChangeHandler
+    public class QuestionVM : NotifyPropertyChangeHandler
     {
         public Question Model { get; set; }
         public int Id { get => Model.Id; }
@@ -31,14 +32,17 @@ namespace TestingServerApp
                 if (Model.Image != value)
                 {
                     Model.Image = value;
+                    // Create BitmapImage for WPF form
+                    getImage = ImageConverter.ByteArrayToBitmapImage(value);
                     // Notify that property of type BitmapImage (for reading) is changed
                     NotifyPropertyChanged(nameof(GetImage));
                 }
             }
         }
+        private BitmapImage? getImage;
         public BitmapImage? GetImage
         {
-            get => Model.Image != null ? ImageConverter.ByteArrayToBitmapImage(Model.Image) : null;
+            get => getImage ?? null;
         }
         public bool MultipleAnswersAllowed
         {
@@ -49,6 +53,9 @@ namespace TestingServerApp
                 {
                     Model.MultipleAnswersAllowed = value;
                     NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
+                    
+                    // Set value to each answer for data binding
+                    SetMultipleAnswersAllowedToAnswers(value);
                 }
             }
         }
@@ -88,11 +95,33 @@ namespace TestingServerApp
                 }
             }
         }
-
+        public ObservableCollection<AnswerVM> Answers
+        {
+            get
+            {
+                if (Model.Answers != null)
+                {
+                    return new ObservableCollection<AnswerVM>(Model.Answers.Select((a) => new AnswerVM(a)));
+                }
+                else
+                {
+                    return new ObservableCollection<AnswerVM>();
+                }
+            }
+        }
 
         public QuestionVM(Question question)
         {
             Model = question;
+        }
+
+
+        private void SetMultipleAnswersAllowedToAnswers(bool value)
+        {
+            foreach(AnswerVM answer in Answers)
+            {
+                answer.MultipleAnswersAllowed = value;
+            }
         }
     }
 }

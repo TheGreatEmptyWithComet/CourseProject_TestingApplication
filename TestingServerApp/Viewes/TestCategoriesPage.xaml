@@ -20,7 +20,7 @@
             <!-- Page info header -->
             <TextBlock Text="Test categories" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
-            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
 
         <!-- Command buttons -->

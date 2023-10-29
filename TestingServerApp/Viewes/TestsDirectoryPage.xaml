@@ -20,7 +20,7 @@
             <!-- Page info header -->
             <TextBlock Text="Tests" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
-            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
 
         <!-- Command buttons -->
@@ -35,7 +35,7 @@
             <Button Content="Delete" Command="{Binding TestMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
             <!-- Questions button -->
-            <Button Content="Questions" Command="{Binding PageNavigationCommand}" CommandParameter="QuestionsDirectoryPage.xaml" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" Width="80"/>
+            <Button Content="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
         </StackPanel>
 
         <!-- Data table -->
@@ -43,7 +43,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Category" Binding="{Binding Path=TestCategory.Name}" />
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                <DataGridTextColumn Header="Questions&#x0a;for test" Binding="{Binding Path=QuestionsAmountForTest}" />
+                <DataGridTextColumn Header="Questions&#x0a;for testing" Binding="{Binding Path=QuestionsAmountForTest}" />
+                <DataGridTextColumn Header="Questions&#x0a;available" Binding="{Binding Path=Model.Questions.Count}" />
                 <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
                 <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" />
             </DataGrid.Columns>

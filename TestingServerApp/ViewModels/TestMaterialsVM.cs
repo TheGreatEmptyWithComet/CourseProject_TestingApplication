@@ -9,23 +9,24 @@ using System.Windows.Input;
 using System.Windows;
 using TestingServerApp.Viewes;
 using static TestingServerApp.TestMaterialsVM;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestingServerApp
 {
+    public delegate void CurrentPageChanged(string page);
     public class TestMaterialsVM : NotifyPropertyChangeHandler
     {
-        #region Properties
+        #region Delegates & Events
         /****************************************************************************************/
-        public delegate void CurrentPageChanged(string page);
         public event CurrentPageChanged OnCurrentPageChanged;
         #endregion
+
 
         #region Properties
         /****************************************************************************************/
         private readonly Context context;
         // variable is used to prevent some data checking while they are edited
         private bool editDataMode = false;
-        private TestDataWindow TestDataWindow;
         // View model for window binding
         public TestVM CurrentTest { get; private set; }
 
@@ -69,12 +70,19 @@ namespace TestingServerApp
         #endregion
 
 
+        #region Inner view models
+        /****************************************************************************************/
+        public QuestionMaterialsVM QuestionMaterialsVM { get; private set; }
+        #endregion
+
+
         #region Commands
         /****************************************************************************************/
         public ICommand AddCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand SaveTestEndExitCommand { get; private set; }
+        public ICommand GoToQuestionsCommand { get; private set; }
         #endregion
 
 
@@ -83,6 +91,10 @@ namespace TestingServerApp
         public TestMaterialsVM(Context context)
         {
             this.context = context;
+            
+            QuestionMaterialsVM = new QuestionMaterialsVM(context);
+            QuestionMaterialsVM.OnCurrentPageChanged += (page) => OpenPage(page);
+
             LoadDataFromDB();
             InitCommands();
         }
@@ -97,6 +109,16 @@ namespace TestingServerApp
             SaveTestEndExitCommand = new RelayCommand(SaveTestEndExit);
             EditCommand = new RelayCommand(EditTest);
             DeleteCommand = new RelayCommand(DeleteTest);
+            GoToQuestionsCommand = new RelayCommand(GoToQuestions);
+        }
+
+        private void GoToQuestions()
+        {
+            if (SelectedTest != null)
+            {
+                QuestionMaterialsVM.CurrentTest = SelectedTest.Model;
+                OpenPage("QuestionsDirectoryPage.xaml");
+            }
         }
 
         private void SaveTestEndExit()
@@ -195,9 +217,9 @@ namespace TestingServerApp
             return true;
         }
 
-        public void LoadDataFromDB()
+        private void LoadDataFromDB()
         {
-            allTests = context.Tests.ToList();
+            allTests = context.Tests.Include((t) => t.Questions).ToList();
             NotifyPropertyChanged(nameof(Tests));
         }
         private void SaveChanges()

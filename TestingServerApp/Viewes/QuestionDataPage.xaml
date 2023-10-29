@@ -1,4 +1,4 @@
-﻿<Page x:Class="TestingServerApp.Viewes.TestDataPage"
+﻿<Page x:Class="TestingServerApp.Viewes.QuestionDataPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       DataContext="{StaticResource baseVM}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="TestDataPage">
+      Title="QuestionDataPage">
 
     <DockPanel>
         <!-- Header & exit button -->
@@ -20,20 +20,40 @@
             <!-- Page info header -->
             <TextBlock Text="Tests" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
-            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+            <Button Command="{Binding TestMaterialsVM.QuestionMaterialsVM.ExitWithoutSavingCommang}" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
 
         <!-- Command buttons -->
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+        <Grid DockPanel.Dock="Top" Margin="0 0 5 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="30*"/>
+            </Grid.ColumnDefinitions>
+
             <!-- Save and exit button -->
-            <Button Content="Save and exit" Command="{Binding TestMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+            <Button Content="Save and exit" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" Grid.Column="0" HorizontalAlignment="Left"/>
 
-            <!-- Questions button -->
-            <Button Content="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <!-- Questions index -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" >
+                <TextBlock Text="Question "/>
+                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestionPosition, Converter={StaticResource intToIntIncrementConverter}}"/>
+                <TextBlock Text=" of "/>
+                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"/>
 
-        </StackPanel>
+            </StackPanel>
 
-        <!-- test data -->
+            <!-- Previous/Next question buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" >
+                <!-- Questions button -->
+                <Button Content="Prev question" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.PreviousQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+                <!-- Questions button -->
+                <Button Content="Next question" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.NewOrNextQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Question data -->
         <StackPanel Margin="5">
             <!-- Category -->
             <Grid>
@@ -57,8 +77,8 @@
                     <ColumnDefinition Width="30*"/>
                     <ColumnDefinition Width="70*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Name:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.Name }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                <TextBlock Text="Question:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
+                <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Text}" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
             </Grid>
 
             <!-- Amount of questions for test -->
@@ -93,6 +113,6 @@
             <!-- Error message -->
             <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red"/>
         </StackPanel>
-    
+
     </DockPanel>
 </Page>

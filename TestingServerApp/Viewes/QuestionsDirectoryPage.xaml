@@ -20,29 +20,31 @@
             <!-- Page info header -->
             <TextBlock Text="Questions" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
-            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml"  Width="25" Height="25" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
 
         <!-- Command buttons -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <!-- New button -->
-            <Button Content="Add" Command="{Binding TestMaterialsVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+            <Button Content="Add" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
 
             <!-- Edit button -->
-            <Button Content="Edit" Command="{Binding TestMaterialsVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <Button Content="Edit" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.EditCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
             <!-- Delete button -->
-            <Button Content="Delete" Command="{Binding TestMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <Button Content="Delete" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
         </StackPanel>
 
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" Style="{DynamicResource Style_DataGridBase}" ItemsSource="{Binding TestMaterialsVM.Tests}" SelectedItem="{Binding TestMaterialsVM.SelectedTest}">
+        <DataGrid x:Name="DataGrid" 
+                  Style="{DynamicResource Style_DataGridBase}" 
+                  AlternationCount="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"
+                  ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions}" 
+                  SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.SelectedQuestion}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Category" Binding="{Binding Path=TestCategory.Name}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                <DataGridTextColumn Header="Questions&#x0a;for test" Binding="{Binding Path=QuestionsAmountForTest}" />
-                <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
-                <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" />
+                <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                <DataGridTextColumn Header="Text" Binding="{Binding Path=Text}" />
+                <DataGridTextColumn Header="Answers" Binding="{Binding Path=Answers.Count}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

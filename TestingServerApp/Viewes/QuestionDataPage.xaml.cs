@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace TestingServerApp.Viewes
 {
     /// <summary>
-    /// Interaction logic for TestDataWindow.xaml
+    /// Interaction logic for QuestionDataPage.xaml
     /// </summary>
-    public partial class TestDataWindow : Window
+    public partial class QuestionDataPage : Page
     {
-        public TestDataWindow()
+        public QuestionDataPage()
         {
             InitializeComponent();
         }
