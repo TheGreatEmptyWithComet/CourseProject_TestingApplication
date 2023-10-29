@@ -31,5 +31,14 @@ namespace TestingServerApp.Properties {
                 return ((int)(this["TestImageWidth"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public int QuestionImageHeight {
+            get {
+                return ((int)(this["QuestionImageHeight"]));
+            }
+        }
     }
 }

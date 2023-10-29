@@ -25,15 +25,16 @@ namespace TestingServerApp
                 }
             }
         }
-        public byte[] SetImage
+        public byte[]? SetImage
         {
             set
             {
                 if (Model.Image != value)
                 {
                     Model.Image = value;
+                    //Array.Copy(value, Model.Image,value.Length);
                     // Create BitmapImage for WPF form
-                    getImage = ImageConverter.ByteArrayToBitmapImage(value);
+                    getImage = value != null ? ImageConverter.ByteArrayToBitmapImage(value) : null;
                     // Notify that property of type BitmapImage (for reading) is changed
                     NotifyPropertyChanged(nameof(GetImage));
                 }
@@ -53,7 +54,8 @@ namespace TestingServerApp
                 {
                     Model.MultipleAnswersAllowed = value;
                     NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
-                    
+                    NotifyPropertyChanged(nameof(Answers));
+
                     // Set value to each answer for data binding
                     SetMultipleAnswersAllowedToAnswers(value);
                 }
@@ -118,9 +120,10 @@ namespace TestingServerApp
 
         private void SetMultipleAnswersAllowedToAnswers(bool value)
         {
-            foreach(AnswerVM answer in Answers)
+            foreach (AnswerVM answer in Answers)
             {
-                answer.MultipleAnswersAllowed = value;
+                //answer.MultipleAnswersAllowed = value;
+                //answer.NotifyMultipleAnswerModeChanged();
             }
         }
     }

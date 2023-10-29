@@ -11,6 +11,16 @@ namespace TestingServerApp
     public class NotifyPropertyChangeHandler : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public void NotifyPropertyChanged(string propertyName = "")
+        {
+            try
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
     }
 }

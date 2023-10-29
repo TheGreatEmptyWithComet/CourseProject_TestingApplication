@@ -5,5 +5,8 @@
     <Setting Name="TestImageWidth" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">800</Value>
     </Setting>
+    <Setting Name="QuestionImageHeight" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">400</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

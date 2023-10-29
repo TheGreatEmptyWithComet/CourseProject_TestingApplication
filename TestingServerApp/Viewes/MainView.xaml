@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestingServerApp.Viewes"
         mc:Ignorable="d"
          DataContext="{StaticResource baseVM}"
-        Title="MainView" Height="450" Width="800">
+        Title="MainView" Height="768" Width="1366">
     <DockPanel>
         <!-- Main menu -->
         <Menu DockPanel.Dock="Top" Background="{DynamicResource MainMenuColor}" FontSize="16" FontWeight="Bold">

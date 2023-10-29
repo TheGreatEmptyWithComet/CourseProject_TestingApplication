@@ -17,7 +17,7 @@ namespace TestingServerApp
                 var image = new BitmapImage();
                 image.BeginInit();
                 // Width for best image quality when image is resized
-                image.DecodePixelWidth = Properties.Settings.Default.TestImageWidth;
+                image.DecodePixelHeight = Properties.Settings.Default.QuestionImageHeight;
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = ms;
                 image.EndInit();

@@ -4,10 +4,44 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TestingServerApp.Viewes"
+      xmlns:localProject="clr-namespace:TestingServerApp"
+      xmlns:properties="clr-namespace:TestingServerApp.Properties"
       mc:Ignorable="d"
       DataContext="{StaticResource baseVM}"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="QuestionDataPage">
+
+    <Page.Resources>
+        <!-- Single answer template -->
+        <DataTemplate x:Key="AnswerTemplate_Single">
+            <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Viewbox Height="25" Margin="0 0 15 0">
+                        <RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay}" IsEnabled="True" GroupName="UserAnswers" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowSearchTextBlock}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- Multiple answers template -->
+        <DataTemplate x:Key="AnswerTemplate_Multiple">
+            <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Viewbox Height="25" Margin="0 0 15 0">
+                        <CheckBox IsChecked="{Binding IsCorrect, Mode=TwoWay}" IsEnabled="True"  />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowSearchTextBlock}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- Template selector -->
+        <localProject:ExternalAnswersTypetemplateSelector x:Key="externalAnswersTypetemplateSelector"
+                                                   SingleQuestionDateTemplate="{StaticResource AnswerTemplate_Single}"
+                                                   MultipleQuestionsDateTemplate="{StaticResource AnswerTemplate_Multiple}"/>
+    </Page.Resources>
+
 
     <DockPanel>
         <!-- Header & exit button -->
@@ -18,7 +52,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Page info header -->
-            <TextBlock Text="Tests" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
+            <TextBlock Text="Question" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
             <Button Command="{Binding TestMaterialsVM.QuestionMaterialsVM.ExitWithoutSavingCommang}" Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
@@ -53,66 +87,112 @@
 
         </Grid>
 
+        <!-- Error message -->
+        <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
+
         <!-- Question data -->
-        <StackPanel Margin="5">
-            <!-- Category -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Category:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <ComboBox ItemsSource="{Binding TestCategoriesVM.TestCategories}" SelectedItem="{Binding TestMaterialsVM.CurrentTest.TestCategory}" Grid.Column="1" Style="{DynamicResource Style_ComboBoxBase}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5">
+            <StackPanel >
+                <!-- Question text -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Question:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" />
+                    <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Text}" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1" />
+                </Grid>
 
-            <!-- Test name -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Question:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Text}" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
-            </Grid>
+                <!-- Load image -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="60*"/>
+                        <!-- Third column is needed for image placement symetry -->
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- Amount of questions for test -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Amount of questions for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.QuestionsAmountForTest }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
-            </Grid>
+                    <!-- Load & delete image buttons -->
+                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
+                        <Button Content="Load image" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadImageCommand}" Style="{DynamicResource Style_MenuButtonBase}" ToolTip="Max image size = 1 Mb" Margin="0 5 5 5"/>
+                        <Button Content="Delete image" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Style_MenuButtonBase}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.GetImage}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
 
-            <!-- Minutes for test -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Minutes for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.MinutsForTest }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
-            </Grid>
+                    <!-- Image -->
+                    <Border CornerRadius="10" Grid.Column="1" Height="{Binding QuestionImageHeight, Source={ x:Static properties:Settings.Default}}" Margin="0 0 0 5">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.GetImage}" TileMode="FlipY"/>
+                        </Border.Background>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.GetImage}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </Grid>
 
-            <!-- Scores for test -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="70*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Scores for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                <TextBox Text="{Binding TestMaterialsVM.CurrentTest.MaxTestScores }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
-            </Grid>
-            <!-- Error message -->
-            <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red"/>
-        </StackPanel>
+                <!-- Answer mode & Partial answer -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Header sign -->
+                    <TextBlock Text="Answer mode:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" VerticalAlignment="Top"/>
+
+                    <!-- Answer mode radiobuttons -->
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <RadioButton GroupName="AnswerModeRadiobutton" IsChecked="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.MultipleAnswersAllowed, Mode=TwoWay, Converter={StaticResource boolInvertConverter}}" Content="Single answer" FontSize="14" Margin="0 5 0 5"/>
+                        <RadioButton GroupName="AnswerModeRadiobutton" IsChecked="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.MultipleAnswersAllowed, Mode=TwoWay}" Content="Multiple answers" x:Name="multipleAnswersRadioButton" FontSize="14"/>
+                    </StackPanel>
+
+                    <!-- Partial answer allowed -->
+                    <CheckBox Content="Partial answer allowed" Grid.Column="2" Margin="0 5 0 0" FontSize="14">
+                        <CheckBox.Style>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked, ElementName=multipleAnswersRadioButton}" Value="False">
+                                        <Setter Property="IsChecked" Value="False"/>
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                </Grid>
+
+                <!-- Question weight -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Question weight:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
+                    <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.QuestionWeight }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                </Grid>
+
+                <!-- Answers -->
+                <ItemsControl ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Answers}" ItemTemplateSelector="{DynamicResource externalAnswersTypetemplateSelector}"/>
+
+            </StackPanel>
+            
+        </ScrollViewer>
 
     </DockPanel>
 </Page>

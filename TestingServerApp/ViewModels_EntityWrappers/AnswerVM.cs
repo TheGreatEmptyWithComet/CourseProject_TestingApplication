@@ -36,20 +36,24 @@ namespace TestingServerApp
                 }
             }
         }
-
-        private bool multipleAnswersAllowed;
         public bool MultipleAnswersAllowed
         {
-            get => multipleAnswersAllowed;
-            set
-            {
-                if (multipleAnswersAllowed != value)
-                {
-                    multipleAnswersAllowed = value;
-                    NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
-                }
-            }
+            get => Model.Question != null ? Model.Question.MultipleAnswersAllowed : false;
         }
+
+        //private bool multipleAnswersAllowed;
+        //public bool MultipleAnswersAllowed
+        //{
+        //    get => multipleAnswersAllowed;
+        //    set
+        //    {
+        //        if (multipleAnswersAllowed != value)
+        //        {
+        //            multipleAnswersAllowed = value;
+        //            NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
+        //        }
+        //    }
+        //}
 
         private bool isUserAnswered;
         public bool IsUserAnswered
@@ -69,5 +73,10 @@ namespace TestingServerApp
         {
             Model = answer;
         }
+
+        //public void NotifyMultipleAnswerModeChanged()
+        //{
+        //    NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
+        //}
     }
 }

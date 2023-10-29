@@ -1,14 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TestingServerApp.Viewes;
 using static TestingServerApp.TestMaterialsVM;
 
@@ -115,6 +119,8 @@ namespace TestingServerApp
         public ICommand AddCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
+        public ICommand LoadImageCommand { get; private set; }
+        public ICommand DeleteImageCommand { get; private set; }
         public ICommand PreviousQuestionCommand { get; private set; }
         public ICommand NewOrNextQuestionCommand { get; private set; }
         public ICommand ExitWithoutSavingCommang { get; private set; }
@@ -144,7 +150,11 @@ namespace TestingServerApp
             ExitWithoutSavingCommang = new RelayCommand(ExitWithoutSaving);
             PreviousQuestionCommand = new RelayCommand(PreviousQuestion);
             NewOrNextQuestionCommand = new RelayCommand(NewOrNextQuestion);
+            LoadImageCommand = new RelayCommand(LoadImage);
+            DeleteImageCommand = new RelayCommand(DeleteImage);
         }
+
+
 
         private void ExitWithoutSaving()
         {
@@ -234,7 +244,6 @@ namespace TestingServerApp
             return true;
         }
 
-
         private void LoadDataFromDB()
         {
             allQuestions = context.Questions.Where((q) => q.Test == CurrentTest).Include((q) => q.Answers).ToList();
@@ -277,6 +286,22 @@ namespace TestingServerApp
             {
                 AddNewQuestion();
             }
+        }
+        private void LoadImage()
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+                "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                "Portable Network Graphic (*.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
+                CurrentQuestion.SetImage = File.ReadAllBytes(op.FileName);
+            }
+        }
+        private void DeleteImage()
+        {
+            CurrentQuestion.SetImage = null;
         }
 
         #endregion
