@@ -35,7 +35,7 @@
             <Button Content="Delete" Command="{Binding TestMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
             <!-- Questions button -->
-            <Button Content="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <Button Content="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" Background="Azure"/>
         </StackPanel>
 
         <!-- Data table -->

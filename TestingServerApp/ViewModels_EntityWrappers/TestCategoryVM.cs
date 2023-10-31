@@ -35,7 +35,7 @@ namespace TestingServerApp
 
         public override bool Equals(object? obj)
         {
-            if (obj == null || obj is not TestCategoryVM testCategoryVM || testCategoryVM.Model == null)
+            if (obj == null || obj is not TestCategoryVM testCategoryVM || testCategoryVM.Model == null )
             {
                 return false;
             }

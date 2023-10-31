@@ -15,24 +15,36 @@
         <!-- Single answer template -->
         <DataTemplate x:Key="AnswerTemplate_Single">
             <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <DockPanel>
+                    <!-- Answer delete button -->
+                    <Button  Style="{DynamicResource Style_ExitButton}"
+                             Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TestMaterialsVM.QuestionMaterialsVM.DeleteAnswerCommand}"
+                             CommandParameter="{Binding}"/>
+                    <!-- RadioButton -->
                     <Viewbox Height="25" Margin="0 0 15 0">
-                        <RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay}" IsEnabled="True" GroupName="UserAnswers" />
+                        <RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay}" VerticalAlignment="Center" GroupName="UserAnswers" />
                     </Viewbox>
-                    <TextBlock Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowSearchTextBlock}"/>
-                </StackPanel>
+                    <!-- Answer text -->
+                    <TextBox Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowTextBox}" Margin="0" VerticalAlignment="Center"/>
+                </DockPanel>
             </Border>
         </DataTemplate>
 
         <!-- Multiple answers template -->
         <DataTemplate x:Key="AnswerTemplate_Multiple">
             <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Viewbox Height="25" Margin="0 0 15 0">
+                <DockPanel>
+                    <!-- Answer delete button -->
+                    <Button  Style="{DynamicResource Style_ExitButton}"
+                             Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TestMaterialsVM.QuestionMaterialsVM.DeleteAnswerCommand}"
+                             CommandParameter="{Binding}"/>
+                    <!-- Checkbox -->
+                    <Viewbox Height="25" Margin="0 0 15 0" VerticalAlignment="Center" >
                         <CheckBox IsChecked="{Binding IsCorrect, Mode=TwoWay}" IsEnabled="True"  />
                     </Viewbox>
-                    <TextBlock Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowSearchTextBlock}"/>
-                </StackPanel>
+                    <!-- Answer text -->
+                    <TextBox Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowTextBox}" Margin="0" VerticalAlignment="Center"/>
+                </DockPanel>
             </Border>
         </DataTemplate>
 
@@ -66,14 +78,16 @@
             </Grid.ColumnDefinitions>
 
             <!-- Save and exit button -->
-            <Button Content="Save and exit" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" Grid.Column="0" HorizontalAlignment="Left"/>
-
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Content="Save and exit" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}"  HorizontalAlignment="Left"/>
+                <Button Content="Save" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionWithoutExitingCommand}" Style="{DynamicResource Style_MenuButtonBase}" HorizontalAlignment="Left"/>
+            </StackPanel>
             <!-- Questions index -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" >
                 <TextBlock Text="Question "/>
                 <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestionPosition, Converter={StaticResource intToIntIncrementConverter}}"/>
                 <TextBlock Text=" of "/>
-                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"/>
+                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.QuestionsCount}"/>
 
             </StackPanel>
 
@@ -88,7 +102,7 @@
         </Grid>
 
         <!-- Error message -->
-        <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
+        <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
 
         <!-- Question data -->
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5">
@@ -119,7 +133,7 @@
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Style_MenuButtonBase}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.GetImage}" Value="{x:Null}">
+                                        <DataTrigger Binding="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Image}" Value="{x:Null}">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -131,12 +145,12 @@
                     <!-- Image -->
                     <Border CornerRadius="10" Grid.Column="1" Height="{Binding QuestionImageHeight, Source={ x:Static properties:Settings.Default}}" Margin="0 0 0 5">
                         <Border.Background>
-                            <ImageBrush ImageSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.GetImage}" TileMode="FlipY"/>
+                            <ImageBrush ImageSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Image}" TileMode="FlipY"/>
                         </Border.Background>
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.GetImage}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Image, Converter={StaticResource byteArrayToBitmapImageConverter}, ConverterParameter=400}" Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -184,14 +198,17 @@
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Question weight:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                    <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.QuestionWeight }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
+                    <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.QuestionWeight, Mode=TwoWay}" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1" />
                 </Grid>
 
                 <!-- Answers -->
                 <ItemsControl ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Answers}" ItemTemplateSelector="{DynamicResource externalAnswersTypetemplateSelector}"/>
 
+                <!-- New answer button -->
+                <Button Content="New answer" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddAnswerCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+
             </StackPanel>
-            
+
         </ScrollViewer>
 
     </DockPanel>

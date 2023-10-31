@@ -26,21 +26,17 @@ namespace TestingServerApp
                 }
             }
         }
-        public byte[] SetImage
+        public byte[]? Image
         {
+            get => Model.Image ?? null;
             set
             {
                 if (Model.Image != value)
                 {
                     Model.Image = value;
-                    // Notify that property of type BitmapImage (for reading) is changed
-                    NotifyPropertyChanged(nameof(GetImage));
+                    NotifyPropertyChanged(nameof(Image));
                 }
             }
-        }
-        public BitmapImage? GetImage
-        {
-            get => Model.Image != null ? ImageConverter.ByteArrayToBitmapImage(Model.Image) : null;
         }
         public int QuestionsAmountForTest
         {
@@ -83,7 +79,7 @@ namespace TestingServerApp
             get => new TestCategoryVM(Model.TestCategory);
             set
             {
-                if (Model.TestCategory != null && Model.TestCategory != value.Model)
+                if (value != null && Model.TestCategory != null && Model.TestCategory != value.Model)
                 {
                     Model.TestCategory = value.Model;
                     NotifyPropertyChanged(nameof(TestCategory));

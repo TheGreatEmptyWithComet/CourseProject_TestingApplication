@@ -11,6 +11,7 @@
             <!-- Converters -->
             <local:IntToIntIncrementConverter x:Key="intToIntIncrementConverter" />
             <local:BoolInvertConverter x:Key="boolInvertConverter" />
+            <local:ByteArrayToBitmapImageConverter x:Key="byteArrayToBitmapImageConverter"/>
             <!--<local:IsAdminModeToVisibilityBoolToEnumConverter x:Key="isAdminModeToVisibilityBoolToEnumConverter"/>
             <local:ContentTextToQuantityIntToBoolConverter x:Key="contentTextToQuantityIntToBoolConverter"/>-->
 

@@ -25,25 +25,17 @@ namespace TestingServerApp
                 }
             }
         }
-        public byte[]? SetImage
+        public byte[]? Image
         {
+            get => Model.Image ?? null;
             set
             {
                 if (Model.Image != value)
                 {
                     Model.Image = value;
-                    //Array.Copy(value, Model.Image,value.Length);
-                    // Create BitmapImage for WPF form
-                    getImage = value != null ? ImageConverter.ByteArrayToBitmapImage(value) : null;
-                    // Notify that property of type BitmapImage (for reading) is changed
-                    NotifyPropertyChanged(nameof(GetImage));
+                    NotifyPropertyChanged(nameof(Image));
                 }
             }
-        }
-        private BitmapImage? getImage;
-        public BitmapImage? GetImage
-        {
-            get => getImage ?? null;
         }
         public bool MultipleAnswersAllowed
         {
@@ -53,11 +45,11 @@ namespace TestingServerApp
                 if (Model.MultipleAnswersAllowed != value)
                 {
                     Model.MultipleAnswersAllowed = value;
-                    NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
                     NotifyPropertyChanged(nameof(Answers));
+                    //NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
 
                     // Set value to each answer for data binding
-                    SetMultipleAnswersAllowedToAnswers(value);
+                    //SetMultipleAnswersAllowedToAnswers(value);
                 }
             }
         }
@@ -118,13 +110,9 @@ namespace TestingServerApp
         }
 
 
-        private void SetMultipleAnswersAllowedToAnswers(bool value)
+        public void NotifyAnswersChanged()
         {
-            foreach (AnswerVM answer in Answers)
-            {
-                //answer.MultipleAnswersAllowed = value;
-                //answer.NotifyMultipleAnswerModeChanged();
-            }
+            NotifyPropertyChanged(nameof(Answers));
         }
     }
 }
