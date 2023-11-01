@@ -17,15 +17,9 @@ namespace TestingServerApp
         public string Name
         {
             get => Model.Name;
-            set
-            {
-                if (Model.Name != value)
-                {
-                    Model.Name = value;
-                    NotifyPropertyChanged(nameof(Name));
-                }
-            }
+            set => Model.Name = value;
         }
+
         public byte[]? Image
         {
             get => Model.Image ?? null;
@@ -38,18 +32,13 @@ namespace TestingServerApp
                 }
             }
         }
+        
         public int QuestionsAmountForTest
         {
             get => Model.QuestionsAmountForTest;
-            set
-            {
-                if (Model.QuestionsAmountForTest != value)
-                {
-                    Model.QuestionsAmountForTest = value;
-                    NotifyPropertyChanged(nameof(QuestionsAmountForTest));
-                }
-            }
+            set=> Model.QuestionsAmountForTest = value;
         }
+
         public int MinutsForTest
         {
             get => Model.MinutsForTest;
@@ -79,7 +68,7 @@ namespace TestingServerApp
             get => new TestCategoryVM(Model.TestCategory);
             set
             {
-                if (value != null && Model.TestCategory != null && Model.TestCategory != value.Model)
+                if (value != null && Model.TestCategory != value.Model)
                 {
                     Model.TestCategory = value.Model;
                     NotifyPropertyChanged(nameof(TestCategory));

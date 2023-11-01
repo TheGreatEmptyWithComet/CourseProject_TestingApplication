@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using TestingServerApp.Viewes;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestingServerApp
 {
@@ -26,7 +27,14 @@ namespace TestingServerApp
         // DB row data
         private List<TestCategory> allTestCategories;
         // Data for WPF
-        public ObservableCollection<TestCategoryVM> TestCategories { get { return new ObservableCollection<TestCategoryVM>(allTestCategories.Select(i => new TestCategoryVM(i))); } }
+        public ObservableCollection<TestCategoryVM> TestCategories
+        {
+            get
+            {
+                return new ObservableCollection<TestCategoryVM>(allTestCategories.Select(i => new TestCategoryVM(i)));
+            }
+        }
+
 
         private TestCategoryVM selectedTestCategory;
         public TestCategoryVM SelectedTestCategory

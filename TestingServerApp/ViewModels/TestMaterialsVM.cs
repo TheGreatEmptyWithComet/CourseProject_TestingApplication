@@ -116,7 +116,7 @@ namespace TestingServerApp
         {
             if (SelectedTest != null)
             {
-                QuestionMaterialsVM.CurrentTest = SelectedTest.Model;
+                //QuestionMaterialsVM.CurrentTest = SelectedTest.Model;
                 OpenPage("QuestionsDirectoryPage.xaml");
             }
         }
@@ -158,6 +158,7 @@ namespace TestingServerApp
 
             OpenPage("TestDataPage.xaml");
         }
+
         private void EditTest()
         {
             editDataMode = true;
