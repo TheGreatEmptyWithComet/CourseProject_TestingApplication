@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TestingServerApp
 {
+    [Index("Name", IsUnique = true)]
     public class TestCategory
     {
         public int Id { get; set; }

@@ -32,37 +32,25 @@ namespace TestingServerApp
                 }
             }
         }
-        
+
         public int QuestionsAmountForTest
         {
             get => Model.QuestionsAmountForTest;
-            set=> Model.QuestionsAmountForTest = value;
+            set => Model.QuestionsAmountForTest = value;
         }
 
         public int MinutsForTest
         {
             get => Model.MinutsForTest;
-            set
-            {
-                if (Model.MinutsForTest != value)
-                {
-                    Model.MinutsForTest = value;
-                    NotifyPropertyChanged(nameof(MinutsForTest));
-                }
-            }
+            set => Model.MinutsForTest = value;
         }
+
         public int MaxTestScores
         {
             get => Model.MaxTestScores;
-            set
-            {
-                if (Model.MaxTestScores != value)
-                {
-                    Model.MaxTestScores = value;
-                    NotifyPropertyChanged(nameof(MaxTestScores));
-                }
-            }
+            set => Model.MaxTestScores = value;
         }
+
         public TestCategoryVM TestCategory
         {
             get => new TestCategoryVM(Model.TestCategory);

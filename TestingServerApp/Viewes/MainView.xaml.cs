@@ -23,5 +23,11 @@ namespace TestingServerApp.Viewes
         {
             InitializeComponent();
         }
+
+        // release db context resources at app exit
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            (this.DataContext as BaseVM).AtExitCommand.Execute(null);
+        }
     }
 }

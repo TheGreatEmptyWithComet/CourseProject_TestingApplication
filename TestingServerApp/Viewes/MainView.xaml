@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestingServerApp.Viewes"
         mc:Ignorable="d"
          DataContext="{StaticResource baseVM}"
-        Title="MainView" Height="768" Width="1366">
+        Title="MainView" Height="768" Width="1366" Closing="Window_Closing">
     <DockPanel>
         <!-- Main menu -->
         <Menu DockPanel.Dock="Top" Background="{DynamicResource MainMenuColor}" FontSize="16" FontWeight="Bold">
@@ -41,8 +41,6 @@
             </MenuItem>
         </Menu>
 
-        <Frame Source="{Binding CurrentPage}" NavigationUIVisibility="Hidden">
-
-        </Frame>
+        <Frame Source="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
     </DockPanel>
 </Window>

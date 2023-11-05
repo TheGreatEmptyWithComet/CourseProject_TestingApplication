@@ -38,6 +38,7 @@ namespace TestingServerApp
         #region Commands
         /****************************************************************************************/
         public ICommand PageNavigationCommand { get; private set; }
+        public ICommand AtExitCommand { get; private set; }
 
         #endregion
 
@@ -67,9 +68,15 @@ namespace TestingServerApp
         private void InitCommands()
         {
             PageNavigationCommand = new RelayCommand<string>(p => CurrentPage = p);
+            AtExitCommand = new RelayCommand(AtExit);
         }
 
 
+        // release context resources
+        private void AtExit()
+        {
+            context.Dispose();
+        }
 
         #endregion
 

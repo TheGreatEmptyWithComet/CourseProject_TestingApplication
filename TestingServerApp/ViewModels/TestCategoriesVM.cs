@@ -18,23 +18,18 @@ namespace TestingServerApp
         #region Properties
         /****************************************************************************************/
         private readonly Context context;
-        // variable is used to prevent some data checking while they are edited
-        private bool editDataMode = false;
         private TestCategoryDataWindow testCategoryDataWindow;
+        
         // View model for window binding
         public TestCategoryVM CurrentTestCategory { get; private set; }
 
-        // DB row data
-        private List<TestCategory> allTestCategories;
-        // Data for WPF
         public ObservableCollection<TestCategoryVM> TestCategories
         {
             get
             {
-                return new ObservableCollection<TestCategoryVM>(allTestCategories.Select(i => new TestCategoryVM(i)));
+                return new ObservableCollection<TestCategoryVM>(context.TestCategories.Select(i => new TestCategoryVM(i)));
             }
         }
-
 
         private TestCategoryVM selectedTestCategory;
         public TestCategoryVM SelectedTestCategory
@@ -84,8 +79,11 @@ namespace TestingServerApp
         public TestCategoriesVM(Context context)
         {
             this.context = context;
-            LoadDataFromDB();
+            
             InitCommands();
+
+            // Load data from DB
+            context.TestCategories.Load();
         }
         #endregion
 
@@ -106,27 +104,20 @@ namespace TestingServerApp
             CurrentTestCategory = new TestCategoryVM(newTestCategory);
             ErrorMessage = string.Empty;
 
-            // Create and show window
+            // Create and show data window
             testCategoryDataWindow = new TestCategoryDataWindow();
             testCategoryDataWindow.Owner = Application.Current.MainWindow;
 
             if (testCategoryDataWindow.ShowDialog() == true)
             {
                 context.Add(newTestCategory);
-                //allTestCategories.Add(newTestCategory);
                 SaveChanges();
             }
         }
         private void EditTestCategory()
         {
-            editDataMode = true;
+            CurrentTestCategory = SelectedTestCategory;
 
-            // Create edited user
-            TestCategory editedTestCategory = new TestCategory()
-            {
-                Name = SelectedTestCategory.Name
-            };
-            CurrentTestCategory = new TestCategoryVM(editedTestCategory);
             ErrorMessage = string.Empty;
 
             // Create and show window
@@ -135,47 +126,46 @@ namespace TestingServerApp
 
             if (testCategoryDataWindow.ShowDialog() == true)
             {
-                // change data
-                SelectedTestCategory.Name = editedTestCategory.Name;
-
-                editDataMode = false;
-
-                // update db
                 SaveChanges();
             }
+            else
+            {
+                context.ChangeTracker.Clear();
+            }
         }
+
         private void DeleteTestCategory()
         {
-            // remove record
             context.Remove(SelectedTestCategory.Model);
-            allTestCategories.Remove(SelectedTestCategory.Model);
 
-            // update db
             SaveChanges();
         }
+
         private void CheckData()
         {
-            // check first name
+            // Name must not be empty
             if (string.IsNullOrEmpty(CurrentTestCategory.Name))
             {
-                ErrorMessage = "Name must not be empty";
+                ErrorMessage = "Error: name must not be empty";
                 return;
             }
+            // Name must be unique
+            else if (context.TestCategories.Any((category) => category.Name == CurrentTestCategory.Name && category.Id != CurrentTestCategory.Id))
+            {
+                ErrorMessage = "Error: name must be unique";
+                return;
+            }
+
             testCategoryDataWindow.DialogResult = true;
             testCategoryDataWindow.Close();
         }
 
-        public void LoadDataFromDB()
-        {
-            allTestCategories = context.TestCategories.ToList();
-            NotifyPropertyChanged(nameof(TestCategories));
-        }
         private void SaveChanges()
         {
             try
             {
                 context.SaveChanges();
-                LoadDataFromDB();
+                NotifyPropertyChanged(nameof(TestCategories));
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace TestingServerApp
 {
+    [Index("Login", IsUnique = true)]
     public class User
     {
         public int Id { get; set; }

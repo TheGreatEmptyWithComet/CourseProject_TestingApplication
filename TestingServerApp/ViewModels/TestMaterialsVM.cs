@@ -27,21 +27,14 @@ namespace TestingServerApp
         private readonly Context context;
         // variable is used to prevent some data checking while they are edited
         private bool editDataMode = false;
-        // View model for window binding
-        public TestVM CurrentTest { get; private set; }
 
-        // DB row data
-        private List<Test> allTests;
-        // Data for WPF
-        public ObservableCollection<TestVM> Tests { get { return new ObservableCollection<TestVM>(allTests.Select(i => new TestVM(i))); } }
+        public TestVM CurrentTest { get; private set; }
+        public ObservableCollection<TestVM> Tests { get { return new ObservableCollection<TestVM>(context.Tests.Select(i => new TestVM(i))); } }
 
         private TestVM selectedTest;
         public TestVM SelectedTest
         {
-            get
-            {
-                return selectedTest;
-            }
+            get => selectedTest;
             set
             {
                 if (selectedTest != value)
@@ -56,17 +49,13 @@ namespace TestingServerApp
         private string errorMessage;
         public string ErrorMessage
         {
-            get
-            {
-                return errorMessage;
-            }
+            get => errorMessage;
             set
             {
                 errorMessage = value;
                 NotifyPropertyChanged(nameof(ErrorMessage));
             }
         }
-
         #endregion
 
 
@@ -91,11 +80,14 @@ namespace TestingServerApp
         public TestMaterialsVM(Context context)
         {
             this.context = context;
-            
+
+            // Init inner view models
             QuestionMaterialsVM = new QuestionMaterialsVM(context);
             QuestionMaterialsVM.OnCurrentPageChanged += (page) => OpenPage(page);
 
-            LoadDataFromDB();
+            // Load data from DB
+            context.Tests.Load();
+            
             InitCommands();
         }
         #endregion
@@ -220,7 +212,7 @@ namespace TestingServerApp
 
         private void LoadDataFromDB()
         {
-            allTests = context.Tests.Include((t) => t.Questions).ToList();
+            //context.Tests.Load();
             NotifyPropertyChanged(nameof(Tests));
         }
         private void SaveChanges()
@@ -228,7 +220,7 @@ namespace TestingServerApp
             try
             {
                 context.SaveChanges();
-                LoadDataFromDB();
+                NotifyPropertyChanged(nameof(Tests));
             }
             catch (Exception ex)
             {

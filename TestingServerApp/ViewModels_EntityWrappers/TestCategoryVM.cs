@@ -15,14 +15,7 @@ namespace TestingServerApp
         public string Name
         {
             get => Model.Name;
-            set
-            {
-                if (Model.Name != value)
-                {
-                    Model.Name = value;
-                    NotifyPropertyChanged(nameof(Name));
-                }
-            }
+            set => Model.Name = value;
         }
 
 
@@ -34,11 +27,18 @@ namespace TestingServerApp
 
         public override bool Equals(object? obj)
         {
-            if (obj == null || obj is not TestCategoryVM testCategoryVM || testCategoryVM.Model == null )
+            if (obj != null && obj is TestCategoryVM testCategoryVM && testCategoryVM.Model != null)
             {
-                return false;
+                return Model.Id.Equals(testCategoryVM.Model.Id);
             }
-            return Model.Id.Equals((obj as TestCategoryVM)!.Model.Id);
+            return false;
+
+
+            //if (obj == null || obj is not TestCategoryVM testCategoryVM || testCategoryVM.Model == null)
+            //{
+            //    return false;
+            //}
+            //return Model.Id.Equals((obj as TestCategoryVM)!.Model.Id);
         }
     }
 }
