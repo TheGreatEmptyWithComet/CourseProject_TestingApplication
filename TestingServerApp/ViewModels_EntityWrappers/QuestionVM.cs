@@ -11,20 +11,15 @@ namespace TestingServerApp
     public class QuestionVM : NotifyPropertyChangeHandler
     {
         public Question Model { get; set; }
+
         public int Id { get => Model.Id; }
 
         public string Text
         {
             get => Model.Text;
-            set
-            {
-                if (Model.Text != value)
-                {
-                    Model.Text = value;
-                    NotifyPropertyChanged(nameof(Text));
-                }
-            }
+            set => Model.Text = value;
         }
+
         public byte[]? Image
         {
             get => Model.Image ?? null;
@@ -37,46 +32,30 @@ namespace TestingServerApp
                 }
             }
         }
+
         public bool MultipleAnswersAllowed
         {
             get => Model.MultipleAnswersAllowed;
             set
             {
-                if (Model.MultipleAnswersAllowed != value)
-                {
-                    Model.MultipleAnswersAllowed = value;
-                    NotifyPropertyChanged(nameof(Answers));
-                    //NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
-
-                    // Set value to each answer for data binding
-                    //SetMultipleAnswersAllowedToAnswers(value);
-                }
+                Model.MultipleAnswersAllowed = value;
+                NotifyAnswersChanged();
             }
+
         }
+
         public bool PartialAnswersAllowed
         {
             get => Model.PartialAnswersAllowed;
-            set
-            {
-                if (Model.PartialAnswersAllowed != value)
-                {
-                    Model.PartialAnswersAllowed = value;
-                    NotifyPropertyChanged(nameof(PartialAnswersAllowed));
-                }
-            }
+            set => Model.PartialAnswersAllowed = value;
         }
+
         public int QuestionWeight
         {
             get => Model.QuestionWeight;
-            set
-            {
-                if (Model.QuestionWeight != value)
-                {
-                    Model.QuestionWeight = value;
-                    NotifyPropertyChanged(nameof(Text));
-                }
-            }
+            set => Model.QuestionWeight = value;
         }
+
         public TestVM TestCategory
         {
             get => new TestVM(Model.Test);
@@ -89,6 +68,7 @@ namespace TestingServerApp
                 }
             }
         }
+
         public ObservableCollection<AnswerVM> Answers
         {
             get
@@ -103,6 +83,7 @@ namespace TestingServerApp
                 }
             }
         }
+
 
         public QuestionVM(Question question)
         {

@@ -25,6 +25,6 @@ namespace TestingServerApp
 
         
         // Navigation properties
-        public ObservableCollection<Answer> Answers { get; set; } = null!;
+        public virtual ObservableCollection<Answer> Answers { get; set; } = null!;
     }
 }

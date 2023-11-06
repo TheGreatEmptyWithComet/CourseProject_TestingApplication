@@ -10,6 +10,7 @@ using System.Windows;
 using TestingServerApp.Viewes;
 using static TestingServerApp.TestMaterialsVM;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace TestingServerApp
 {
@@ -28,22 +29,16 @@ namespace TestingServerApp
         // variable is used to prevent some data checking while they are edited
         private bool editDataMode = false;
 
-        public TestVM CurrentTest { get; private set; }
-        public ObservableCollection<TestVM> Tests { get { return new ObservableCollection<TestVM>(context.Tests.Select(i => new TestVM(i))); } }
-
-        private TestVM selectedTest;
-        public TestVM SelectedTest
+        public ObservableCollection<TestVM> Tests
         {
-            get => selectedTest;
-            set
-            {
-                if (selectedTest != value)
-                {
-                    selectedTest = value;
-                    NotifyPropertyChanged(nameof(SelectedTest));
-                }
-            }
+            get => new ObservableCollection<TestVM>(context.Tests.Select(i => new TestVM(i)));
         }
+        
+        // Entity for data binding while create or edit
+        public TestVM CurrentTest { get; private set; }
+        
+        // Entity that is selected in all-entities table/datagrid
+        public TestVM SelectedTest { get;set; }
 
         // Error message for data window
         private string errorMessage;
@@ -71,6 +66,7 @@ namespace TestingServerApp
         public ICommand EditCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand SaveTestEndExitCommand { get; private set; }
+        public ICommand ExitTestWithoutSavingCommand { get; private set; }
         public ICommand GoToQuestionsCommand { get; private set; }
         #endregion
 
@@ -86,8 +82,8 @@ namespace TestingServerApp
             QuestionMaterialsVM.OnCurrentPageChanged += (page) => OpenPage(page);
 
             // Load data from DB
-            context.Tests.Load();
-            
+            context.Tests.Include((t)=>t.Questions).Load();
+
             InitCommands();
         }
         #endregion
@@ -102,49 +98,13 @@ namespace TestingServerApp
             EditCommand = new RelayCommand(EditTest);
             DeleteCommand = new RelayCommand(DeleteTest);
             GoToQuestionsCommand = new RelayCommand(GoToQuestions);
-        }
-
-        private void GoToQuestions()
-        {
-            if (SelectedTest != null)
-            {
-                //QuestionMaterialsVM.CurrentTest = SelectedTest.Model;
-                OpenPage("QuestionsDirectoryPage.xaml");
-            }
-        }
-
-        private void SaveTestEndExit()
-        {
-            if (!TestDataIsCorrect())
-            {
-                return;
-            }
-
-            if (!editDataMode)
-            {
-                context.Add(CurrentTest.Model);
-            }
-            else
-            {
-                // If test was edited substitute selected test with edited one  
-                SelectedTest.TestCategory = CurrentTest.TestCategory;
-                SelectedTest.Name = CurrentTest.Name;
-                SelectedTest.QuestionsAmountForTest = CurrentTest.QuestionsAmountForTest;
-                SelectedTest.MaxTestScores = CurrentTest.MaxTestScores;
-                SelectedTest.MinutsForTest = CurrentTest.MinutsForTest;
-            }
-
-            SaveChanges();
-
-            OpenPage("TestsDirectoryPage.xaml");
+            ExitTestWithoutSavingCommand = new RelayCommand(ExitTestWithoutSaving);
         }
 
         private void AddNewTest()
         {
-            editDataMode = false;
-
-            // Create new entity
             Test newTest = new Test();
+            context.Add(newTest);
             CurrentTest = new TestVM(newTest);
             ErrorMessage = string.Empty;
 
@@ -153,23 +113,13 @@ namespace TestingServerApp
 
         private void EditTest()
         {
-            editDataMode = true;
-
-            // Create edited user
-            Test editedTest = new Test()
-            {
-                TestCategory = SelectedTest.Model.TestCategory,
-                Name = SelectedTest.Name,
-                QuestionsAmountForTest = SelectedTest.QuestionsAmountForTest,
-                MaxTestScores = SelectedTest.MaxTestScores,
-                MinutsForTest = SelectedTest.MinutsForTest
-            };
-            CurrentTest = new TestVM(editedTest);
+            CurrentTest = SelectedTest;
             ErrorMessage = string.Empty;
 
             // Open test data page
             OpenPage("TestDataPage.xaml");
         }
+
         private void DeleteTest()
         {
             // remove record
@@ -178,6 +128,7 @@ namespace TestingServerApp
             // update db
             SaveChanges();
         }
+
         private bool TestDataIsCorrect()
         {
             // check first name
@@ -210,11 +161,24 @@ namespace TestingServerApp
             return true;
         }
 
-        private void LoadDataFromDB()
+        private void SaveTestEndExit()
         {
-            //context.Tests.Load();
-            NotifyPropertyChanged(nameof(Tests));
+            if (TestDataIsCorrect())
+            {
+                SaveChanges();
+
+                OpenPage("TestsDirectoryPage.xaml");
+            }
         }
+
+        private void ExitTestWithoutSaving()
+        {
+            // Discard changes
+            Context.DiscardChanges<Test>(context);
+
+            OpenPage("TestsDirectoryPage.xaml");
+        }
+
         private void SaveChanges()
         {
             try
@@ -228,6 +192,16 @@ namespace TestingServerApp
                 MessageBox.Show(ex.Message + "\n" + innerMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void GoToQuestions()
+        {
+            if (SelectedTest != null)
+            {
+                QuestionMaterialsVM.CurrentTest = SelectedTest.Model;
+                OpenPage("QuestionsDirectoryPage.xaml");
+            }
+        }
+
         private void OpenPage(string pageName)
         {
             OnCurrentPageChanged?.Invoke(pageName);

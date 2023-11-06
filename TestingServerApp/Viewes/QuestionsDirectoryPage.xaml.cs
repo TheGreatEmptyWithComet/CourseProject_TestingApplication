@@ -24,5 +24,10 @@ namespace TestingServerApp.Viewes
         {
             InitializeComponent();
         }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as BaseVM).TestMaterialsVM.QuestionMaterialsVM.EditCommand.Execute(null);
+        }
     }
 }

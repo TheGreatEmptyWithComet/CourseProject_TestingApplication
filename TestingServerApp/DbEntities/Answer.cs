@@ -20,7 +20,10 @@ namespace TestingServerApp
 
         public bool IsCorrect { get; set; } = false;
 
-        
+        [NotMapped]
+        public bool IsUserAnswered { get; set; } = false;
+
+
         // Navigation properties
         public Question Question { get; set; } = null!;
     }

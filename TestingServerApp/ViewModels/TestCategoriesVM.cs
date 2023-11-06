@@ -19,34 +19,17 @@ namespace TestingServerApp
         /****************************************************************************************/
         private readonly Context context;
         private TestCategoryDataWindow testCategoryDataWindow;
-        
-        // View model for window binding
-        public TestCategoryVM CurrentTestCategory { get; private set; }
 
         public ObservableCollection<TestCategoryVM> TestCategories
         {
-            get
-            {
-                return new ObservableCollection<TestCategoryVM>(context.TestCategories.Select(i => new TestCategoryVM(i)));
-            }
+            get => new ObservableCollection<TestCategoryVM>(context.TestCategories.Select(i => new TestCategoryVM(i)));
         }
 
-        private TestCategoryVM selectedTestCategory;
-        public TestCategoryVM SelectedTestCategory
-        {
-            get
-            {
-                return selectedTestCategory;
-            }
-            set
-            {
-                if (selectedTestCategory != value)
-                {
-                    selectedTestCategory = value;
-                    NotifyPropertyChanged(nameof(SelectedTestCategory));
-                }
-            }
-        }
+        // Entity for data binding while create or edit
+        public TestCategoryVM CurrentTestCategory { get; private set; }
+
+        // Entity that is selected in all-entities table/datagrid
+        public TestCategoryVM SelectedTestCategory { get; set; }
 
         // Error message for data window
         private string errorMessage;
@@ -79,7 +62,7 @@ namespace TestingServerApp
         public TestCategoriesVM(Context context)
         {
             this.context = context;
-            
+
             InitCommands();
 
             // Load data from DB
@@ -97,6 +80,7 @@ namespace TestingServerApp
             EditCommand = new RelayCommand(EditTestCategory);
             DeleteCommand = new RelayCommand(DeleteTestCategory);
         }
+
         private void AddNewTestCategory()
         {
             // Create new entity
@@ -114,6 +98,7 @@ namespace TestingServerApp
                 SaveChanges();
             }
         }
+
         private void EditTestCategory()
         {
             CurrentTestCategory = SelectedTestCategory;
@@ -130,7 +115,8 @@ namespace TestingServerApp
             }
             else
             {
-                context.ChangeTracker.Clear();
+                // Discard changes
+                Context.DiscardChanges<TestCategory>(context);
             }
         }
 

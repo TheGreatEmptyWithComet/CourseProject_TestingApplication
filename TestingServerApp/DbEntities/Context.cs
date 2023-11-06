@@ -33,7 +33,7 @@ namespace TestingServerApp
         private string GetConnectionString()
         {
             var builder = new ConfigurationBuilder();
-            // Set apth to the current directory
+            // Set path to the current directory
             builder.SetBasePath(Directory.GetCurrentDirectory());
             // Get config from file Appconfig.json
             builder.AddJsonFile("Appconfig.json");
@@ -43,6 +43,26 @@ namespace TestingServerApp
             string connectionString = config.GetConnectionString("DefaultConnection") ?? string.Empty;
 
             return connectionString;
+        }
+
+        public static void DiscardChanges<T>(Context context) where T : class
+        {
+            foreach (var entry in context.ChangeTracker.Entries<T>().Where((e) => e.State != EntityState.Unchanged))
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Modified:
+                        entry.State = EntityState.Unchanged;
+                        break;
+                    case EntityState.Added:
+                        entry.State = EntityState.Detached;
+                        break;
+                    case EntityState.Deleted:
+                        entry.Reload();
+                        break;
+                    default: break;
+                }
+            }
         }
     }
 }

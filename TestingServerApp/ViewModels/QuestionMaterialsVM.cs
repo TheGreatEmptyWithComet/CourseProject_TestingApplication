@@ -31,44 +31,52 @@ namespace TestingServerApp
         private bool newQuestionIsAdded = false;
         private Question editedQuestion;
 
-        // DB row data
         private List<Question> allQuestions;
-        // Data for WPF
-        public ObservableCollection<QuestionVM> Questions { get { return new ObservableCollection<QuestionVM>(allQuestions.Select(i => new QuestionVM(i))); } }
+
+        public ObservableCollection<QuestionVM> Questions
+        {
+            get => new ObservableCollection<QuestionVM>(allQuestions.Select(i => new QuestionVM(i)));
+        }
+
+        // Entity that is selected in all-entities table/datagrid
+        public QuestionVM SelectedQuestion { get; set; }
+
+        // Entity for data binding while create or edit
+        private QuestionVM currentQuestion;
+        public QuestionVM CurrentQuestion
+        {
+            get => currentQuestion;
+            set
+            {
+                currentQuestion = value;
+                NotifyPropertyChanged(nameof(CurrentQuestion));
+            }
+        }
 
         private int currentQuestionPosition;
         public int CurrentQuestionPosition
         {
-            get
-            {
-                return currentQuestionPosition;
-            }
+            get => currentQuestionPosition;
             set
             {
-                if (currentQuestionPosition != value)
-                {
-                    currentQuestionPosition = value;
-                    NotifyPropertyChanged(nameof(CurrentQuestionPosition));
-                }
+                currentQuestionPosition = value;
+                NotifyPropertyChanged(nameof(CurrentQuestionPosition));
             }
         }
+
         // property is needed because Questions.Count property isn't correctly updated for binding when neq item is added
         private int questionsCount;
         public int QuestionsCount
         {
-            get
-            {
-                return questionsCount;
-            }
+            get => questionsCount;
             set
             {
-                if (currentQuestionPosition != value)
-                {
-                    questionsCount = value;
-                    NotifyPropertyChanged(nameof(QuestionsCount));
-                }
+                questionsCount = value;
+                NotifyPropertyChanged(nameof(QuestionsCount));
             }
         }
+
+        // Test these questions are belong to
         private Test currentTest;
         public Test CurrentTest
         {
@@ -78,41 +86,7 @@ namespace TestingServerApp
                 currentTest = value;
                 // Load test's questions when test is set
                 LoadDataFromDB();
-            }
-        }
-
-        // Item that is selected in view's item control
-        private QuestionVM selectedQuestion;
-        public QuestionVM SelectedQuestion
-        {
-            get
-            {
-                return selectedQuestion;
-            }
-            set
-            {
-                if (selectedQuestion != value)
-                {
-                    selectedQuestion = value;
-                    NotifyPropertyChanged(nameof(SelectedQuestion));
-                }
-            }
-        }
-
-        private QuestionVM currentQuestion;
-        public QuestionVM CurrentQuestion
-        {
-            get
-            {
-                return currentQuestion;
-            }
-            set
-            {
-                if (currentQuestion != value)
-                {
-                    currentQuestion = value;
-                    NotifyPropertyChanged(nameof(CurrentQuestion));
-                }
+                //context.Questions.Where((q) => q.Test == CurrentTest).Include((q) => q.Answers).Load();
             }
         }
 
@@ -120,10 +94,7 @@ namespace TestingServerApp
         private string errorMessage;
         public string ErrorMessage
         {
-            get
-            {
-                return errorMessage;
-            }
+            get => errorMessage;
             set
             {
                 errorMessage = value;
@@ -202,16 +173,18 @@ namespace TestingServerApp
                 MessageBox.Show(ex.Message + "\n" + innerMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private void LoadDataFromDB()
         {
             allQuestions = context.Questions.Where((q) => q.Test == CurrentTest).Include((q) => q.Answers).ToList();
-            NotifyPropertyChanged(nameof(Tests));
         }
+
         private void SaveQuestionEndExit()
         {
             SaveQuestionWithoutExiting();
             OpenPage("QuestionsDirectoryPage.xaml");
         }
+
         private void SaveQuestionWithoutExiting()
         {
             if (QuestionDataIsCorrect())
@@ -219,15 +192,19 @@ namespace TestingServerApp
                 SaveChangesAndLoadFromContext();
             }
         }
+
         private void ExitWithoutSaving()
         {
-            if (newQuestionIsAdded)
-            {
-                // remove the new item from collection
-                allQuestions.Remove(allQuestions.Last());
-            }
+            // Discard changes
+            Context.DiscardChanges<Question>(context);
+            Context.DiscardChanges<Answer>(context);
+
+            //SaveChangesAndLoadFromContext();
+            LoadDataFromDB();
+
             OpenPage("QuestionsDirectoryPage.xaml");
         }
+
         private void OpenPage(string pageName)
         {
             OnCurrentPageChanged?.Invoke(pageName);
@@ -237,47 +214,41 @@ namespace TestingServerApp
         /****************************************************************************************/
         private void AddNewQuestion()
         {
-            newQuestionIsAdded = true;
-
             // Create new entity
-            Question newQuestion = new Question() { Test = CurrentTest, Answers=new ObservableCollection<Answer>()};
-
+            Question newQuestion = new Question() { Test = CurrentTest};
+            allQuestions.Add(newQuestion);
             context.Add(newQuestion);
+            CurrentQuestion = new QuestionVM(newQuestion);
 
-            //Update questions list();
-            SaveChangesAndLoadFromContext();
-            CurrentQuestion = Questions.Last(); ;
             ErrorMessage = string.Empty;
 
             // Set navigation index
-            CurrentQuestionPosition = allQuestions.Count - 1;
+            CurrentQuestionPosition = allQuestions.Count() - 1;
 
             // Update count property
-            QuestionsCount = allQuestions.Count;
-
-            NotifyPropertyChanged(nameof(Questions));
+            QuestionsCount = allQuestions.Count();
 
             OpenPage("QuestionDataPage.xaml");
         }
+
         private void EditQuestion()
         {
-            newQuestionIsAdded = false;
-
             currentQuestionPosition = allQuestions.IndexOf(SelectedQuestion.Model);
             CurrentQuestion = Questions[currentQuestionPosition];
-            ErrorMessage = string.Empty;
-
+            
             // Update count property
-            QuestionsCount = allQuestions.Count;
+            QuestionsCount = allQuestions.Count();
+
+            ErrorMessage = string.Empty;
 
             // Open test data page
             OpenPage("QuestionDataPage.xaml");
         }
+
         private void DeleteQuestion()
         {
             // remove record
             context.Remove(SelectedQuestion.Model);
-
             // update db
             SaveChangesAndLoadFromContext();
             // notify property changed
@@ -300,17 +271,17 @@ namespace TestingServerApp
             {
                 ErrorMessage = "There are must be at least two answers";
                 return false;
-            }
+            } // One correct answer when one answer is allowed
             else if (!CurrentQuestion.MultipleAnswersAllowed && CurrentQuestion.Answers.Where((a) => a.IsCorrect == true).Count() != 1)
             {
                 ErrorMessage = "There must be one correct answer";
                 return false;
-            }
+            } // Min two correct answers when multiple answers is allowed
             else if (CurrentQuestion.MultipleAnswersAllowed && CurrentQuestion.Answers.Where((a) => a.IsCorrect == true).Count() < 2)
             {
                 ErrorMessage = "At least two answers must be checked as correct";
                 return false;
-            } // all answers hat text
+            } // All answers has text
             else if (CurrentQuestion.Answers.Any((a) => string.IsNullOrEmpty(a.Text)))
             {
                 ErrorMessage = "Answer text must not be empty";
@@ -320,7 +291,7 @@ namespace TestingServerApp
             ErrorMessage = string.Empty;
             return true;
         }
-        
+
         // QUESTION IMAGE
         private void LoadImage()
         {
@@ -348,11 +319,13 @@ namespace TestingServerApp
                 return;
             }
 
+            // go to the next question
             if (CurrentQuestionPosition < allQuestions.Count - 1)
             {
                 ++CurrentQuestionPosition;
                 CurrentQuestion = Questions[CurrentQuestionPosition];
             }
+            // create new question
             else if (CurrentQuestionPosition == allQuestions.Count - 1)
             {
                 AddNewQuestion();
@@ -372,10 +345,6 @@ namespace TestingServerApp
         private void AddAnswer()
         {
             Answer newAnswer = new Answer() { Question = CurrentQuestion.Model };
-            if (newQuestionIsAdded && allQuestions.Last().Answers == null)
-            {
-                allQuestions.Last().Answers = new ObservableCollection<Answer>();
-            }
             CurrentQuestion.Model.Answers.Add(newAnswer);
             CurrentQuestion.NotifyAnswersChanged();
         }
@@ -385,6 +354,9 @@ namespace TestingServerApp
             {
                 CurrentQuestion.Model.Answers.Remove(answer.Model);
                 CurrentQuestion.NotifyAnswersChanged();
+
+                // deleted answer can't be normally restored untill the app restart. 
+                context.SaveChanges();
             }
         }
 

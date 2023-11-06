@@ -40,7 +40,8 @@
                   Style="{DynamicResource Style_DataGridBase}" 
                   AlternationCount="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"
                   ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions}" 
-                  SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.SelectedQuestion}">
+                  SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.SelectedQuestion}"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
                 <DataGridTextColumn Header="Text" Binding="{Binding Path=Text}" />

@@ -9,74 +9,37 @@ namespace TestingServerApp
     public class AnswerVM : NotifyPropertyChangeHandler
     {
         public Answer Model { get; set; }
+
         public int Id { get => Model.Id; }
 
         public string Text
         {
             get => Model.Text;
-            set
-            {
-                if (Model.Text != value)
-                {
-                    Model.Text = value;
-                    NotifyPropertyChanged(nameof(Text));
-                }
-            }
+            set=> Model.Text = value;
         }
 
         public bool IsCorrect
         {
             get => Model.IsCorrect;
-            set
-            {
-                if (Model.IsCorrect != value)
-                {
-                    Model.IsCorrect = value;
-                    NotifyPropertyChanged(nameof(IsCorrect));
-                }
-            }
+            set=> Model.IsCorrect = value;
         }
+
         public bool MultipleAnswersAllowed
         {
             get => Model.Question != null ? Model.Question.MultipleAnswersAllowed : false;
         }
 
-        //private bool multipleAnswersAllowed;
-        //public bool MultipleAnswersAllowed
-        //{
-        //    get => multipleAnswersAllowed;
-        //    set
-        //    {
-        //        if (multipleAnswersAllowed != value)
-        //        {
-        //            multipleAnswersAllowed = value;
-        //            NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
-        //        }
-        //    }
-        //}
-
-        private bool isUserAnswered;
         public bool IsUserAnswered
         {
-            get => isUserAnswered;
-            set
-            {
-                if (isUserAnswered != value)
-                {
-                    isUserAnswered = value;
-                    NotifyPropertyChanged(nameof(IsUserAnswered));
-                }
-            }
+            get => Model.IsUserAnswered;
+            set=> Model.IsUserAnswered = value;
         }
+
 
         public AnswerVM(Answer answer)
         {
             Model = answer;
         }
 
-        //public void NotifyMultipleAnswerModeChanged()
-        //{
-        //    NotifyPropertyChanged(nameof(MultipleAnswersAllowed));
-        //}
     }
 }
