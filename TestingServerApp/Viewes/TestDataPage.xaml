@@ -90,9 +90,52 @@
                 <TextBlock Text="Scores for test:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
                 <TextBox Text="{Binding TestMaterialsVM.CurrentTest.MaxTestScores }" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1"/>
             </Grid>
+
+            <!-- Test image -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Test image:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <!-- Image -->
+                    <Border CornerRadius="10" Height="200" Width="200" Margin="0 0 10 10">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding TestMaterialsVM.CurrentTest.ImagePath}" TileMode="FlipY" />
+                        </Border.Background>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TestMaterialsVM.CurrentTest.ImagePath}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+
+                    <!-- Load/Delete buttons -->
+                    <StackPanel Orientation="Vertical">
+                        <Button Content="Load image" Command="{Binding TestMaterialsVM.LoadImageCommand}" Style="{DynamicResource Style_MenuButtonBase}" ToolTip="Max image size = 1 Mb" Margin="0 0 5 5"/>
+                        <Button Content="Delete image" Command="{Binding TestMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Style_MenuButtonBase}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TestMaterialsVM.CurrentTest.ImagePath}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
             <!-- Error message -->
             <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red"/>
         </StackPanel>
-    
+
     </DockPanel>
 </Page>

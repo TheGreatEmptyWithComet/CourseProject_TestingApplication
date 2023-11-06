@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,16 +15,19 @@ namespace TestingServerApp
 
         [MaxLength(500)]
         public string Text { get; set; } = string.Empty;
-        
-        [MaxLength(1024)]
+
+        [NotMapped]
         public byte[]? Image { get; set; }
+        
+        [MaxLength(2048)]
+        public string? ImagePath { get; set; }
 
         public bool MultipleAnswersAllowed { get; set; } = false;
         public bool PartialAnswersAllowed { get; set; } = false;
         public int QuestionWeight { get; set; }
         public Test Test { get; set; } = null!;
 
-        
+
         // Navigation properties
         public virtual ObservableCollection<Answer> Answers { get; set; } = null!;
     }

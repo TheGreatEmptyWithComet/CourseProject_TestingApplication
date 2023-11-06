@@ -15,8 +15,11 @@ namespace TestingServerApp
         [MaxLength(200)]
         public string Text { get; set; } = string.Empty;
 
-        [MaxLength(1024)]
+        [NotMapped]
         public byte[]? Image { get; set; }
+
+        [MaxLength(2048)]
+        public string? ImagePath { get; set; }
 
         public bool IsCorrect { get; set; } = false;
 

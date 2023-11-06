@@ -25,10 +25,10 @@ namespace TestingServerApp.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("800")]
-        public int TestImageWidth {
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public int TestImageHeight {
             get {
-                return ((int)(this["TestImageWidth"]));
+                return ((int)(this["TestImageHeight"]));
             }
         }
         

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TestingServerApp
 {
-    public class DbExternalFilesPath
+    public class DbExternalFiles
     {
         public string TestImagesPath { get; set; }
         public string QuestionImagesPath { get; set; }
+        public long ImageMaxSize { get; set; }
     }
 }

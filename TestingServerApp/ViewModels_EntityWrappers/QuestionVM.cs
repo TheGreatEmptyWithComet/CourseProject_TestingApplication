@@ -23,12 +23,18 @@ namespace TestingServerApp
         public byte[]? Image
         {
             get => Model.Image ?? null;
+            set => Model.Image = value;
+        }
+
+        public string? ImagePath
+        {
+            get => Model.ImagePath ?? null;
             set
             {
-                if (Model.Image != value)
+                if (Model.ImagePath != value)
                 {
-                    Model.Image = value;
-                    NotifyPropertyChanged(nameof(Image));
+                    Model.ImagePath = value;
+                    NotifyPropertyChanged(nameof(ImagePath));
                 }
             }
         }

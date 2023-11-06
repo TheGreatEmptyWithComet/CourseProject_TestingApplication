@@ -2,14 +2,10 @@
   "ConnectionStrings": {
     "DefaultConnection": "Data Source=C:\\Users\\Munhausen\\source\\repos\\CourseProject_TestingApplication\\TestingServerApp\\TestingAppDataBase.db"
   },
-  "AppConfig": {
-    "DbExternalFilesPath": {
-      "TestImagesPath": "\\DbExternalFiles\\TestImages",
-      "QuestionImagesPath": "\\DbExternalFiles\\QuestionImages"
-    }
+  "DbExternalFiles": {
+    "TestImagesPath": "DbExternalFiles\\TestImages",
+    "QuestionImagesPath": "DbExternalFiles\\QuestionImages",
+    "ImageMaxSize": "1048576" // 1 MB
   },
-  "DbExternalFilesPath": {
-    "TestImagesPath": "\\DbExternalFiles\\TestImages",
-    "QuestionImagesPath": "\\DbExternalFiles\\QuestionImages"
-  }
+  "LogFileName": "LogFile.txt"
 }

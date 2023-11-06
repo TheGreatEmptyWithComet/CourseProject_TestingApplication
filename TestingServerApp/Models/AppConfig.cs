@@ -10,8 +10,8 @@ namespace TestingServerApp
     {
         public const string Config = "AppConfig";
 
-        public static DbExternalFilesPath DbExternalFilesPath { get; set; } = new DbExternalFilesPath();
-
+        public static DbExternalFiles DbExternalFiles { get; set; } = new DbExternalFiles();
+        public static string LogFileName { get; set; } = string.Empty;
 
     }
 }

@@ -63,6 +63,7 @@ namespace TestingServerApp
             InitCommands();
 
             LoadAppConfig();
+            CreateDbFilesStorageIfNotExist();
 
         }
         #endregion
@@ -93,9 +94,31 @@ namespace TestingServerApp
             // Create config
             var config = builder.Build();
 
-            AppConfig.DbExternalFilesPath.TestImagesPath = config.GetSection("DbExternalFilesPath:TestImagesPath").Value;
-            AppConfig.DbExternalFilesPath.QuestionImagesPath = config.GetSection("DbExternalFilesPath:QuestionImagesPath").Value;
+            AppConfig.DbExternalFiles.TestImagesPath = GetFullPath(config.GetSection("DbExternalFiles:TestImagesPath").Value);
+            AppConfig.DbExternalFiles.QuestionImagesPath = GetFullPath(config.GetSection("DbExternalFiles:QuestionImagesPath").Value);
+            
+            int.TryParse(config.GetSection("DbExternalFiles:ImageMaxSize").Value, out int size);
+            AppConfig.DbExternalFiles.ImageMaxSize = size;
+
+            AppConfig.LogFileName = config.GetSection("LogFileName").Value;
         }
+        private void CreateDbFilesStorageIfNotExist()
+        {
+            Directory.CreateDirectory(AppConfig.DbExternalFiles.TestImagesPath);
+            Directory.CreateDirectory(AppConfig.DbExternalFiles.QuestionImagesPath);
+        }
+        private string GetFullPath(string path)
+        {
+            string fullPath = path;
+
+            if (!Path.IsPathFullyQualified(path))
+            {
+                fullPath = Path.Combine(Directory.GetCurrentDirectory(), path);
+            }
+
+            return fullPath;
+        }
+
 
         #endregion
 

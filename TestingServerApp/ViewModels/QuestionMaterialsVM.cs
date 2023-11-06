@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using TestingServerApp.Utilites;
 using TestingServerApp.Viewes;
 using static TestingServerApp.TestMaterialsVM;
 
@@ -215,7 +216,7 @@ namespace TestingServerApp
         private void AddNewQuestion()
         {
             // Create new entity
-            Question newQuestion = new Question() { Test = CurrentTest};
+            Question newQuestion = new Question() { Test = CurrentTest };
             allQuestions.Add(newQuestion);
             context.Add(newQuestion);
             CurrentQuestion = new QuestionVM(newQuestion);
@@ -235,7 +236,7 @@ namespace TestingServerApp
         {
             currentQuestionPosition = allQuestions.IndexOf(SelectedQuestion.Model);
             CurrentQuestion = Questions[currentQuestionPosition];
-            
+
             // Update count property
             QuestionsCount = allQuestions.Count();
 
@@ -295,19 +296,30 @@ namespace TestingServerApp
         // QUESTION IMAGE
         private void LoadImage()
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Select a picture";
-            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-                "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-                "Portable Network Graphic (*.png)|*.png";
-            if (op.ShowDialog() == true)
+            ErrorMessage = string.Empty;
+
+            string destinFilePath = Path.Combine(AppConfig.DbExternalFiles.QuestionImagesPath, CurrentQuestion.Id.ToString());
+
+            if (File.Exists(destinFilePath))
             {
-                CurrentQuestion.Image = File.ReadAllBytes(op.FileName);
+                DeleteImage();
+            }
+
+            if (ImageHandler.LoadImage(destinFilePath, out string errorMessage) == true)
+            {
+                CurrentQuestion.ImagePath = destinFilePath;
+            }
+            else
+            {
+                ErrorMessage = errorMessage;
             }
         }
         private void DeleteImage()
         {
-            CurrentQuestion.Image = null;
+            var fileName = CurrentQuestion.ImagePath;
+            CurrentQuestion.ImagePath = null;
+
+            ImageHandler.DeleteImageAsync(fileName);
         }
 
         // NAVIGATION

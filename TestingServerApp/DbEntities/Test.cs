@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,11 @@ namespace TestingServerApp
         [MaxLength(50)]
         public string Name { get; set; } = string.Empty;
 
-        [MaxLength(1024)]
+        [NotMapped]
         public byte[]? Image { get; set; }
+
+        [MaxLength(2048)]
+        public string? ImagePath { get; set; }
 
         public int QuestionsAmountForTest { get; set; }
         public int MinutsForTest { get; set; }

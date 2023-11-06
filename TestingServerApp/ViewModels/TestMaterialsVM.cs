@@ -11,6 +11,9 @@ using TestingServerApp.Viewes;
 using static TestingServerApp.TestMaterialsVM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Win32;
+using System.IO;
+using TestingServerApp.Utilites;
 
 namespace TestingServerApp
 {
@@ -33,12 +36,12 @@ namespace TestingServerApp
         {
             get => new ObservableCollection<TestVM>(context.Tests.Select(i => new TestVM(i)));
         }
-        
+
         // Entity for data binding while create or edit
         public TestVM CurrentTest { get; private set; }
-        
+
         // Entity that is selected in all-entities table/datagrid
-        public TestVM SelectedTest { get;set; }
+        public TestVM SelectedTest { get; set; }
 
         // Error message for data window
         private string errorMessage;
@@ -68,6 +71,8 @@ namespace TestingServerApp
         public ICommand SaveTestEndExitCommand { get; private set; }
         public ICommand ExitTestWithoutSavingCommand { get; private set; }
         public ICommand GoToQuestionsCommand { get; private set; }
+        public ICommand LoadImageCommand { get; private set; }
+        public ICommand DeleteImageCommand { get; private set; }
         #endregion
 
 
@@ -82,7 +87,7 @@ namespace TestingServerApp
             QuestionMaterialsVM.OnCurrentPageChanged += (page) => OpenPage(page);
 
             // Load data from DB
-            context.Tests.Include((t)=>t.Questions).Load();
+            context.Tests.Include((t) => t.Questions).Load();
 
             InitCommands();
         }
@@ -99,6 +104,8 @@ namespace TestingServerApp
             DeleteCommand = new RelayCommand(DeleteTest);
             GoToQuestionsCommand = new RelayCommand(GoToQuestions);
             ExitTestWithoutSavingCommand = new RelayCommand(ExitTestWithoutSaving);
+            LoadImageCommand = new RelayCommand(LoadImage);
+            DeleteImageCommand = new RelayCommand(DeleteImage);
         }
 
         private void AddNewTest()
@@ -177,6 +184,34 @@ namespace TestingServerApp
             Context.DiscardChanges<Test>(context);
 
             OpenPage("TestsDirectoryPage.xaml");
+        }
+
+        private void LoadImage()
+        {
+            ErrorMessage = string.Empty;
+            
+            string destinFilePath = Path.Combine(AppConfig.DbExternalFiles.TestImagesPath, CurrentTest.Id.ToString());
+            
+            if (File.Exists(destinFilePath))
+            {
+                DeleteImage();
+            }
+
+            if (ImageHandler.LoadImage(destinFilePath, out string errorMessage) == true)
+            {
+                CurrentTest.ImagePath = destinFilePath;
+            }
+            else
+            {
+                ErrorMessage = errorMessage;
+            }
+        }
+        private void DeleteImage()
+        {
+            var fileName = CurrentTest.ImagePath;
+            CurrentTest.ImagePath = null;
+
+            ImageHandler.DeleteImageAsync(fileName);
         }
 
         private void SaveChanges()
