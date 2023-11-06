@@ -24,5 +24,10 @@ namespace TestingServerApp.Styles
         {
             InitializeComponent();
         }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as BaseVM).TestCategoriesVM.EditCommand.Execute(null);
+        }
     }
 }

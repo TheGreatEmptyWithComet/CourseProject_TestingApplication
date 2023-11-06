@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using TestingServerApp.Models;
 using TestingServerApp.Utilites;
 using TestingServerApp.Viewes;
 using static TestingServerApp.TestMaterialsVM;
@@ -110,6 +111,7 @@ namespace TestingServerApp
         public ICommand AddCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
+        public ICommand LoadFromJsonCommand { get; private set; }
 
         public ICommand LoadImageCommand { get; private set; }
         public ICommand DeleteImageCommand { get; private set; }
@@ -147,6 +149,7 @@ namespace TestingServerApp
             AddCommand = new RelayCommand(AddNewQuestion);
             EditCommand = new RelayCommand(EditQuestion);
             DeleteCommand = new RelayCommand(DeleteQuestion);
+            LoadFromJsonCommand = new RelayCommand(LoadQuestionsFromJson);
 
             LoadImageCommand = new RelayCommand(LoadImage);
             DeleteImageCommand = new RelayCommand(DeleteImage);
@@ -232,6 +235,7 @@ namespace TestingServerApp
             OpenPage("QuestionDataPage.xaml");
         }
 
+
         private void EditQuestion()
         {
             currentQuestionPosition = allQuestions.IndexOf(SelectedQuestion.Model);
@@ -255,6 +259,80 @@ namespace TestingServerApp
             // notify property changed
             NotifyPropertyChanged(nameof(Questions));
         }
+
+        private void LoadQuestionsFromJson()
+        {
+            ErrorMessage = string.Empty;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select a json text file";
+            openFileDialog.Filter = "Json text files|*.txt";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+
+                    string questionsAsJson = File.ReadAllText(openFileDialog.FileName);
+                    List<StoredJsonQuestion>? storedJsonQuestions = JsonConvert.DeserializeObject<List<StoredJsonQuestion>>(questionsAsJson);
+
+                    if (storedJsonQuestions == null)
+                    {
+                        ErrorMessage = "Error: wrong json file";
+                        return;
+                    }
+
+                    foreach (var jsonQuestion in storedJsonQuestions)
+                    {
+                        // Add new question
+                        Question newQuestion = new Question()
+                        {
+                            Text = jsonQuestion.Text,
+                            MultipleAnswersAllowed = jsonQuestion.CorrectAnswerNumbers.Count > 1 ? true : false,
+                            PartialAnswersAllowed = jsonQuestion.PartialAnswersAllowed,
+                            QuestionWeight = jsonQuestion.QuestionWeight,
+                            Test = CurrentTest,
+                            Answers = new ObservableCollection<Answer>()
+                        };
+
+                        // Add answers
+                        foreach (string jsonAnswer in jsonQuestion.Answers)
+                        {
+                            Answer newAnswer = new Answer()
+                            {
+                                Text = jsonAnswer,
+                                IsCorrect = jsonQuestion.CorrectAnswerNumbers.Contains((jsonQuestion.Answers.IndexOf(jsonAnswer) + 1)) ? true : false,
+                                Question = newQuestion
+                            };
+
+                            newQuestion.Answers.Add(newAnswer);
+                            //context.Add(newAnswer);
+                        }
+
+                        // Check data and save
+                        CurrentQuestion = new QuestionVM(newQuestion);
+                        if (QuestionDataIsCorrect())
+                        {
+                            allQuestions.Add(newQuestion);
+                            context.Add(newQuestion);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+                    SaveChangesAndLoadFromContext();
+                    NotifyPropertyChanged(nameof(Questions));
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = $"Error: wrong json file.\r\n{ex.Message}";
+                }
+            }
+
+        }
+
         private bool QuestionDataIsCorrect()
         {
             // Question text

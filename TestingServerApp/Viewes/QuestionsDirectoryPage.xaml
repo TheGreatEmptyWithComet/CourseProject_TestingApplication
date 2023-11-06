@@ -33,8 +33,14 @@
 
             <!-- Delete button -->
             <Button Content="Delete" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+
+            <!-- Load from Json button -->
+            <Button Content="Load from Json" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadFromJsonCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="120"/>
         </StackPanel>
 
+        <!-- Error message -->
+        <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
+        
         <!-- Data table -->
         <DataGrid x:Name="DataGrid" 
                   Style="{DynamicResource Style_DataGridBase}" 
@@ -48,5 +54,6 @@
                 <DataGridTextColumn Header="Answers" Binding="{Binding Path=Answers.Count}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+
     </DockPanel>
 </Page>

@@ -29,8 +29,6 @@ namespace TestingServerApp
         #region Properties
         /****************************************************************************************/
         private readonly Context context;
-        // variable is used to prevent some data checking while they are edited
-        private bool editDataMode = false;
 
         public ObservableCollection<TestVM> Tests
         {
@@ -129,11 +127,14 @@ namespace TestingServerApp
 
         private void DeleteTest()
         {
-            // remove record
-            context.Remove(SelectedTest.Model);
+            var result = MessageBox.Show("Delete test?\r\nData recovery will be impossible!", "Attention!", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
-            // update db
-            SaveChanges();
+            if (result == MessageBoxResult.OK)
+            {
+                context.Remove(SelectedTest.Model);
+
+                SaveChanges();
+            }
         }
 
         private bool TestDataIsCorrect()
@@ -230,9 +231,10 @@ namespace TestingServerApp
 
         private void GoToQuestions()
         {
-            if (SelectedTest != null)
+            if (TestDataIsCorrect())
             {
-                QuestionMaterialsVM.CurrentTest = SelectedTest.Model;
+                QuestionMaterialsVM.CurrentTest = CurrentTest.Model;
+                SaveChanges();
                 OpenPage("QuestionsDirectoryPage.xaml");
             }
         }
