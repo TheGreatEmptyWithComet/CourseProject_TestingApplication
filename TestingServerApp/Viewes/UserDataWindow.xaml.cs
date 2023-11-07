@@ -10,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestingServerApp.Styles
+namespace TestingServerApp.Viewes
 {
     /// <summary>
-    /// Interaction logic for TestCategoriesPage.xaml
+    /// Interaction logic for UserDataWindow.xaml
     /// </summary>
-    public partial class TestCategoriesPage : Page
+    public partial class UserDataWindow : Window
     {
-        public TestCategoriesPage()
+        public UserDataWindow()
         {
             InitializeComponent();
-        }
-
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (DataContext as BaseVM).TestCategoriesVM.EditCommand.Execute(null);
         }
     }
 }

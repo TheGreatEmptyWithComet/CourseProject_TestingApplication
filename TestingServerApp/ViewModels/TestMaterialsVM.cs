@@ -35,11 +35,8 @@ namespace TestingServerApp
             get => new ObservableCollection<TestVM>(context.Tests.Select(i => new TestVM(i)));
         }
 
-        // Entity for data binding while create or edit
-        public TestVM CurrentTest { get; private set; }
-
-        // Entity that is selected in all-entities table/datagrid
-        public TestVM SelectedTest { get; set; }
+        // Entity for data binding
+        public TestVM CurrentTest { get; set; }
 
         // Error message for data window
         private string errorMessage;
@@ -118,7 +115,6 @@ namespace TestingServerApp
 
         private void EditTest()
         {
-            CurrentTest = SelectedTest;
             ErrorMessage = string.Empty;
 
             // Open test data page
@@ -131,7 +127,7 @@ namespace TestingServerApp
 
             if (result == MessageBoxResult.OK)
             {
-                context.Remove(SelectedTest.Model);
+                context.Remove(CurrentTest.Model);
 
                 SaveChanges();
             }
@@ -246,3 +242,7 @@ namespace TestingServerApp
         #endregion
     }
 }
+
+
+
+

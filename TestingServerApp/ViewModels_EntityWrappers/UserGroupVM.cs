@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TestingServerApp
 {
-    public class TestCategoryVM : NotifyPropertyChangeHandler
+    public class UserGroupVM
     {
-        public TestCategory Model { get; set; }
+        public UserGroup Model { get; set; }
 
         public int Id { get => Model.Id; }
 
@@ -19,17 +19,17 @@ namespace TestingServerApp
         }
 
 
-        public TestCategoryVM(TestCategory testCategory)
+        public UserGroupVM(UserGroup userGroup)
         {
-            Model = testCategory;
+            Model = userGroup;
         }
 
 
         public override bool Equals(object? obj)
         {
-            if (obj != null && obj is TestCategoryVM testCategoryVM && testCategoryVM.Model != null)
+            if (obj != null && obj is UserGroupVM userGroupVM && userGroupVM.Model != null)
             {
-                return Model.Id.Equals(testCategoryVM.Model.Id);
+                return Model.Id.Equals(userGroupVM.Model.Id);
             }
             return false;
         }

@@ -10,6 +10,22 @@
       Title="Users">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Users -->
+        <StackPanel Orientation="Vertical" Grid.Column="0">
+            <TextBlock Text="Users and groups" Margin="3" FontWeight="Bold"/>
+            <TextBlock Margin="3">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="AdminUsersDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Administrators</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="StudentUsersDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Students</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+
     </Grid>
 </Page>

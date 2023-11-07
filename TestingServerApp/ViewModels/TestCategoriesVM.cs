@@ -25,20 +25,14 @@ namespace TestingServerApp
             get => new ObservableCollection<TestCategoryVM>(context.TestCategories.Select(i => new TestCategoryVM(i)));
         }
 
-        // Entity for data binding while create or edit
-        public TestCategoryVM CurrentTestCategory { get; private set; }
-
-        // Entity that is selected in all-entities table/datagrid
-        public TestCategoryVM SelectedTestCategory { get; set; }
+        // Entity for data binding
+        public TestCategoryVM CurrentTestCategory { get; set; }
 
         // Error message for data window
         private string errorMessage;
         public string ErrorMessage
         {
-            get
-            {
-                return errorMessage;
-            }
+            get => errorMessage;
             set
             {
                 errorMessage = value;
@@ -101,8 +95,6 @@ namespace TestingServerApp
 
         private void EditTestCategory()
         {
-            CurrentTestCategory = SelectedTestCategory;
-
             ErrorMessage = string.Empty;
 
             // Create and show window
@@ -122,9 +114,15 @@ namespace TestingServerApp
 
         private void DeleteTestCategory()
         {
-            context.Remove(SelectedTestCategory.Model);
+            var result = MessageBox.Show("Delete test ctaegory?\r\nAll related tests will be deleted!\r\rData recovery will be impossible", "Attention!", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
-            SaveChanges();
+            if (result == MessageBoxResult.OK)
+            {
+
+                context.Remove(CurrentTestCategory.Model);
+
+                SaveChanges();
+            }
         }
 
         private void CheckData()

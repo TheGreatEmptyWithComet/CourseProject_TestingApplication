@@ -133,8 +133,9 @@
 
                 </StackPanel>
             </Grid>
+            
             <!-- Error message -->
-            <TextBox Text="{Binding TestMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red"/>
+            <TextBlock Text="{Binding TestMaterialsVM.ErrorMessage}" Style="{DynamicResource Style_PageErrorMessageTextBlock}"/>
         </StackPanel>
 
     </DockPanel>

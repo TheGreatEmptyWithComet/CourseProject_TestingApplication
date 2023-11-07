@@ -39,7 +39,7 @@
         <DataGrid x:Name="DataGrid" 
                   Style="{DynamicResource Style_DataGridBase}" 
                   ItemsSource="{Binding TestCategoriesVM.TestCategories}" 
-                  SelectedItem="{Binding TestCategoriesVM.SelectedTestCategory}"
+                  SelectedItem="{Binding TestCategoriesVM.CurrentTestCategory}"
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Test category" Binding="{Binding Path=Name}" Width="*"/>

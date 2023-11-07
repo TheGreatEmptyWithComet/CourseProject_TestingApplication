@@ -40,9 +40,6 @@ namespace TestingServerApp
             get => new ObservableCollection<QuestionVM>(allQuestions.Select(i => new QuestionVM(i)));
         }
 
-        // Entity that is selected in all-entities table/datagrid
-        public QuestionVM SelectedQuestion { get; set; }
-
         // Entity for data binding while create or edit
         private QuestionVM currentQuestion;
         public QuestionVM CurrentQuestion
@@ -88,7 +85,8 @@ namespace TestingServerApp
                 currentTest = value;
                 // Load test's questions when test is set
                 LoadDataFromDB();
-                //context.Questions.Where((q) => q.Test == CurrentTest).Include((q) => q.Answers).Load();
+                // Clean error message as it can remain after previous page error
+                ErrorMessage = string.Empty;
             }
         }
 
@@ -177,18 +175,15 @@ namespace TestingServerApp
                 MessageBox.Show(ex.Message + "\n" + innerMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void LoadDataFromDB()
         {
             allQuestions = context.Questions.Where((q) => q.Test == CurrentTest).Include((q) => q.Answers).ToList();
         }
-
         private void SaveQuestionEndExit()
         {
             SaveQuestionWithoutExiting();
             OpenPage("QuestionsDirectoryPage.xaml");
         }
-
         private void SaveQuestionWithoutExiting()
         {
             if (QuestionDataIsCorrect())
@@ -196,7 +191,6 @@ namespace TestingServerApp
                 SaveChangesAndLoadFromContext();
             }
         }
-
         private void ExitWithoutSaving()
         {
             // Discard changes
@@ -208,18 +202,22 @@ namespace TestingServerApp
 
             OpenPage("QuestionsDirectoryPage.xaml");
         }
-
         private void OpenPage(string pageName)
         {
             OnCurrentPageChanged?.Invoke(pageName);
         }
 
+        
         // QUESTION
         /****************************************************************************************/
         private void AddNewQuestion()
         {
             // Create new entity
-            Question newQuestion = new Question() { Test = CurrentTest };
+            Question newQuestion = new Question()
+            {
+                Test = CurrentTest,
+                Answers = new ObservableCollection<Answer>()
+            };
             allQuestions.Add(newQuestion);
             context.Add(newQuestion);
             CurrentQuestion = new QuestionVM(newQuestion);
@@ -234,32 +232,33 @@ namespace TestingServerApp
 
             OpenPage("QuestionDataPage.xaml");
         }
-
-
         private void EditQuestion()
         {
-            currentQuestionPosition = allQuestions.IndexOf(SelectedQuestion.Model);
-            CurrentQuestion = Questions[currentQuestionPosition];
+            // Can be out of range error
+            try
+            {   
+                currentQuestionPosition = allQuestions.IndexOf(CurrentQuestion.Model);
+                CurrentQuestion = Questions[currentQuestionPosition];
 
-            // Update count property
-            QuestionsCount = allQuestions.Count();
+                // Update count property
+                QuestionsCount = allQuestions.Count();
 
-            ErrorMessage = string.Empty;
+                ErrorMessage = string.Empty;
 
-            // Open test data page
-            OpenPage("QuestionDataPage.xaml");
+                // Open test data page
+                OpenPage("QuestionDataPage.xaml");
+            }
+            catch (Exception ex) { }
         }
-
         private void DeleteQuestion()
         {
             // remove record
-            context.Remove(SelectedQuestion.Model);
+            context.Remove(CurrentQuestion.Model);
             // update db
             SaveChangesAndLoadFromContext();
             // notify property changed
             NotifyPropertyChanged(nameof(Questions));
         }
-
         private void LoadQuestionsFromJson()
         {
             ErrorMessage = string.Empty;
@@ -272,19 +271,21 @@ namespace TestingServerApp
             {
                 try
                 {
-
+                    // Read Json file
                     string questionsAsJson = File.ReadAllText(openFileDialog.FileName);
                     List<StoredJsonQuestion>? storedJsonQuestions = JsonConvert.DeserializeObject<List<StoredJsonQuestion>>(questionsAsJson);
 
+                    // Check if file format is correct
                     if (storedJsonQuestions == null)
                     {
                         ErrorMessage = "Error: wrong json file";
                         return;
                     }
 
+                    // Iterate through readed data
                     foreach (var jsonQuestion in storedJsonQuestions)
                     {
-                        // Add new question
+                        // Create new question
                         Question newQuestion = new Question()
                         {
                             Text = jsonQuestion.Text,
@@ -295,7 +296,7 @@ namespace TestingServerApp
                             Answers = new ObservableCollection<Answer>()
                         };
 
-                        // Add answers
+                        // Create answers to new question
                         foreach (string jsonAnswer in jsonQuestion.Answers)
                         {
                             Answer newAnswer = new Answer()
@@ -306,10 +307,9 @@ namespace TestingServerApp
                             };
 
                             newQuestion.Answers.Add(newAnswer);
-                            //context.Add(newAnswer);
                         }
 
-                        // Check data and save
+                        // Check data and save ( CurrentQuestion property is assigned because it is checked by QuestionDataIsCorrect method)
                         CurrentQuestion = new QuestionVM(newQuestion);
                         if (QuestionDataIsCorrect())
                         {
@@ -322,6 +322,7 @@ namespace TestingServerApp
                         }
                     }
 
+                    // Save changes to db
                     SaveChangesAndLoadFromContext();
                     NotifyPropertyChanged(nameof(Questions));
                 }
@@ -330,9 +331,7 @@ namespace TestingServerApp
                     ErrorMessage = $"Error: wrong json file.\r\n{ex.Message}";
                 }
             }
-
         }
-
         private bool QuestionDataIsCorrect()
         {
             // Question text
@@ -429,6 +428,7 @@ namespace TestingServerApp
                 CurrentQuestion = Questions[CurrentQuestionPosition];
             }
         }
+
 
         // ANSWER
         /****************************************************************************************/

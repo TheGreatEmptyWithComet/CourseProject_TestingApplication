@@ -39,14 +39,14 @@
         </StackPanel>
 
         <!-- Error message -->
-        <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_WindowTextBox}" Foreground="Red" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
+        <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_PageErrorMessageTextBlock}" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
         
         <!-- Data table -->
         <DataGrid x:Name="DataGrid" 
                   Style="{DynamicResource Style_DataGridBase}" 
                   AlternationCount="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"
                   ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions}" 
-                  SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.SelectedQuestion}"
+                  SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion}"
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />

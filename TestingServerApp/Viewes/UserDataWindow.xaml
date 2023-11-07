@@ -1,0 +1,43 @@
+﻿<Window x:Class="TestingServerApp.Viewes.UserDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestingServerApp.Viewes"
+        mc:Ignorable="d"
+        DataContext="{StaticResource baseVM}"
+        WindowStartupLocation="CenterOwner"
+        Title="User" Height="410" Width="250">
+    
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10">
+            <!-- Data -->
+            <StackPanel Orientation="Vertical" Height="310">
+                <!-- Group -->
+                <TextBlock Text="Group:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <TextBlock Text="{Binding UserMaterialsVM.CurrentUser.UserGroup.Name}" Style="{DynamicResource Style_WindowSearchTextBlock}"/>
+                
+                <!-- Login -->
+                <TextBlock Text="Login:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Login}" Style="{DynamicResource Style_WindowTextBox}"/>
+
+                <!-- Email -->
+                <TextBlock Text="E-mail:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Email}" Style="{DynamicResource Style_WindowTextBox}"/>
+                
+                <!-- Password -->
+                <TextBlock Text="Password:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Password, Mode=OneWayToSource}" 
+                         Style="{DynamicResource Style_WindowTextBox}" 
+                         Margin="0"/>
+                <TextBlock Text="*Leave the field blank to avoid making changes" TextWrapping="WrapWithOverflow"/>
+
+                <!-- Error message -->
+                <TextBlock Text="{Binding UserMaterialsVM.ErrorMessage}" Style="{DynamicResource Style_WindowErrorMessageTextBlock}" />
+            </StackPanel>
+
+            <!-- Command button -->
+            <Button Content="Save" Command="{Binding UserMaterialsVM.SaveUserCommand}" FontSize="16"/>
+        </StackPanel>
+    </Grid>
+</Window>

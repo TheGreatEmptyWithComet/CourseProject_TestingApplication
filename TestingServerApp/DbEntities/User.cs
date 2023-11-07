@@ -29,9 +29,10 @@ namespace TestingServerApp
         [StringLength(50)]
         public string Email { get; set; } = string.Empty;
 
+        public UserGroup UserGroup { get; set; } = null!;
+
 
         // Navigation property
-        public UserGroup UserGroup { get; set; } = null!;
         public ObservableCollection<ShortResult> ShortResults { get; set; } = null!;
 
     }

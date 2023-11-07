@@ -39,7 +39,11 @@
         </StackPanel>
 
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" Style="{DynamicResource Style_DataGridBase}" ItemsSource="{Binding TestMaterialsVM.Tests}" SelectedItem="{Binding TestMaterialsVM.SelectedTest}" MouseDoubleClick="DataGrid_MouseDoubleClick">
+        <DataGrid x:Name="DataGrid" 
+                  Style="{DynamicResource Style_DataGridBase}" 
+                  ItemsSource="{Binding TestMaterialsVM.Tests}" 
+                  SelectedItem="{Binding TestMaterialsVM.CurrentTest}" 
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Category" Binding="{Binding Path=TestCategory.Name}" />
                 <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
