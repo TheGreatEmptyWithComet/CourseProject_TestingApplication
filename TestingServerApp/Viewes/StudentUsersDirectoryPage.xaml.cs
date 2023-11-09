@@ -27,12 +27,12 @@ namespace TestingServerApp.Viewes
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            (DataContext as BaseVM).UserMaterialsVM.EditUserGroupCommand.Execute(null);
         }
 
         private void DataGrid1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            (DataContext as BaseVM).UserMaterialsVM.EditUserCommand.Execute(null);
         }
     }
 }

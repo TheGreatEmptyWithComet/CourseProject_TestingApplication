@@ -18,19 +18,21 @@ namespace TestingServerApp
         /****************************************************************************************/
         private readonly Context context;
         private UserDataWindow UserDataWindow;
+        private UserGroupDataWindow UserGroupDataWindow;
 
         // "Administrator" group isn't shown in the app. It only separates users:
         public ObservableCollection<UserGroupVM> UserGroups
         {
             get => new ObservableCollection<UserGroupVM>(context.UserGroups.Where((u) => u.Name != "Administrator").Select(i => new UserGroupVM(i)));
         }
+
         // Administrators - all users from according group:
         public ObservableCollection<UserVM> Administrators
         {
             get => new ObservableCollection<UserVM>(context.Users.Where((u) => u.UserGroup.Name == "Administrator").Select(i => new UserVM(i)));
         }
-        // As far as "Administrators" group isn't shown in the application, it can't be selected and admin users can't be shown as Students:
-        private List<User> allStudents;
+
+        private List<User> allStudents = new List<User>();
         public ObservableCollection<UserVM> Students
         {
             get => new ObservableCollection<UserVM>(allStudents.Select(i => new UserVM(i)));
@@ -38,7 +40,23 @@ namespace TestingServerApp
 
         // Entities for data binding
         public UserVM CurrentUser { get; set; }
-        public UserGroupVM CurrentUserGroup { get; set; }
+        private UserGroupVM currentUserGroup;
+        public UserGroupVM CurrentUserGroup
+        {
+            get => currentUserGroup;
+            set
+            {
+                if (value != null)
+                {
+                    currentUserGroup = value;
+                    NotifyPropertyChanged(nameof(CurrentUserGroup));
+
+                    // Show users from usergroup that was set
+                    allStudents = context.Users.Where((u) => u.UserGroup == currentUserGroup.Model).ToList();
+                    NotifyPropertyChanged(nameof(Students));
+                }
+            }
+        }
 
         // Error message for data window
         private string errorMessage;
@@ -61,11 +79,10 @@ namespace TestingServerApp
         public ICommand DeleteUserCommand { get; private set; }
         public ICommand SaveUserCommand { get; private set; }
 
-        public ICommand AddGroupCommand { get; private set; }
-        public ICommand EditGroupCommand { get; private set; }
-        public ICommand DeleteGroupCommand { get; private set; }
-        public ICommand SaveGroupCommand { get; private set; }
-
+        public ICommand AddUserGroupCommand { get; private set; }
+        public ICommand EditUserGroupCommand { get; private set; }
+        public ICommand DeleteUserGroupCommand { get; private set; }
+        public ICommand SaveUserGroupCommand { get; private set; }
         #endregion
 
 
@@ -79,12 +96,13 @@ namespace TestingServerApp
 
             // Load data from DB
             context.UserGroups.Include((ug) => ug.Users).Load();
-            allStudents = context.Users.Where((u) => u.UserGroup.Name != "Administrator").ToList();
+            //allStudents = context.Users.Where((u) => u.UserGroup.Name != "Administrator").ToList();
         }
         #endregion
 
 
         #region Methods
+        // GENERAL 
         /****************************************************************************************/
         private void InitCommands()
         {
@@ -93,21 +111,105 @@ namespace TestingServerApp
             EditUserCommand = new RelayCommand(EditUser);
             DeleteUserCommand = new RelayCommand(DeleteUser);
             SaveUserCommand = new RelayCommand(CheckUserData);
-        }
 
-        private void loadDataFromDb()
+            AddUserGroupCommand = new RelayCommand(AddUserGroup);
+            EditUserGroupCommand = new RelayCommand(EditUserGroup);
+            DeleteUserGroupCommand = new RelayCommand(DeleteUserGroup);
+            SaveUserGroupCommand = new RelayCommand(CheckUserGroupData);
+        }
+        private void SaveChanges()
         {
-            context.UserGroups.Include((ug) => ug.Users).Load();
+            try
+            {
+                context.SaveChanges();
+                NotifyPropertyChanged(nameof(Administrators));
+                NotifyPropertyChanged(nameof(Students));
+                NotifyPropertyChanged(nameof(UserGroups));
+            }
+            catch (Exception ex)
+            {
+                string innerMessage = ex.InnerException != null ? ex.InnerException.Message : string.Empty;
+                MessageBox.Show(ex.Message + "\n" + innerMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void SetCurrentUserGroupAsAdmin()
+        // USER GROUPS
+        /****************************************************************************************/
+        private void AddUserGroup()
+        {
+            // Create new entity
+            UserGroup newUserGroup = new UserGroup();
+            CurrentUserGroup = new UserGroupVM(newUserGroup);
+            ErrorMessage = string.Empty;
+
+            //Create and show data window
+            UserGroupDataWindow = new UserGroupDataWindow();
+            UserGroupDataWindow.Owner = Application.Current.MainWindow;
+
+            if (UserGroupDataWindow.ShowDialog() == true)
+            {
+                context.Add(newUserGroup);
+                SaveChanges();
+            }
+        }
+        private void EditUserGroup()
+        {
+            ErrorMessage = string.Empty;
+
+            //Create and show window
+            UserGroupDataWindow = new UserGroupDataWindow();
+            UserGroupDataWindow.Owner = Application.Current.MainWindow;
+
+            if (UserGroupDataWindow.ShowDialog() == true)
+            {
+                SaveChanges();
+            }
+            else
+            {
+                // Discard changes
+                Context.DiscardChanges<UserGroup>(context);
+            }
+        }
+        private void DeleteUserGroup()
+        {
+            var result = MessageBox.Show("Delete user group?\r\nAll related users will be deleted!\r\rData recovery will be impossible", "Attention!", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.OK)
+            {
+                context.Remove(CurrentUserGroup.Model);
+
+                SaveChanges();
+            }
+        }
+        private void CheckUserGroupData()
+        {
+            // Name must not be empty
+            if (string.IsNullOrEmpty(CurrentUserGroup.Name))
+            {
+                ErrorMessage = "Error: name must not be empty";
+                return;
+            }
+            // Name must be unique
+            else if (context.UserGroups.Any((userGroup) => userGroup.Name == CurrentUserGroup.Name && userGroup.Id != CurrentUserGroup.Id))
+            {
+                ErrorMessage = "Error: name must be unique";
+                return;
+            }
+
+            UserGroupDataWindow.DialogResult = true;
+            UserGroupDataWindow.Close();
+        }
+
+        // USERS 
+        /****************************************************************************************/
+        private void SetAdministratorsAsCurrentUserGroup()
         {
             CurrentUserGroup = new UserGroupVM(context.UserGroups.Where((ug) => ug.Name == "Administrator").FirstOrDefault()!);
         }
 
         private void AddAdminUser()
         {
-            SetCurrentUserGroupAsAdmin();
+            SetAdministratorsAsCurrentUserGroup();
             AddUser();
         }
         private void AddUser()
@@ -130,7 +232,6 @@ namespace TestingServerApp
                 SaveChanges();
             }
         }
-
         private void EditUser()
         {
             ErrorMessage = string.Empty;
@@ -149,20 +250,17 @@ namespace TestingServerApp
                 Context.DiscardChanges<User>(context);
             }
         }
-
         private void DeleteUser()
         {
             var result = MessageBox.Show("Delete test ctaegory?\r\nAll related tests will be deleted!\r\rData recovery will be impossible", "Attention!", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.OK)
             {
-
                 context.Remove(CurrentUser.Model);
 
                 SaveChanges();
             }
         }
-
         private void CheckUserData()
         {
             // Login must not be empty
@@ -194,19 +292,7 @@ namespace TestingServerApp
             UserDataWindow.Close();
         }
 
-        private void SaveChanges()
-        {
-            try
-            {
-                context.SaveChanges();
-                NotifyPropertyChanged(nameof(Administrators));
-            }
-            catch (Exception ex)
-            {
-                string innerMessage = ex.InnerException != null ? ex.InnerException.Message : string.Empty;
-                MessageBox.Show(ex.Message + "\n" + innerMessage, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+
         #endregion
 
 

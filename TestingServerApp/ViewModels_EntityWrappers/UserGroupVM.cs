@@ -33,5 +33,10 @@ namespace TestingServerApp
             }
             return false;
         }
+
+        public override string? ToString()
+        {
+            return Model.Name;
+        }
     }
 }
