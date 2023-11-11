@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace TestingServerApp
         #region Properties
         /****************************************************************************************/
         private readonly Context context;
+        private Server server;
 
         private string currentPage;
         public string CurrentPage
@@ -69,6 +71,10 @@ namespace TestingServerApp
             LoadAppConfig();
             CreateDbFilesStorageIfNotExist();
 
+            // start server
+            server = new Server(new IPEndPoint(IPAddress.Parse(AppConfig.ServerIpAdress), AppConfig.ServerPort));
+            server.ListenAsync();
+
         }
         #endregion
 
@@ -80,7 +86,6 @@ namespace TestingServerApp
             PageNavigationCommand = new RelayCommand<string>(p => CurrentPage = p);
             AtExitCommand = new RelayCommand(AtExit);
         }
-
 
         // release context resources
         private void AtExit()
@@ -98,13 +103,19 @@ namespace TestingServerApp
             // Create config
             var config = builder.Build();
 
+            // Database storage path for files
             AppConfig.DbExternalFiles.TestImagesPath = GetFullPath(config.GetSection("DbExternalFiles:TestImagesPath").Value);
             AppConfig.DbExternalFiles.QuestionImagesPath = GetFullPath(config.GetSection("DbExternalFiles:QuestionImagesPath").Value);
-            
             int.TryParse(config.GetSection("DbExternalFiles:ImageMaxSize").Value, out int size);
             AppConfig.DbExternalFiles.ImageMaxSize = size;
 
+            // Log file path
             AppConfig.LogFileName = config.GetSection("LogFileName").Value;
+
+            // Server settings
+            AppConfig.ServerIpAdress = config.GetSection("ServerIpAdress").Value;
+            int.TryParse(config.GetSection("ServerPort").Value, out int port);
+            AppConfig.ServerPort = port;
         }
         private void CreateDbFilesStorageIfNotExist()
         {

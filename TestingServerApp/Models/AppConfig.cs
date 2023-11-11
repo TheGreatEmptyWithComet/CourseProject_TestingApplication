@@ -10,8 +10,14 @@ namespace TestingServerApp
     {
         public const string Config = "AppConfig";
 
+        // Storage path for files (images) that are stored in database as referenses
         public static DbExternalFiles DbExternalFiles { get; set; } = new DbExternalFiles();
+        
         public static string LogFileName { get; set; } = string.Empty;
+
+        // Server settings
+        public static string ServerIpAdress { get; set; } = string.Empty;
+        public static int ServerPort { get; set; }
 
     }
 }

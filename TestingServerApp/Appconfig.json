@@ -7,5 +7,7 @@
     "QuestionImagesPath": "DbExternalFiles\\QuestionImages",
     "ImageMaxSize": "1048576" // 1 MB
   },
-  "LogFileName": "LogFile.txt"
+  "LogFileName": "LogFile.txt",
+  "ServerIpAdress": "127.0.0.1",
+  "ServerPort": 40000
 }
