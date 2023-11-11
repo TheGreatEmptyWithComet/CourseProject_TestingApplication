@@ -36,6 +36,7 @@ namespace TestingServerApp
         public TestCategoriesVM TestCategoriesVM { get; private set; }
         public TestMaterialsVM TestMaterialsVM { get; private set; }
         public UserMaterialsVM UserMaterialsVM { get; private set; }
+        public IssueTestsVM IssueTestsVM { get; private set; }
         #endregion
 
 
@@ -61,6 +62,7 @@ namespace TestingServerApp
             TestMaterialsVM = new TestMaterialsVM(context);
             TestMaterialsVM.OnCurrentPageChanged += (page) => CurrentPage = page;
             UserMaterialsVM = new UserMaterialsVM(context);
+            IssueTestsVM = new IssueTestsVM(context);
 
             InitCommands();
 

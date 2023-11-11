@@ -18,11 +18,8 @@
             </Grid.ColumnDefinitions>
 
             <!-- Exit button -->
-            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
         </Grid>
-
-        <!-- Error message -->
-        <TextBlock Text="{Binding UserMaterialsVM.ErrorMessage}" Style="{DynamicResource Style_PageErrorMessageTextBlock}" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
 
         <!-- Data tables & command buttons-->
         <Grid>
@@ -76,14 +73,14 @@
                     <Button Content="Add" Command="{Binding UserMaterialsVM.AddOtherUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
 
                     <!-- Edit button -->
-                    <Button Content="Edit" Command="{Binding UserMaterialsVM.EditUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+                    <Button Content="Edit" Command="{Binding UserMaterialsVM.EditUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton2}" />
 
                     <!-- Delete button -->
-                    <Button Content="Delete" Command="{Binding UserMaterialsVM.DeleteUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+                    <Button Content="Delete" Command="{Binding UserMaterialsVM.DeleteUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton2}" />
                 </StackPanel>
 
                 <!-- Data table-->
-                <DataGrid x:Name="DataGrid1" 
+                <DataGrid x:Name="DataGrid2" 
                       Style="{DynamicResource Style_DataGridBase}"
                       AlternationCount="{Binding UserMaterialsVM.Students.Count}"
                       ItemsSource="{Binding UserMaterialsVM.Students}"

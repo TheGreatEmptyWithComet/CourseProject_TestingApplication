@@ -49,7 +49,6 @@ namespace TestingServerApp
                 if (value != null)
                 {
                     currentUserGroup = value;
-                    NotifyPropertyChanged(nameof(CurrentUserGroup));
 
                     // Show users from usergroup that was set
                     allStudents = context.Users.Where((u) => u.UserGroup == currentUserGroup.Model).ToList();
@@ -96,7 +95,6 @@ namespace TestingServerApp
 
             // Load data from DB
             context.UserGroups.Include((ug) => ug.Users).Load();
-            //allStudents = context.Users.Where((u) => u.UserGroup.Name != "Administrator").ToList();
         }
         #endregion
 
@@ -168,6 +166,7 @@ namespace TestingServerApp
             {
                 // Discard changes
                 Context.DiscardChanges<UserGroup>(context);
+                NotifyPropertyChanged(nameof(UserGroups));
             }
         }
         private void DeleteUserGroup()

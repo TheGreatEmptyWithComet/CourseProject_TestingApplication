@@ -30,7 +30,7 @@
         <StackPanel Orientation="Vertical" Grid.Column="1">
             <TextBlock Text="Tests performing" Margin="3" FontWeight="Bold"/>
             <TextBlock Margin="3">
-                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Foreground="Black" TextDecorations="None">Issue tests</Hyperlink>
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="TestIssuesDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Issue tests</Hyperlink>
             </TextBlock>
             <TextBlock Margin="3">
                 <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Foreground="Black" TextDecorations="None">Tests results</Hyperlink>

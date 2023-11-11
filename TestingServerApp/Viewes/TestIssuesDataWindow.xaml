@@ -1,0 +1,44 @@
+﻿<Window x:Class="TestingServerApp.Viewes.TestIssuesDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestingServerApp.Viewes"
+        mc:Ignorable="d"
+        DataContext="{StaticResource baseVM}"
+        WindowStartupLocation="CenterOwner"
+        Title="TestIssuesDataWindow" Height="340" Width="250">
+
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10">
+            <!-- Data -->
+            <StackPanel Orientation="Vertical" Height="240">
+                <!-- Group -->
+                <TextBlock Text="Group:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <ComboBox ItemsSource="{Binding UserMaterialsVM.UserGroups}" DockPanel.Dock="Top" 
+                          SelectedItem="{Binding IssueTestsVM.CurrentIssuedTest.UserGroup}" 
+                          Style="{DynamicResource Style_ComboBoxBase}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <!-- Expired date -->
+                <TextBlock Text="Expired date:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <DatePicker SelectedDate="{Binding IssueTestsVM.CurrentIssuedTest.ExpiredDate}" Margin="0 0 0 15"/>
+
+                <!-- Attempts amount -->
+                <TextBlock Text="Attempts amount:" Style="{DynamicResource Style_WindowTextBlock}"/>
+                <TextBox Text="{Binding IssueTestsVM.CurrentIssuedTest.AttemptsAmount}" Style="{DynamicResource Style_WindowTextBox}" />
+
+                <!-- Error message -->
+                <TextBlock Text="{Binding IssueTestsVM.ErrorMessage}" Style="{DynamicResource Style_WindowErrorMessageTextBlock}" />
+            </StackPanel>
+
+            <!-- Command button -->
+            <Button Content="Save" Command="{Binding IssueTestsVM.SaveIssuedTestCommand}" FontSize="16"/>
+        </StackPanel>
+    </Grid>
+</Window>

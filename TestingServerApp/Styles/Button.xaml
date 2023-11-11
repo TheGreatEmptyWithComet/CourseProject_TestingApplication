@@ -52,10 +52,10 @@
     </Style>
 
     <!-- The style is intended to multiple datagrids on different pages. To work properly datagrid name must be "DataGrid"  -->
-    <Style TargetType="{x:Type Button}" x:Key="Style_MenuVisibleOnSelectionButton1" BasedOn="{StaticResource Style_MenuButtonBase}">
+    <Style TargetType="{x:Type Button}" x:Key="Style_MenuVisibleOnSelectionButton2" BasedOn="{StaticResource Style_MenuButtonBase}">
         <Setter Property="IsEnabled" Value="True"></Setter>
         <Style.Triggers>
-            <DataTrigger Binding ="{Binding ElementName=DataGrid1, Path=SelectedIndex}" Value="-1">
+            <DataTrigger Binding ="{Binding ElementName=DataGrid2, Path=SelectedIndex}" Value="-1">
                 <Setter Property="IsEnabled" Value="False"></Setter>
             </DataTrigger>
         </Style.Triggers>

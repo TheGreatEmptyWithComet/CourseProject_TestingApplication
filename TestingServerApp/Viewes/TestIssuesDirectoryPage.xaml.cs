@@ -13,17 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestingServerApp
+namespace TestingServerApp.Viewes
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TestIssuesDirectoryPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TestIssuesDirectoryPage : Page
     {
-        public MainWindow()
+        public TestIssuesDirectoryPage()
         {
             InitializeComponent();
-            DataContext = new BaseVM();
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as BaseVM).IssueTestsVM.EditIssuedTestCommand.Execute(null);
         }
     }
 }

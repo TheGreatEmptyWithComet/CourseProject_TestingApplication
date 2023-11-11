@@ -15,10 +15,8 @@ namespace TestingServerApp
         public DateTime IssueDate { get; set; }
         public DateTime ExpiredDate { get; set; }
         public int AttemptsAmount { get; set; }
-
-
-        // Navigation properties
         public UserGroup UserGroup { get; set; } = null!;
         public Test Test { get; set; } = null!;
+
     }
 }

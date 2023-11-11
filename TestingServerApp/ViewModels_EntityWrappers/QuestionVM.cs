@@ -45,7 +45,7 @@ namespace TestingServerApp
             set
             {
                 Model.MultipleAnswersAllowed = value;
-                NotifyAnswersChanged();
+                NotifyPropertyChanged(nameof(Answers));
             }
 
         }
