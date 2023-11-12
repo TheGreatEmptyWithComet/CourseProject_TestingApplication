@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace TestingServerApp
 {
-    public class BaseVM : NotifyPropertyChangeHandler
+    public class BaseVM : NotifyPropertyChangedHandler
     {
         #region Properties
         /****************************************************************************************/

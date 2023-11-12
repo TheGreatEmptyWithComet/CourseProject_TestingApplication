@@ -18,7 +18,7 @@ using TestingServerApp.Utilites;
 namespace TestingServerApp
 {
     public delegate void CurrentPageChanged(string page);
-    public class TestMaterialsVM : NotifyPropertyChangeHandler
+    public class TestMaterialsVM : NotifyPropertyChangedHandler
     {
         #region Delegates & Events
         /****************************************************************************************/

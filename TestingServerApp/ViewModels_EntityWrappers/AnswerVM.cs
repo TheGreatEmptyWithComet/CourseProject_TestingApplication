@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestingServerApp
 {
-    public class AnswerVM : NotifyPropertyChangeHandler
+    public class AnswerVM : NotifyPropertyChangedHandler
     {
         public Answer Model { get; set; }
 

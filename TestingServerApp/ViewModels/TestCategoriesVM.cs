@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestingServerApp
 {
-    public class TestCategoriesVM : NotifyPropertyChangeHandler
+    public class TestCategoriesVM : NotifyPropertyChangedHandler
     {
         #region Properties
         /****************************************************************************************/

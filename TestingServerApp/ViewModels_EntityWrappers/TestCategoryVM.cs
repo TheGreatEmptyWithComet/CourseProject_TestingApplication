@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestingServerApp
 {
-    public class TestCategoryVM : NotifyPropertyChangeHandler
+    public class TestCategoryVM : NotifyPropertyChangedHandler
     {
         public TestCategory Model { get; set; }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TestingServerApp
 {
-    public class NotifyPropertyChangeHandler : INotifyPropertyChanged
+    public class NotifyPropertyChangedHandler : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public void NotifyPropertyChanged(string propertyName = "")

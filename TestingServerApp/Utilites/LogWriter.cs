@@ -16,7 +16,7 @@ namespace TestingServerApp.Utilites
             lock (locker)
             {
                 var streamWriter = File.AppendText(AppConfig.LogFileName);
-                streamWriter.WriteLine(message);
+                streamWriter.WriteLine($"{DateTime.Now} => {message}");
                 streamWriter.Close();
             }
         }

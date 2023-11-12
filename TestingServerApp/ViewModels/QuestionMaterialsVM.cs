@@ -20,7 +20,7 @@ using static TestingServerApp.TestMaterialsVM;
 
 namespace TestingServerApp
 {
-    public class QuestionMaterialsVM : NotifyPropertyChangeHandler
+    public class QuestionMaterialsVM : NotifyPropertyChangedHandler
     {
         #region Delegates & Events
         /****************************************************************************************/

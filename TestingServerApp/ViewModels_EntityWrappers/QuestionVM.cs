@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace TestingServerApp
 {
-    public class QuestionVM : NotifyPropertyChangeHandler
+    public class QuestionVM : NotifyPropertyChangedHandler
     {
         public Question Model { get; set; }
 

@@ -13,7 +13,7 @@ using TestingServerApp.Viewes;
 
 namespace TestingServerApp
 {
-    public class IssueTestsVM : NotifyPropertyChangeHandler
+    public class IssueTestsVM : NotifyPropertyChangedHandler
     {
         #region Properties
         /****************************************************************************************/

@@ -11,19 +11,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TestingServerApp.Utilites;
+using TestingServerApp.Viewes;
 
 namespace TestingServerApp
 {
-    public enum RequestCode { Login, GetTests, GetAttempts, GetQuestions, SaveResults, GetStatistic, Logout }
+    public enum RequestCode { Login, GetTests, GetAttempts, StartTest, GetResult, GetStatistic, Logout }
 
     public class ClientObject
     {
         public string Id { get; } = Guid.NewGuid().ToString();
         private BinaryReader reader;
         private BinaryWriter writer;
-        private int userId;
-        private User? user;
+        private User? currentUser;
         private Random random = new Random(Environment.TickCount);
+        private ShortResult? currentShortResult;
 
         TcpClient client;
         Server server;
@@ -52,6 +54,7 @@ namespace TestingServerApp
             }
             catch (Exception e)
             {
+                LogWriter.Write($"{e.Message}\r\n{e.InnerException}");
             }
             finally
             {
@@ -73,10 +76,11 @@ namespace TestingServerApp
                 case ((int)RequestCode.GetAttempts):
                     SendAttemptLeftAmount();
                     break;
-                case ((int)RequestCode.GetQuestions):
-                    SendTestQuestions();
+                case ((int)RequestCode.StartTest):
+                    StartTest();
                     break;
-                case ((int)RequestCode.SaveResults):
+                case ((int)RequestCode.GetResult):
+                    ProcessTestResult();
                     break;
                 case ((int)RequestCode.GetStatistic):
                     break;
@@ -88,17 +92,19 @@ namespace TestingServerApp
         {
             try
             {
+                currentUser = null;
+
                 string login = reader.ReadString();
                 string passowrd = reader.ReadString();
 
                 using (Context context = new Context())
                 {
-                    user = context.Users.Where((u) => u.Login == login).Include((u) => u.UserGroup).FirstOrDefault();
-                    if (user != null)
+                    currentUser = context.Users.Where((u) => u.Login == login).Include((u) => u.UserGroup).FirstOrDefault();
+                    if (currentUser != null)
                     {
-                        string checkedPasswordHash = PasswordEncryption.GetPasswordHash(passowrd, user.PasswordSalt);
+                        string checkedPasswordHash = PasswordEncryption.GetPasswordHash(passowrd, currentUser.PasswordSalt);
 
-                        if (checkedPasswordHash == user.PasswordHash)
+                        if (checkedPasswordHash == currentUser.PasswordHash)
                         {
                             writer.Write(true);
                         }
@@ -109,7 +115,7 @@ namespace TestingServerApp
                     }
                 }
             }
-            catch { }
+            catch (Exception e) { LogWriter.Write($"{e.Message}\r\n{e.InnerException}"); }
         }
         private void SendAllowedTestsInfo()
         {
@@ -117,10 +123,10 @@ namespace TestingServerApp
             {
                 using (Context context = new Context())
                 {
-                    if (user != null)
+                    if (currentUser != null)
                     {
                         List<TestInfo> testsInfo = context.IssuedTests
-                            .Where((it) => it.UserGroup == user.UserGroup)
+                            .Where((it) => it.UserGroup == currentUser.UserGroup)
                             .Select((it) => new TestInfo()
                             {
                                 Id = it.Test.Id,
@@ -149,55 +155,62 @@ namespace TestingServerApp
         {
             try
             {
-                if (user != null)
+                if (currentUser != null)
                 {
                     int testId = reader.ReadInt32();
                     writer.Write(GetAttemptsLeftAmount(testId));
                 }
             }
-            catch { }
+            catch (Exception e) { LogWriter.Write($"{e.Message}\r\n{e.InnerException}"); }
         }
         private int GetAttemptsLeftAmount(int testId)
         {
             using (Context context = new Context())
             {
-                int allAttempts = context.IssuedTests.Where((it) => it.UserGroup == user.UserGroup).Select((it) => it.AttemptsAmount).FirstOrDefault();
+                int allAttempts = context.IssuedTests.Where((it) => it.UserGroup == currentUser.UserGroup).Select((it) => it.AttemptsAmount).FirstOrDefault();
                 int usedAttempts = context.ShortResults.Count((it) => it.Test.Id == testId);
                 return allAttempts - usedAttempts;
             }
         }
-        private void SendTestQuestions()
+        private void StartTest()
         {
             try
             {
-                if (user != null)
+                if (currentUser != null)
                 {
+                    currentShortResult = null;
+
                     int testId = reader.ReadInt32();
 
-                    if (GetAttemptsLeftAmount(testId) > 0)
+                    SendTestQuestions(testId);
+
+                    WriteUserAttempt(testId);
+                }
+            }
+            catch (Exception e) { LogWriter.Write($"{e.Message}\r\n{e.InnerException}"); }
+        }
+        private void SendTestQuestions(int testId)
+        {
+            if (GetAttemptsLeftAmount(testId) > 0)
+            {
+                using (Context context = new Context())
+                {
+                    List<Question> allQuestions = context.Questions.Where((q) => q.Test.Id == testId).Include((q) => q.Answers).ToList();
+                    int questionsNeeded = context.Tests.Where((t) => t.Id == testId).Select((t) => t.QuestionsAmountForTest).FirstOrDefault();
+
+                    if (questionsNeeded <= allQuestions.Count)
                     {
-                        using (Context context = new Context())
+                        List<Question> questionsToSend = GetRandomQuestionsList(allQuestions, questionsNeeded);
+
+                        string questionsToSendAsJson = JsonConvert.SerializeObject(questionsToSend, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+                        if (!string.IsNullOrEmpty(questionsToSendAsJson))
                         {
-                            List<Question> allQuestions = context.Questions.Where((q) => q.Test.Id == testId).Include((q) => q.Answers).ToList();
-                            int questionsNeeded = context.Tests.Where((t) => t.Id == testId).Select((t) => t.QuestionsAmountForTest).FirstOrDefault();
-
-                            if (questionsNeeded <= allQuestions.Count)
-                            {
-                                //List<Question> questionsToSend = GetRandomQuestionsList(allQuestions, questionsNeeded);
-
-                                string questionsToSendAsJson = JsonConvert.SerializeObject(allQuestions);
-                                int i = 5;
-
-                                if (!string.IsNullOrEmpty(questionsToSendAsJson))
-                                {
-                                    writer.Write(questionsToSendAsJson);
-                                }
-                            }
+                            writer.Write(questionsToSendAsJson);
                         }
                     }
                 }
             }
-            catch (Exception e) { }
         }
         private List<Question> GetRandomQuestionsList(List<Question> allQuestions, int questionsNeeded)
         {
@@ -211,16 +224,107 @@ namespace TestingServerApp
                 for (int i = 0; i < questionsNeeded; ++i)
                 {
                     index = random.Next(0, allQuestions.Count);
+                    Question question = allQuestions[index];
+                    // Load image to question
+                    if (question.ImagePath != null) question.Image = File.ReadAllBytes(question.ImagePath);
+
                     randomOrderedQuestions.Add(allQuestions[index]);
+
                     //remove question from temp list to avoid it reselection
                     allQuestions.RemoveAt(index);
-
                 }
                 return randomOrderedQuestions;
             }
             return allQuestions;
         }
+        private void WriteUserAttempt(int testId)
+        {
+            using (Context context = new Context())
+            {
+                Test test = context.Tests.Where((t) => t.Id == testId).FirstOrDefault()!;
+                // Prevent error when context try to save UserGroup that is placed inside the current user
+                User user = context.Users.Where((u) => u == currentUser).FirstOrDefault()!;
 
+                currentShortResult = new ShortResult()
+                {
+                    Date = DateTime.Now,
+                    Test = test,
+                    TestMaxScores = test.MaxTestScores,
+                    User = user!,
+                    // Initial value that will be updated when user passed the test
+                    UserScores = 0
+                };
+
+                context.Add(currentShortResult);
+                context.SaveChanges();
+            }
+        }
+
+        private void ProcessTestResult()
+        {
+            try
+            {
+                if (currentUser != null && currentShortResult != null)
+                {
+                    // Read question with answers
+                    string answeredQuestionsAsJson = reader.ReadString();
+                    List<Question> answeredQuestions = JsonConvert.DeserializeObject<List<Question>>(answeredQuestionsAsJson, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+                    if (answeredQuestions != null)
+                    {
+                        // Get and send test result
+                        double userTestScore = EstimateAnswers(answeredQuestions!);
+                        writer.Write(userTestScore);
+
+                        // Save results to db
+                        SaveTestResults(answeredQuestions, userTestScore);
+                    }
+                }
+            }
+            catch (Exception e) { LogWriter.Write($"{e.Message}\r\n{e.InnerException}"); }
+        }
+
+        private double EstimateAnswers(List<Question> answeredQuestions)
+        {
+            double userScore = 0;
+            double testScore = 0;
+
+            foreach (Question question in answeredQuestions)
+            {
+                testScore += question.QuestionWeight;
+
+                double userCorrectAnswers = question.Answers.Count((a) => a.IsCorrect == a.IsUserAnswered);
+
+                if (userCorrectAnswers == 0)
+                {
+                    continue;
+                }
+
+                double allCorrectAnswers = question.Answers.Count((a) => a.IsCorrect);
+
+                if (question.MultipleAnswersAllowed == false && userCorrectAnswers == allCorrectAnswers)
+                {
+                    userScore += question.QuestionWeight;
+                }
+                else if (question.MultipleAnswersAllowed == true)
+                {
+                    userScore += userCorrectAnswers / allCorrectAnswers * question.QuestionWeight;
+                }
+            }
+
+            return userScore / testScore * currentShortResult!.TestMaxScores * 100;
+        }
+        private void SaveTestResults(List<Question> answeredQuestions,double testScore)
+        {
+            using (Context context = new Context())
+            {
+                currentShortResult.UserScores = testScore;
+
+
+                context.Add(currentShortResult);
+                context.SaveChanges();
+            }
+        }
 
 
         private void ProcessLogin2()

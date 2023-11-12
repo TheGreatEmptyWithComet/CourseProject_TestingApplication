@@ -11,11 +11,9 @@ namespace TestingServerApp
     public class DetailedResult
     {
         public int Id { get; set; }
-        public bool IsAnsweredByUser { get; set; } = false;
-
-        
-        // Navigation properties
         public ShortResult ShortResult { get; set; } = null!;
         public Answer Answer { get; set; } = null!;
+        public bool IsAnsweredByUser { get; set; } = false;
+        
     }
 }

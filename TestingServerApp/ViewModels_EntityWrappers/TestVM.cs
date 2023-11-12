@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace TestingServerApp
 {
-    public class TestVM : NotifyPropertyChangeHandler
+    public class TestVM : NotifyPropertyChangedHandler
     {
         public Test Model { get; set; }
 
