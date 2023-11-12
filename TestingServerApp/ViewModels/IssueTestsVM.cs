@@ -64,6 +64,8 @@ namespace TestingServerApp
                 {
                     currentTestCategory = value;
                     NotifyPropertyChanged(nameof(Tests));
+                    // Clear issued tests list:
+                    CurrentTest = new TestVM(new Test());
                 }
             }
         }

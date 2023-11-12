@@ -5,11 +5,10 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TestingServerApp.Models;
 
 namespace TestingServerApp
 {
-    public enum RequestCode { Login, GetTests, GetQuestions, SaveResults, GetStatistic, Logout }
+   
 
     public class Server
     {

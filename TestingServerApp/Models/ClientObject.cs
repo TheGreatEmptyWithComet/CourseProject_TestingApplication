@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Json;
@@ -9,9 +10,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TestingServerApp
 {
+    public enum RequestCode { Login, GetTests, GetAttempts, GetQuestions, SaveResults, GetStatistic, Logout }
+
     public class ClientObject
     {
         public string Id { get; } = Guid.NewGuid().ToString();
@@ -19,6 +23,7 @@ namespace TestingServerApp
         private BinaryWriter writer;
         private int userId;
         private User? user;
+        private Random random = new Random(Environment.TickCount);
 
         TcpClient client;
         Server server;
@@ -65,7 +70,11 @@ namespace TestingServerApp
                 case ((int)RequestCode.GetTests):
                     SendAllowedTestsInfo();
                     break;
+                case ((int)RequestCode.GetAttempts):
+                    SendAttemptLeftAmount();
+                    break;
                 case ((int)RequestCode.GetQuestions):
+                    SendTestQuestions();
                     break;
                 case ((int)RequestCode.SaveResults):
                     break;
@@ -100,7 +109,7 @@ namespace TestingServerApp
                     }
                 }
             }
-            catch (Exception e) { }
+            catch { }
         }
         private void SendAllowedTestsInfo()
         {
@@ -110,9 +119,23 @@ namespace TestingServerApp
                 {
                     if (user != null)
                     {
-                        List<TestInfo> testsInfo = context.IssuedTests.Where((it) => it.UserGroup == user.UserGroup).Select((it) => new TestInfo(it)).ToList();
+                        List<TestInfo> testsInfo = context.IssuedTests
+                            .Where((it) => it.UserGroup == user.UserGroup)
+                            .Select((it) => new TestInfo()
+                            {
+                                Id = it.Test.Id,
+                                Name = it.Test.Name,
+                                Image = it.Test.ImagePath != null ? File.ReadAllBytes(it.Test.ImagePath) : null,
+                                QuestionsAmountForTest = it.Test.QuestionsAmountForTest,
+                                MinutsForTest = it.Test.MinutsForTest,
+                                MaxTestScores = it.Test.MaxTestScores,
+                                TestCategory = it.Test.TestCategory.Name,
+                                AttemptsAmount = it.AttemptsAmount,
+                                ExiredDate = it.ExpiredDate
+                            })
+                            .ToList();
                         string testsInfoAsJson = JsonConvert.SerializeObject(testsInfo);
-                        
+
                         if (!string.IsNullOrEmpty(testsInfoAsJson))
                         {
                             writer.Write(testsInfoAsJson);
@@ -120,8 +143,85 @@ namespace TestingServerApp
                     }
                 }
             }
+            catch { }
+        }
+        private void SendAttemptLeftAmount()
+        {
+            try
+            {
+                if (user != null)
+                {
+                    int testId = reader.ReadInt32();
+                    writer.Write(GetAttemptsLeftAmount(testId));
+                }
+            }
+            catch { }
+        }
+        private int GetAttemptsLeftAmount(int testId)
+        {
+            using (Context context = new Context())
+            {
+                int allAttempts = context.IssuedTests.Where((it) => it.UserGroup == user.UserGroup).Select((it) => it.AttemptsAmount).FirstOrDefault();
+                int usedAttempts = context.ShortResults.Count((it) => it.Test.Id == testId);
+                return allAttempts - usedAttempts;
+            }
+        }
+        private void SendTestQuestions()
+        {
+            try
+            {
+                if (user != null)
+                {
+                    int testId = reader.ReadInt32();
+
+                    if (GetAttemptsLeftAmount(testId) > 0)
+                    {
+                        using (Context context = new Context())
+                        {
+                            List<Question> allQuestions = context.Questions.Where((q) => q.Test.Id == testId).Include((q) => q.Answers).ToList();
+                            int questionsNeeded = context.Tests.Where((t) => t.Id == testId).Select((t) => t.QuestionsAmountForTest).FirstOrDefault();
+
+                            if (questionsNeeded <= allQuestions.Count)
+                            {
+                                //List<Question> questionsToSend = GetRandomQuestionsList(allQuestions, questionsNeeded);
+
+                                string questionsToSendAsJson = JsonConvert.SerializeObject(allQuestions);
+                                int i = 5;
+
+                                if (!string.IsNullOrEmpty(questionsToSendAsJson))
+                                {
+                                    writer.Write(questionsToSendAsJson);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             catch (Exception e) { }
         }
+        private List<Question> GetRandomQuestionsList(List<Question> allQuestions, int questionsNeeded)
+        {
+
+            if (allQuestions.Count >= questionsNeeded)
+            {
+                List<Question> randomOrderedQuestions = new List<Question>();
+
+                int index;
+
+                for (int i = 0; i < questionsNeeded; ++i)
+                {
+                    index = random.Next(0, allQuestions.Count);
+                    randomOrderedQuestions.Add(allQuestions[index]);
+                    //remove question from temp list to avoid it reselection
+                    allQuestions.RemoveAt(index);
+
+                }
+                return randomOrderedQuestions;
+            }
+            return allQuestions;
+        }
+
+
 
         private void ProcessLogin2()
         {
@@ -130,7 +230,7 @@ namespace TestingServerApp
 
 
             }
-            catch (Exception e) { }
+            catch { }
         }
         public void CloseConnections()
         {
