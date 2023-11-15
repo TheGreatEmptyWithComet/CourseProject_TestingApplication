@@ -52,6 +52,8 @@
                 <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
                 <DataGridTextColumn Header="Text" Binding="{Binding Path=Text}" />
                 <DataGridTextColumn Header="Answers" Binding="{Binding Path=Answers.Count}" Width="*"/>
+                <DataGridTextColumn Header="Question weight" Binding="{Binding Path=QuestionWeight}" Width="*"/>
+                <DataGridCheckBoxColumn Header="Partial answer allower" Binding="{Binding Path=PartialAnswersAllowed}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 

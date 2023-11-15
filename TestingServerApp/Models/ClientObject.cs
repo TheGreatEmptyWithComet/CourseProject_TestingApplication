@@ -293,28 +293,28 @@ namespace TestingServerApp
             {
                 testScore += question.QuestionWeight;
 
-                double userCorrectAnswers = question.Answers.Count((a) => a.IsCorrect == a.IsUserAnswered);
+                double userCorrectAnswers = question.Answers.Count((a) => a.IsCorrect && a.IsUserAnswered);
 
                 if (userCorrectAnswers == 0)
                 {
                     continue;
                 }
 
-                double allCorrectAnswers = question.Answers.Count((a) => a.IsCorrect);
+                double userWrongAnswers = question.Answers.Count((a) => a.IsCorrect != a.IsUserAnswered);
 
-                if (question.MultipleAnswersAllowed == false && userCorrectAnswers == allCorrectAnswers)
+                if (userWrongAnswers == 0)
                 {
                     userScore += question.QuestionWeight;
                 }
                 else if (question.MultipleAnswersAllowed == true)
                 {
-                    userScore += userCorrectAnswers / allCorrectAnswers * question.QuestionWeight;
+                    userScore += userCorrectAnswers / (userCorrectAnswers + userWrongAnswers) * question.QuestionWeight;
                 }
             }
 
-            return userScore / testScore * currentShortResult!.TestMaxScores * 100;
+            return userScore / testScore * currentShortResult!.TestMaxScores;
         }
-        private void SaveTestResults(List<Question> answeredQuestions,double testScore)
+        private void SaveTestResults(List<Question> answeredQuestions, double testScore)
         {
             using (Context context = new Context())
             {
