@@ -17,12 +17,12 @@
 
         <!-- Users -->
         <StackPanel Orientation="Vertical" Grid.Column="0">
-            <TextBlock Text="Users and groups" Margin="3" FontWeight="Bold"/>
-            <TextBlock Margin="3">
-                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="AdminUsersDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Administrators</Hyperlink>
+            <TextBlock Text="Users and groups" Style="{DynamicResource Style_MenuCategoryTextBlock}"/>
+            <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="AdminUsersDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Administrators</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="3">
-                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="StudentUsersDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Students</Hyperlink>
+            <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="StudentUsersDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Students</Hyperlink>
             </TextBlock>
         </StackPanel>
 

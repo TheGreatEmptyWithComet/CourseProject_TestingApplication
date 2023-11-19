@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="Styles/DataGrid.xaml"/>
                 <ResourceDictionary Source="Styles/Button.xaml"/>
                 <ResourceDictionary Source="Styles/ComboBox.xaml"/>
+                <ResourceDictionary Source="Styles/Hyperlink.xaml"/>
                 <ResourceDictionary Source="Styles/Brush.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 

@@ -5,20 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestingServerApp.Viewes"
         mc:Ignorable="d"
-         DataContext="{StaticResource baseVM}"
+        DataContext="{StaticResource baseVM}"
+        Background="{DynamicResource MainBackgroundBrush}"
         Title="MainView" Height="768" Width="1366" Closing="Window_Closing">
     <DockPanel>
         <!-- Main menu -->
-        <Menu DockPanel.Dock="Top" Background="{DynamicResource MainMenuColor}" FontSize="16" FontWeight="Bold">
+        <Menu DockPanel.Dock="Top" Background="{DynamicResource Main30Color}" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource Main60Color}">
             <!-- Users -->
-            <MenuItem Header="Users" Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml" BorderThickness="0">
+            <MenuItem Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml" BorderThickness="0" Cursor="Hand">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Vertical" Width="80">
+                        <Image Width="35" Height="35" Source="\Images\Users.png" Margin="5 5 5 0"/>
+                        <ContentPresenter Content="Users" HorizontalAlignment="Center" Margin="5 0 5 5"/>
+                    </StackPanel>
+                </MenuItem.Header>
                 <!-- Change menu item color when page is active -->
                 <MenuItem.Style>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Background" Value="{DynamicResource MainMenuColor}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding CurrentPage}" Value="UsersMenuPage.xaml">
-                                <Setter Property="Background" Value="{DynamicResource SelectedMenuColor}"/>
+                                <Setter Property="Background" Value="{DynamicResource Accent10Color1}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -26,14 +32,19 @@
             </MenuItem>
 
             <!-- Tests -->
-            <MenuItem Header="Tests" Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml" BorderThickness="0">
+            <MenuItem Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml" BorderThickness="0" Cursor="Hand" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Vertical" Width="80">
+                        <Image Width="35" Height="35" Source="\Images\Tests.png" Margin="5 5 5 0"/>
+                        <ContentPresenter Content="Tests" HorizontalAlignment="Center" Margin="5 0 5 5"/>
+                    </StackPanel>
+                </MenuItem.Header>
                 <!-- Change menu item color when page is active -->
                 <MenuItem.Style>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Background" Value="{DynamicResource MainMenuColor}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding CurrentPage}" Value="TestsMenuPage.xaml">
-                                <Setter Property="Background" Value="{DynamicResource SelectedMenuColor}"/>
+                                <Setter Property="Background" Value="{DynamicResource Accent10Color1}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -41,6 +52,6 @@
             </MenuItem>
         </Menu>
 
-        <Frame Source="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
+        <Frame Source="{Binding CurrentPage}" NavigationUIVisibility="Hidden" Margin="10"/>
     </DockPanel>
 </Window>

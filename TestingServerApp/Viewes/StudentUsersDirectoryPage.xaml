@@ -36,13 +36,13 @@
                 <!-- Command buttons -->
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                     <!-- New button -->
-                    <Button Content="Add" Command="{Binding UserMaterialsVM.AddUserGroupCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+                    <Button Content="Add" Command="{Binding UserMaterialsVM.AddUserGroupCommand}" Style="{DynamicResource Style_AddButton}" />
 
                     <!-- Edit button -->
-                    <Button Content="Edit" Command="{Binding UserMaterialsVM.EditUserGroupCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+                    <Button Content="Edit" Command="{Binding UserMaterialsVM.EditUserGroupCommand}" Style="{DynamicResource Style_EditButton}" />
 
                     <!-- Delete button -->
-                    <Button Content="Delete" Command="{Binding UserMaterialsVM.DeleteUserGroupCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+                    <Button Content="Delete" Command="{Binding UserMaterialsVM.DeleteUserGroupCommand}" Style="{DynamicResource Style_DeleteButton}" />
                 </StackPanel>
 
                 <!-- Data table-->
@@ -70,13 +70,13 @@
                 <!-- Command buttons -->
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                     <!-- New button -->
-                    <Button Content="Add" Command="{Binding UserMaterialsVM.AddOtherUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+                    <Button Content="Add" Command="{Binding UserMaterialsVM.AddOtherUserCommand}" Style="{DynamicResource Style_AddButton}" />
 
                     <!-- Edit button -->
-                    <Button Content="Edit" Command="{Binding UserMaterialsVM.EditUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton2}" />
+                    <Button Content="Edit" Command="{Binding UserMaterialsVM.EditUserCommand}" Style="{DynamicResource Style_EditButton2}" />
 
                     <!-- Delete button -->
-                    <Button Content="Delete" Command="{Binding UserMaterialsVM.DeleteUserCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton2}" />
+                    <Button Content="Delete" Command="{Binding UserMaterialsVM.DeleteUserCommand}" Style="{DynamicResource Style_DeleteButton2}" />
                 </StackPanel>
 
                 <!-- Data table-->

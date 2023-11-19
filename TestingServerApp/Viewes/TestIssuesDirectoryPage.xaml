@@ -72,13 +72,13 @@
                 <!-- Command buttons and filter-->
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                     <!-- New button -->
-                    <Button Content="Add" Command="{Binding IssueTestsVM.AddIssuedTestCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+                    <Button Content="Add" Command="{Binding IssueTestsVM.AddIssuedTestCommand}" Style="{DynamicResource Style_AddButton}" />
 
                     <!-- Edit button -->
-                    <Button Content="Edit" Command="{Binding IssueTestsVM.EditIssuedTestCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton2}" />
+                    <Button Content="Edit" Command="{Binding IssueTestsVM.EditIssuedTestCommand}" Style="{DynamicResource Style_EditButton2}" />
 
                     <!-- Delete button -->
-                    <Button Content="Delete" Command="{Binding IssueTestsVM.DeleteIssuedTestCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton2}" />
+                    <Button Content="Delete" Command="{Binding IssueTestsVM.DeleteIssuedTestCommand}" Style="{DynamicResource Style_DeleteButton2}" />
                 </StackPanel>
 
                 <!-- Data table-->

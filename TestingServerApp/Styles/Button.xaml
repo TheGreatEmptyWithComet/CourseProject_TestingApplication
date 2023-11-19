@@ -3,10 +3,302 @@
 
     <Style TargetType="{x:Type Button}" x:Key="Style_MenuButtonBase">
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Margin" Value="5 5 0 0"/>
-        <Setter Property="Width" Value="90"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{DynamicResource Accent10Color22}"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Height="15" Width="15" Source="{TemplateBinding Tag}" Grid.Column="0"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color12}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_MenuButtonBase_Disabled">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Margin" Value="5 5 0 0"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Background" Value="{DynamicResource Accent10Color22}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Height="15" Width="15" Source="{TemplateBinding Tag}" Grid.Column="0"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color12}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!-- Disable button when no item in datagrid is selected -->
+        <Style.Triggers>
+            <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
+                <Setter Property="IsEnabled" Value="False"></Setter>
+                <Setter Property="Background" Value="{DynamicResource Main60Color}"/>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_AddButton" BasedOn="{StaticResource Style_MenuButtonBase}">
+        <!-- prevent button color change on mouseover -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                            <Image Height="15" Width="15" Source="\Images\AddButton.png" Grid.Column="0"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color2}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_DeleteButton" BasedOn="{StaticResource Style_AddButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                            <Image Height="15" Width="15" Source="\Images\DeleteButton.png" Grid.Column="0"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color3}"/>
+                                    </Trigger>
+                                    <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <!-- Disable button when no item in datagrid is selected -->
+        <Style.Triggers>
+            <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
+                <Setter Property="IsEnabled" Value="False"></Setter>
+                <Setter Property="Background" Value="{DynamicResource Main60Color}"/>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_DeleteButton2" BasedOn="{StaticResource Style_AddButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                            <Image Height="15" Width="15" Source="\Images\DeleteButton.png" Grid.Column="0"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color3}"/>
+                                    </Trigger>
+                                    <DataTrigger Binding ="{Binding ElementName=DataGrid2, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!-- Disable button when no item in datagrid is selected -->
+        <Style.Triggers>
+            <DataTrigger Binding ="{Binding ElementName=DataGrid2, Path=SelectedIndex}" Value="-1">
+                <Setter Property="IsEnabled" Value="False"></Setter>
+                <Setter Property="Background" Value="{DynamicResource Main60Color}"/>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_EditButton" BasedOn="{StaticResource Style_AddButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                            <Image Height="15" Width="15" Source="\Images\EditButton.png" Grid.Column="0"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color2}"/>
+                                    </Trigger>
+                                    
+                                    <!-- Disable button when no item in datagrid is selected -->
+                                    <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <!-- Disable button when no item in datagrid is selected --> 
+        <Style.Triggers>
+            <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
+                <Setter Property="IsEnabled" Value="False"></Setter>
+                <Setter Property="Background" Value="{DynamicResource Main60Color}"/>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_EditButton2" BasedOn="{StaticResource Style_AddButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="1"/>
+                            <Image Height="15" Width="15" Source="\Images\EditButton.png" Grid.Column="0"/>
+                        </Grid>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color2}"/>
+                                    </Trigger>
+
+                                    <!-- Disable button when no item in datagrid is selected -->
+                                    <DataTrigger Binding ="{Binding ElementName=DataGrid2, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!-- Disable button when no item in datagrid is selected -->
+        <Style.Triggers>
+            <DataTrigger Binding ="{Binding ElementName=DataGrid2, Path=SelectedIndex}" Value="-1">
+                <Setter Property="IsEnabled" Value="False"></Setter>
+                <Setter Property="Background" Value="{DynamicResource Main60Color}"/>
+                <Setter Property="FontWeight" Value="Normal"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
 
     <Style TargetType="{x:Type Button}" x:Key="Style_ExitButton" BasedOn="{StaticResource Style_MenuButtonBase}">
         <Setter Property="Margin" Value="5 5 5 5"/>
@@ -40,6 +332,12 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+
+
+
+
 
     <!-- The style is intended to multiple datagrids on different pages. To work properly datagrid name must be "DataGrid"  -->
     <Style TargetType="{x:Type Button}" x:Key="Style_MenuVisibleOnSelectionButton" BasedOn="{StaticResource Style_MenuButtonBase}">

@@ -17,6 +17,7 @@ using TestingServerApp.Viewes;
 namespace TestingServerApp
 {
     public enum RequestCode { Login, GetTests, GetAttempts, StartTest, GetResult, GetStatistic, Logout }
+    public enum UserAnswerType { Correct, Incorrect, Partial } // also used in Client app
 
     public class ClientObject
     {
@@ -26,9 +27,10 @@ namespace TestingServerApp
         private User? currentUser;
         private Random random = new Random(Environment.TickCount);
         private ShortResult? currentShortResult;
+        private List<int> userAnswersType = new List<int>();
 
-        TcpClient client;
-        Server server;
+        private TcpClient client;
+        private Server server;
 
         public ClientObject(TcpClient tcpClient, Server serverObject)
         {
@@ -272,9 +274,15 @@ namespace TestingServerApp
 
                     if (answeredQuestions != null)
                     {
-                        // Get and send test result
+                        userAnswersType.Clear();
+
+                        // Get and send test results
                         double userTestScore = EstimateAnswers(answeredQuestions!);
+                        // Send test score
                         writer.Write(userTestScore);
+                        // Send answers type (correct/incorrect/partial)
+                        string userAnswersAsJson = JsonConvert.SerializeObject(userAnswersType);
+                        writer.Write(userAnswersAsJson);
 
                         // Save results to db
                         SaveTestResults(answeredQuestions, userTestScore);
@@ -297,6 +305,7 @@ namespace TestingServerApp
 
                 if (userCorrectAnswers == 0)
                 {
+                    userAnswersType.Add((int)UserAnswerType.Incorrect);
                     continue;
                 }
 
@@ -304,10 +313,12 @@ namespace TestingServerApp
 
                 if (userWrongAnswers == 0)
                 {
+                    userAnswersType.Add((int)UserAnswerType.Correct);
                     userScore += question.QuestionWeight;
                 }
                 else if (question.MultipleAnswersAllowed == true)
                 {
+                    userAnswersType.Add((int)UserAnswerType.Partial);
                     userScore += userCorrectAnswers / (userCorrectAnswers + userWrongAnswers) * question.QuestionWeight;
                 }
             }
@@ -318,11 +329,16 @@ namespace TestingServerApp
         {
             using (Context context = new Context())
             {
-                currentShortResult.UserScores = testScore;
+                // Save user score to short result table
+                ShortResult? shortResult = context.ShortResults.Where((i) => i.Id == currentShortResult.Id).FirstOrDefault();
+                if (shortResult != null)
+                {
+                    shortResult.UserScores = testScore;
 
+                    // Save detailed results...
 
-                context.Add(currentShortResult);
-                context.SaveChanges();
+                    context.SaveChanges();
+                }
             }
         }
 

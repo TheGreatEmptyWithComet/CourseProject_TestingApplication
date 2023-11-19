@@ -17,23 +17,23 @@
 
         <!-- Catalogues and Documents -->
         <StackPanel Orientation="Vertical" Grid.Column="0">
-            <TextBlock Text="Catalogues and Documents" Margin="3" FontWeight="Bold"/>
-            <TextBlock Margin="3">
-                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestCategoriesDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Test categories</Hyperlink>
+            <TextBlock Text="Catalogues and Documents"  Style="{DynamicResource Style_MenuCategoryTextBlock}"/>
+            <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="TestCategoriesDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Test categories</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="3">
-                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Tests</Hyperlink>
+            <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
+                <Hyperlink  Command="{Binding PageNavigationCommand}" CommandParameter="TestsDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Tests</Hyperlink>
             </TextBlock>
         </StackPanel>
 
         <!-- Tests performing -->
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <TextBlock Text="Tests performing" Margin="3" FontWeight="Bold"/>
-            <TextBlock Margin="3">
-                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="TestIssuesDirectoryPage.xaml" Foreground="Black" TextDecorations="None">Issue tests</Hyperlink>
+            <TextBlock Text="Tests performing"  Style="{DynamicResource Style_MenuCategoryTextBlock}"/>
+            <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="TestIssuesDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Issue tests</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="3">
-                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Foreground="Black" TextDecorations="None">Tests results</Hyperlink>
+            <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Style="{DynamicResource Style_MenuHeaderHyperlink}">Tests results</Hyperlink>
             </TextBlock>
         </StackPanel>
 

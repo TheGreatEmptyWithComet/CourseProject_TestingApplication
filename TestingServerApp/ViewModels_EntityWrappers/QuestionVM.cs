@@ -47,7 +47,6 @@ namespace TestingServerApp
                 Model.MultipleAnswersAllowed = value;
                 NotifyPropertyChanged(nameof(Answers));
             }
-
         }
 
         public bool PartialAnswersAllowed
@@ -88,6 +87,12 @@ namespace TestingServerApp
                     return new ObservableCollection<AnswerVM>();
                 }
             }
+        }
+
+        public UserAnswerType UserAnswerType
+        {
+            get => Model.UserAnswerType;
+            set => Model.UserAnswerType = value;
         }
 
 

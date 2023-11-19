@@ -26,6 +26,9 @@ namespace TestingServerApp
         public bool PartialAnswersAllowed { get; set; } = false;
         public int QuestionWeight { get; set; }
         public Test Test { get; set; } = null!;
+        
+        [NotMapped]
+        public UserAnswerType UserAnswerType { get; set; }
 
 
         // Navigation properties
