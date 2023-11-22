@@ -10,9 +10,13 @@
   <ItemGroup>
     <None Remove="Images\1.png" />
     <None Remove="Images\2.png" />
+    <None Remove="Images\AddAnswer.png" />
+    <None Remove="Images\AddAnswer100.png" />
+    <None Remove="Images\AddAnswer40.png" />
     <None Remove="Images\AddButton.png" />
     <None Remove="Images\CloseButtonImage.png" />
     <None Remove="Images\CloseButtonImageMouseOver.png" />
+    <None Remove="Images\DeleteAnswer.png" />
     <None Remove="Images\DeleteButton.png" />
     <None Remove="Images\EditButton.png" />
     <None Remove="Images\Tests.png" />
@@ -37,6 +41,15 @@
   <ItemGroup>
     <Resource Include="Images\1.png" />
     <Resource Include="Images\2.png" />
+    <Resource Include="Images\AddAnswer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\AddAnswer100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\AddAnswer40.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\AddButton.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -45,6 +58,9 @@
     </Resource>
     <Resource Include="Images\CloseButtonImageMouseOver.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\DeleteAnswer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\DeleteButton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

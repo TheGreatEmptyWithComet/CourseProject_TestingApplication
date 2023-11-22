@@ -4,13 +4,17 @@
     <!-- Color set1 -->
     <SolidColorBrush x:Key="Main60Color" Color="#f8f8f8" />
     <SolidColorBrush x:Key="Main30Color" Color="#252C4A" />
+    <SolidColorBrush x:Key="Main30Color_light" Color="#bcc7fc" />
     <SolidColorBrush x:Key="Accent10Color1" Color="#107EEB" />
+    <SolidColorBrush x:Key="Accent10Color1_light" Color="#b4d4f5" />
     <SolidColorBrush x:Key="Accent10Color2" Color="#00CD7C" />
     <SolidColorBrush x:Key="Accent10Color3" Color="#FF4959" />
     <SolidColorBrush x:Key="Accent10Color4" Color="#6C7177" />
+    <SolidColorBrush x:Key="AmazonTextBoxFrameColor" Color="#c8f3fa"/>
+    <SolidColorBrush x:Key="AmazonTextBoxBackground" Color="#f7feff"/>
     <LinearGradientBrush StartPoint="1,0" EndPoint="1,1"  x:Key="MainBackgroundBrush">
         <GradientStop Color="#ffffff" Offset="0"/>
-        <GradientStop Color="#e5e5e5" Offset="1"/>
+        <GradientStop Color="#dee2f8" Offset="1"/>
         <!--<GradientStop Color="#e5e5e5" Offset="1"/>-->
     </LinearGradientBrush>
 

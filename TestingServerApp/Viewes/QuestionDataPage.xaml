@@ -105,7 +105,7 @@
         <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_PageErrorMessageTextBlock}" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
 
         <!-- Question data -->
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5" Padding="5">
             <StackPanel >
                 <!-- Question text -->
                 <Grid>
@@ -195,14 +195,28 @@
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Question weight:" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0"/>
-                    <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.QuestionWeight, Mode=TwoWay}" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1" />
+                    <TextBox Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.QuestionWeight, Mode=TwoWay}" Style="{DynamicResource Style_WindowTextBox}" Grid.Column="1" Width="180" HorizontalAlignment="Left"/>
                 </Grid>
 
                 <!-- Answers -->
                 <ItemsControl ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Answers}" ItemTemplateSelector="{DynamicResource externalAnswersTypetemplateSelector}"/>
 
                 <!-- New answer button -->
-                <Button Content="New answer" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddAnswerCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+                <!--<Button Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddAnswerCommand}" Style="{DynamicResource Style_RoundAnswerButton}" >
+                    <Button.Tag>
+                        <ImageSource>\Images\AddAnswer40.png</ImageSource>
+                    </Button.Tag>
+                </Button>-->
+
+                <Button Style="{DynamicResource Style_RoundAnswerButton}">
+                    <Button.Content>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="40" UriSource="\Images\AddAnswer100.png" />
+                            </Image.Source>
+                        </Image>
+                    </Button.Content>
+                </Button>
 
             </StackPanel>
 

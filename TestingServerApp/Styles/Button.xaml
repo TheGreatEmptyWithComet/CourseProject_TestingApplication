@@ -9,7 +9,14 @@
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Background" Value="{DynamicResource Accent10Color22}"/>
-        
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="3" Opacity="0.3">
+                </DropShadowEffect>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -90,6 +97,7 @@
 
 
     <Style TargetType="{x:Type Button}" x:Key="Style_AddButton" BasedOn="{StaticResource Style_MenuButtonBase}">
+
         <!-- prevent button color change on mouseover -->
         <Setter Property="Template">
             <Setter.Value>
@@ -153,7 +161,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <!-- Disable button when no item in datagrid is selected -->
         <Style.Triggers>
             <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
@@ -230,7 +238,7 @@
                                         <Setter Property="BorderThickness" Value="1"/>
                                         <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color2}"/>
                                     </Trigger>
-                                    
+
                                     <!-- Disable button when no item in datagrid is selected -->
                                     <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
                                         <Setter Property="BorderThickness" Value="1"/>
@@ -242,8 +250,8 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
-        <!-- Disable button when no item in datagrid is selected --> 
+
+        <!-- Disable button when no item in datagrid is selected -->
         <Style.Triggers>
             <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
                 <Setter Property="IsEnabled" Value="False"></Setter>
@@ -332,6 +340,93 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+    <Style TargetType="{x:Type Button}" x:Key="Style_RoundAnswerButton">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Margin" Value="5 5 5 5"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="50" BorderThickness="0">
+                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect
+                                            Opacity="0.5">
+                                        </DropShadowEffect>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+    </Style>
+
+
+
+
+
+    <!--<Setter Property="Effect">
+         <Setter.Value>
+             <DropShadowEffect
+                 ShadowDepth="0"
+                 Color="#107EEB"
+                 BlurRadius = "10"
+                 Opacity="0.5">
+             </DropShadowEffect>
+         </Setter.Value>
+     </Setter>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
