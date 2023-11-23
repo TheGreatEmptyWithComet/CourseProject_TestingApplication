@@ -35,7 +35,15 @@
             <Button Content="Delete" Command="{Binding TestMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_DeleteButton}" />
 
             <!-- Questions button -->
-            <Button Content="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuButtonBase_Disabled}"/>
+            <Button Tag="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuButtonBase_Disabled}">
+                <Button.Content>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Questions_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <!-- Data table -->

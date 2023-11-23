@@ -79,24 +79,58 @@
 
             <!-- Save and exit button -->
             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Button Content="Save and exit" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}"  HorizontalAlignment="Left"/>
-                <Button Content="Save" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionWithoutExitingCommand}" Style="{DynamicResource Style_MenuButtonBase}" HorizontalAlignment="Left"/>
+                <Button Tag="Save and exit" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionEndExitCommand}" 
+                        Style="{DynamicResource Style_MenuButtonBase}"  
+                        HorizontalAlignment="Left" Width="140">
+                    <Button.Content>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Button.Content>
+                </Button>
+                <Button Tag="Save" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionWithoutExitingCommand}" Style="{DynamicResource Style_MenuButtonBase}" HorizontalAlignment="Left">
+                    <Button.Content>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Button.Content>
+                </Button>
             </StackPanel>
             <!-- Questions index -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" >
-                <TextBlock Text="Question "/>
-                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestionPosition, Converter={StaticResource intToIntIncrementConverter}}"/>
-                <TextBlock Text=" of "/>
-                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.QuestionsCount}"/>
+                <TextBlock Text="Question " FontWeight="Bold" Foreground="{DynamicResource Accent10Color1}"/>
+                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestionPosition, Converter={StaticResource intToIntIncrementConverter}}" FontWeight="Bold" Foreground="{DynamicResource Accent10Color1}"/>
+                <TextBlock Text=" of " FontWeight="Bold" Foreground="{DynamicResource Accent10Color1}"/>
+                <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.QuestionsCount}" FontWeight="Bold" Foreground="{DynamicResource Accent10Color1}"/>
 
             </StackPanel>
 
             <!-- Previous/Next question buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2" >
                 <!-- Questions button -->
-                <Button Content="Prev question" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.PreviousQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+                <Button Tag="Previous" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.PreviousQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" >
+                    <Button.Content>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="20" UriSource="\Images\Previous_100.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Button.Content>
+                </Button>
                 <!-- Questions button -->
-                <Button Content="Next question" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.NewOrNextQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+                <Button Tag="Next" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.NewOrNextQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" >
+                    <Button.Content>
+                        <Image>
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="20" UriSource="\Images\Next_100.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Button.Content>
+                </Button>
             </StackPanel>
 
         </Grid>
@@ -105,7 +139,7 @@
         <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_PageErrorMessageTextBlock}" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
 
         <!-- Question data -->
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5" Padding="5">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0 5 5 5" Padding="5">
             <StackPanel >
                 <!-- Question text -->
                 <Grid>
@@ -128,8 +162,29 @@
 
                     <!-- Load & delete image buttons -->
                     <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Left">
-                        <Button Content="Load image" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadImageCommand}" Style="{DynamicResource Style_MenuButtonBase}" ToolTip="Max image size = 1 Mb" Margin="0 5 5 5"/>
-                        <Button Content="Delete image" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5">
+                        <Button Tag="Load image" 
+                                Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadImageCommand}" 
+                                Style="{DynamicResource Style_MenuButtonBase}" 
+                                ToolTip="Max image size = 1 Mb" 
+                                Width="140"
+                                Margin="0 5 5 5">
+                            <Button.Content>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelWidth="20" UriSource="\Images\Load_100.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Tag="Delete image" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5"  Width="140">
+                            <Button.Content>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelWidth="20" UriSource="\Images\delete2_100.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button.Content>
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Style_MenuButtonBase}">
                                     <Style.Triggers>

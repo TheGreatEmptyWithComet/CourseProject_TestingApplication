@@ -35,7 +35,15 @@
             <Button Content="Delete" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteCommand}" Style="{DynamicResource Style_DeleteButton}" />
 
             <!-- Load from Json button -->
-            <Button Content="Load from Json" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadFromJsonCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="120"/>
+            <Button Tag="Load from Json" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadFromJsonCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="150">
+                <Button.Content>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Load_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <!-- Error message -->

@@ -26,10 +26,26 @@
         <!-- Command buttons -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <!-- Save and exit button -->
-            <Button Content="Save and exit" Command="{Binding TestMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" />
+            <Button Tag="Save and exit" Command="{Binding TestMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="140">
+                <Button.Content>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
 
             <!-- Questions button -->
-            <Button Content="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuVisibleOnSelectionButton}" />
+            <Button Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuButtonBase}" Tag="Questions" Width="140">
+                <Button.Content>
+                    <Image>
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Questions_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
 
         </StackPanel>
 
@@ -117,8 +133,23 @@
 
                     <!-- Load/Delete buttons -->
                     <StackPanel Orientation="Vertical">
-                        <Button Content="Load image" Command="{Binding TestMaterialsVM.LoadImageCommand}" Style="{DynamicResource Style_MenuButtonBase}" ToolTip="Max image size = 1 Mb" Margin="0 0 5 5"/>
-                        <Button Content="Delete image" Command="{Binding TestMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5">
+                        <Button Tag="Load image" Command="{Binding TestMaterialsVM.LoadImageCommand}" Style="{DynamicResource Style_MenuButtonBase}" ToolTip="Max image size = 1 Mb" Margin="0 0 5 5" Width="140">
+                            <Button.Content>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelWidth="20" UriSource="\Images\Load_100.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button.Content>
+                        </Button>
+                        <Button Tag="Delete image" Command="{Binding TestMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5" Width="140">
+                            <Button.Content>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelWidth="20" UriSource="\Images\Delete2_100.png"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button.Content>
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Style_MenuButtonBase}">
                                     <Style.Triggers>
@@ -133,7 +164,7 @@
 
                 </StackPanel>
             </Grid>
-            
+
             <!-- Error message -->
             <TextBlock Text="{Binding TestMaterialsVM.ErrorMessage}" Style="{DynamicResource Style_PageErrorMessageTextBlock}"/>
         </StackPanel>

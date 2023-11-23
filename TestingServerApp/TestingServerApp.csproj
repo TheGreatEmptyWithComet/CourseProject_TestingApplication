@@ -16,9 +16,18 @@
     <None Remove="Images\AddButton.png" />
     <None Remove="Images\CloseButtonImage.png" />
     <None Remove="Images\CloseButtonImageMouseOver.png" />
+    <None Remove="Images\Delete2_100.png" />
+    <None Remove="Images\Delete3_100.png" />
     <None Remove="Images\DeleteAnswer.png" />
     <None Remove="Images\DeleteButton.png" />
     <None Remove="Images\EditButton.png" />
+    <None Remove="Images\Load_100.png" />
+    <None Remove="Images\Next_100.png" />
+    <None Remove="Images\Previous_100.png" />
+    <None Remove="Images\Questions2_100.png" />
+    <None Remove="Images\Questions_100.png" />
+    <None Remove="Images\Save2_100.png" />
+    <None Remove="Images\Save_100.png" />
     <None Remove="Images\Tests.png" />
     <None Remove="Images\Users.png" />
   </ItemGroup>
@@ -59,6 +68,9 @@
     <Resource Include="Images\CloseButtonImageMouseOver.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Delete2_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\DeleteAnswer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -68,10 +80,37 @@
     <Resource Include="Images\EditButton.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Load_100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Next_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Previous_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Questions2_100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Questions_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Save2_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Save_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Tests.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Users.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Delete3_100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
