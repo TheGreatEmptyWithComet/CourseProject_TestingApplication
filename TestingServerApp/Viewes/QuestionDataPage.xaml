@@ -25,7 +25,7 @@
                         <RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay}" VerticalAlignment="Center" GroupName="UserAnswers" />
                     </Viewbox>
                     <!-- Answer text -->
-                    <TextBox Text="{Binding Text}" x:Name="item" Style="{DynamicResource Style_WindowTextBox}" Margin="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Text, Mode=TwoWay}" x:Name="item" Style="{DynamicResource Style_WindowTextBox}" Margin="0" VerticalAlignment="Center"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -257,13 +257,7 @@
                 <ItemsControl ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion.Answers}" ItemTemplateSelector="{DynamicResource externalAnswersTypetemplateSelector}"/>
 
                 <!-- New answer button -->
-                <!--<Button Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddAnswerCommand}" Style="{DynamicResource Style_RoundAnswerButton}" >
-                    <Button.Tag>
-                        <ImageSource>\Images\AddAnswer40.png</ImageSource>
-                    </Button.Tag>
-                </Button>-->
-
-                <Button Style="{DynamicResource Style_RoundAnswerButton}">
+                <Button Style="{DynamicResource Style_RoundAnswerButton}" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddAnswerCommand}">
                     <Button.Content>
                         <Image>
                             <Image.Source>

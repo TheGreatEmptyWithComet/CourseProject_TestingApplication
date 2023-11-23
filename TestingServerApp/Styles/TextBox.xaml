@@ -9,8 +9,8 @@
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Border BorderThickness="3" CornerRadius="7">
                         <Border BorderThickness="1" CornerRadius="5">
-                            
-                            <TextBox Text="{TemplateBinding Text}" BorderThickness="0" Background="Transparent" Padding="3" TextWrapping="WrapWithOverflow"/>
+
+                            <TextBox Text="{Binding Path=Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" BorderThickness="0" Background="Transparent" Padding="3" TextWrapping="WrapWithOverflow"/>
                             
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">

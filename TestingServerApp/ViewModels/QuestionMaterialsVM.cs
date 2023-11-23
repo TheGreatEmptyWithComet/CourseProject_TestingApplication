@@ -181,8 +181,11 @@ namespace TestingServerApp
         }
         private void SaveQuestionEndExit()
         {
-            SaveQuestionWithoutExiting();
-            OpenPage("QuestionsDirectoryPage.xaml");
+            if (QuestionDataIsCorrect())
+            {
+                SaveChangesAndLoadFromContext();
+                OpenPage("QuestionsDirectoryPage.xaml");
+            }
         }
         private void SaveQuestionWithoutExiting()
         {
@@ -207,7 +210,7 @@ namespace TestingServerApp
             OnCurrentPageChanged?.Invoke(pageName);
         }
 
-        
+
         // QUESTION
         /****************************************************************************************/
         private void AddNewQuestion()
@@ -236,7 +239,7 @@ namespace TestingServerApp
         {
             // Can be out of range error
             try
-            {   
+            {
                 currentQuestionPosition = allQuestions.IndexOf(CurrentQuestion.Model);
                 CurrentQuestion = Questions[currentQuestionPosition];
 
