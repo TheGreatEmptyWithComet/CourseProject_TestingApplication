@@ -1,0 +1,29 @@
+﻿<Application x:Class="TestingClientApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TestingClientApp"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             StartupUri="View/BaseView.xaml">
+
+    <Application.Resources>
+        
+        <ResourceDictionary>
+            <!-- Create instance of base view model for using in all pages-->
+            <local:BaseVM x:Key="baseVM"/>
+            
+            <!-- Converters -->
+            <local:IntToIntIncrementConverter x:Key="intToIntIncrementConverter"/>
+            <local:TimeToTimeTimeSpanToStringConverter x:Key="timeToTimeTimeSpanToStringConverter"/>
+
+            <!-- Styles -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Button.xaml"/>
+                <ResourceDictionary Source="Styles/TextBlock.xaml"/>
+                <ResourceDictionary Source="Styles/TextBox.xaml"/>
+                <ResourceDictionary Source="Styles/PasswordBox.xaml"/>
+                <ResourceDictionary Source="Styles/ListView.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

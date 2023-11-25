@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Data Source=C:\\Users\\Munhausen\\source\\repos\\CourseProject_TestingApplication\\TestingServerApp\\TestingAppDataBase.db"
+    "DefaultConnection": "Data Source=TestingAppDataBase.db"
   },
   "DbExternalFiles": {
     "TestImagesPath": "DbExternalFiles\\TestImages",

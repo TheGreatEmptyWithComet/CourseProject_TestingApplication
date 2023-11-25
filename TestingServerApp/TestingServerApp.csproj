@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\1.png" />
-    <None Remove="Images\2.png" />
     <None Remove="Images\AddAnswer.png" />
     <None Remove="Images\AddAnswer100.png" />
     <None Remove="Images\AddAnswer40.png" />
@@ -25,16 +23,20 @@
     <None Remove="Images\DeleteButton.png" />
     <None Remove="Images\EditButton.png" />
     <None Remove="Images\Load_100.png" />
+    <None Remove="Images\Login_100.png" />
     <None Remove="Images\Next_100.png" />
     <None Remove="Images\Previous_100.png" />
     <None Remove="Images\Questions2_100.png" />
     <None Remove="Images\Questions_100.png" />
     <None Remove="Images\Save2_100.png" />
     <None Remove="Images\Save_100.png" />
+    <None Remove="Images\StartPageLogoImage.jpg" />
+    <None Remove="Images\StartPageLogoImage2.jpg" />
     <None Remove="Images\Tests.png" />
     <None Remove="Images\Tests_100.png" />
     <None Remove="Images\Users.png" />
     <None Remove="Images\User_100.png" />
+    <None Remove="TestingAppDataBase.db" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,8 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\1.png" />
-    <Resource Include="Images\2.png" />
     <Resource Include="Images\AddAnswer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -97,6 +97,9 @@
     <Resource Include="Images\Load_100.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Login_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Next_100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -115,6 +118,12 @@
     <Resource Include="Images\Save_100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\StartPageLogoImage.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\StartPageLogoImage2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Tests.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -131,6 +140,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\User_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="TestingAppDataBase.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

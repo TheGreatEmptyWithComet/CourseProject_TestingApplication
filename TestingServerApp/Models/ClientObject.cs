@@ -115,6 +115,10 @@ namespace TestingServerApp
                             writer.Write(false);
                         }
                     }
+                    else
+                    {
+                        writer.Write(false);
+                    }
                 }
             }
             catch (Exception e) { LogWriter.Write($"{e.Message}\r\n{e.InnerException}"); }
@@ -128,7 +132,7 @@ namespace TestingServerApp
                     if (currentUser != null)
                     {
                         List<TestInfo> testsInfo = context.IssuedTests
-                            .Where((it) => it.UserGroup == currentUser.UserGroup && it.ExpiredDate>=DateTime.Now)
+                            .Where((it) => it.UserGroup == currentUser.UserGroup && it.ExpiredDate >= DateTime.Now)
                             .Select((it) => new TestInfo()
                             {
                                 Id = it.Test.Id,
@@ -173,7 +177,8 @@ namespace TestingServerApp
                 {
                     int allAttempts = context.IssuedTests.Where((it) => it.UserGroup == currentUser.UserGroup).Select((it) => it.AttemptsAmount).FirstOrDefault();
                     int usedAttempts = context.ShortResults.Count((r) => r.Test.Id == testId && r.User.Id == currentUser.Id);
-                    return allAttempts - usedAttempts;
+                    int attempts = (allAttempts - usedAttempts) >= 0 ? (allAttempts - usedAttempts) : 0;
+                    return attempts;
                 }
                 catch (Exception e) { return 0; }
             }

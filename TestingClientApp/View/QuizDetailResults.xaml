@@ -1,0 +1,167 @@
+﻿<Page x:Class="TestingClientApp.QuizDetailResults"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestingClientApp"
+      xmlns:server="clr-namespace:TestingServerApp;assembly=TestingServerApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="QuizDetailResults"
+      DataContext="{StaticResource baseVM}">
+
+    <Page.Resources>
+        <!-- Single answer template -->
+        <DataTemplate x:Key="AnswerTemplate_Single">
+            <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="AntiqueWhite">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Viewbox Height="25" Margin="0 0 15 0">
+                        <RadioButton IsChecked="{Binding IsUserAnswered, Mode=TwoWay}" IsEnabled="True" GroupName="UserAnswers" Focusable="False" IsHitTestVisible="False"/>
+                    </Viewbox>
+                    <TextBlock Text="{Binding Text}" x:Name="item">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Style_AnswerOptionTextBlock_White}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                        <Setter Property="Foreground" Value="red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- Multiple answers template -->
+        <DataTemplate x:Key="AnswerTemplate_Multiple">
+            <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="AntiqueWhite">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Viewbox Height="25" Margin="0 0 15 0">
+                        <CheckBox IsChecked="{Binding IsUserAnswered, Mode=TwoWay}" IsEnabled="True" Focusable="False" IsHitTestVisible="False" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Text}" x:Name="item">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Style_AnswerOptionTextBlock_White}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCorrect}" Value="True">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <local:ExternalAnswersTypetemplateSelector x:Key="externalAnswersTypetemplateSelector"
+                                                   SingleQuestionDateTemplate="{StaticResource AnswerTemplate_Single}"
+                                                   MultipleQuestionsDateTemplate="{StaticResource AnswerTemplate_Multiple}"/>
+
+    </Page.Resources>
+
+
+    <!-- Mark of the correct answer -->
+    <DockPanel Background="WhiteSmoke" >
+        <Border DockPanel.Dock="Top" Background="#ffffff" CornerRadius="5" Margin="7 7 7 0" Padding="7" Height="75">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="auto">
+
+                <!-- Image -->
+                <Image Width="60" Height="60" Margin="0 0 15 0">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="/Images/CorrectAnswer.png"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding QuizPerformVM.Quiz.QuestionForQuiz/UserAnswerType}" Value="{x:Static server:UserAnswerType.Incorrect}">
+                                    <Setter Property="Source" Value="/Images/WrongAnswer.png"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding QuizPerformVM.Quiz.QuestionForQuiz/UserAnswerType}" Value="{x:Static server:UserAnswerType.Partial}">
+                                    <Setter Property="Source" Value="/Images/PartialAnswer.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+
+                <!-- Text -->
+                <TextBlock VerticalAlignment="Center" FontSize="40" FontWeight="Bold">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="Correct"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding QuizPerformVM.Quiz.QuestionForQuiz/UserAnswerType}" Value="{x:Static server:UserAnswerType.Incorrect}">
+                                    <Setter Property="Text" Value="Incorrect"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding QuizPerformVM.Quiz.QuestionForQuiz/UserAnswerType}" Value="{x:Static server:UserAnswerType.Partial}">
+                                    <Setter Property="Text" Value="Partial"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <!-- Navigation butttons and question index -->
+        <Border DockPanel.Dock="Top" Background="#ffffff" CornerRadius="5" Margin="7 7 7 0" Padding="7" Height="70">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <!-- Exit quiz buttton -->
+                <Button Grid.Column="0" 
+                        HorizontalAlignment="Left"
+                        Style="{DynamicResource Style_Button_Rounded_Black}"
+                        Command="{Binding PageNavigationCommand}" 
+                        CommandParameter="QuizMenu.xaml">Exit quiz</Button>
+
+                <!-- Current question index -->
+                <StackPanel Orientation="Horizontal"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding QuizPerformVM.Quiz.QuestionForQuiz.CurrentPosition, Converter={StaticResource intToIntIncrementConverter},StringFormat='Question {0} of '}"
+                               Style="{DynamicResource Style_InfoTextBlock_White}"/>
+                    <TextBlock Text="{Binding QuizPerformVM.Quiz.QuestionForQuiz.Count}"
+                               Style="{DynamicResource Style_InfoTextBlock_White}"/>
+                </StackPanel>
+
+                <!-- Navigation butttons -->
+                <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
+                    <Button Content="Prev " 
+                            Command="{Binding QuizPerformVM.PreviousQuestionCommand}"
+                            Width="110"
+                            Margin="0 0 10 0"
+                            Style="{DynamicResource Style_Button_Long_Rounded_Purple_Blue}"/>
+
+                    <Button Content="Next "
+                            Command="{Binding QuizPerformVM.NextQuestionCommand}"
+                            Width="110"
+                            Style="{DynamicResource Style_Button_Long_Rounded_Purple_Blue}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- QUIZ -->
+        <Border Background="#ffffff" CornerRadius="5" Margin="7 7 7 7" Padding="7" >
+            <StackPanel  Orientation="Vertical" Width="700" HorizontalAlignment="Center" Margin="0 10 0 0">
+                <!-- Question -->
+                <TextBlock Text="{Binding QuizPerformVM.Quiz.QuestionForQuiz/Text}"
+                           FontSize="26"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           TextWrapping="WrapWithOverflow"
+                           Margin="0 5 0 20"
+                           Foreground="#1ed760"
+                           FontWeight="Bold"/>
+
+                <!-- Answer options -->
+                <ScrollViewer VerticalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding QuizPerformVM.Quiz.QuestionForQuiz/Answers}" ItemTemplateSelector="{DynamicResource externalAnswersTypetemplateSelector}"/>
+                </ScrollViewer>
+            </StackPanel>
+        </Border>
+
+    </DockPanel>
+</Page>

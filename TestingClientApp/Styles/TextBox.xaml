@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <!-- LOGIN TEXTBOX BASE BLACK -->
+    <Style TargetType="{x:Type TextBox}" x:Key="Style_LoginBaseTextBox_Black">
+        <Setter Property="Background" Value="#121212"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="#ffffff"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- LOGIN PASSWORD TEXTBOX BLACK -->
+    <Style TargetType="{x:Type TextBox}" x:Key="Style_LoginPasswordTextBox_Black" BasedOn="{StaticResource Style_LoginBaseTextBox_Black}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding SignupLoginVM.PasswordIsVisible}" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- LOGIN PASSWORD TEXTBOX WHITE -->
+    <Style TargetType="{x:Type TextBox}" x:Key="Style_LoginPasswordTextBox_White" BasedOn="{StaticResource Style_LoginPasswordTextBox_Black}">
+        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="Foreground" Value="#121212"/>
+    </Style>
+
+
+    <!-- LOGIN TEXTBOX BLACK -->
+    <Style TargetType="{x:Type TextBox}" x:Key="Style_LoginTextBox_Black" BasedOn="{StaticResource Style_LoginBaseTextBox_Black}">
+     
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#727272"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <!-- Modify default template, to change triggers -->
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <!-- PART_ContentHost - A visual element that can contain a FrameworkElement. The text of the TextBox is displayed in this element.-->
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                                        
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="#ffffff"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="#ffffff"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- LOGIN TEXTBOX WHITE -->
+    <Style TargetType="{x:Type TextBox}" x:Key="Style_LoginTextBox_White" BasedOn="{StaticResource Style_LoginBaseTextBox_Black}">
+
+        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="Foreground" Value="#121212"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#878787"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <!-- Modify default template, to change triggers -->
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <!-- PART_ContentHost - A visual element that can contain a FrameworkElement. The text of the TextBox is displayed in this element.-->
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="#000000"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="#000000"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

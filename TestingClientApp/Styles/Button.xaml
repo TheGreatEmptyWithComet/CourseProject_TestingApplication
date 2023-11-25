@@ -1,0 +1,119 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <!-- ROUNDED BUTTON WHITE -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_Rounded_White">
+        <Setter Property="Width" Value="110"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Background" Value="WhiteSmoke"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+        <!-- prevent button color change on mouseover -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="25">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!-- change button on mouseover -->
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ROUNDED BUTTON BLACK -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_Rounded_Black" BasedOn="{StaticResource Style_Button_Rounded_White}">
+        <Setter Property="Background" Value="#101010"/>
+        <Setter Property="Foreground" Value="#a7a7a7"/>
+
+        <!-- change button on mouseover -->
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="#ffffff"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ROUNDED BUTTON GREEN -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_Rounded_Green" BasedOn="{StaticResource Style_Button_Rounded_White}">
+        <Setter Property="Background" Value="#1ed760"/>
+        <Setter Property="Foreground" Value="#000000"/>
+    </Style>
+
+
+    <!-- ROUNDED LONG BUTTON PURPLE BLUE -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_Long_Rounded_Purple_Blue" BasedOn="{StaticResource Style_Button_Rounded_White}">
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                    <GradientStop Color="#ae2997" Offset="0"/>
+                    <GradientStop Color="#509af5" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="#ffffff"/>
+    </Style>
+
+    <!-- ROUNDED LONG BUTTON WHITE -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_Long_Rounded_White" BasedOn="{StaticResource Style_Button_Long_Rounded_Purple_Blue}">
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="Foreground" Value="#000000"/>
+    </Style>
+
+
+    <!-- PASSWORD HIDE BUTTON BLACK -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_PasswordVisibility_Black">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="40"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="#121212">
+                        <Image Source="/Images/PasswordHiddenWhite.png" x:Name="eyeImage" Margin="5"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding SignupLoginVM.PasswordIsVisible}" Value="True">
+                                <Setter TargetName="eyeImage" Property="Source" Value="/Images/PasswordVisibleWhite.png"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- PASSWORD HIDE BUTTON WHITE -->
+    <Style TargetType="{x:Type Button}" x:Key="Style_Button_PasswordVisibility_White" BasedOn="{StaticResource Style_Button_PasswordVisibility_Black}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="#ffffff">
+                        <Image Source="/Images/PasswordHiddenBlack.png" x:Name="eyeImage" Margin="5"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding SignupLoginVM.PasswordIsVisible}" Value="True">
+                            <Setter TargetName="eyeImage" Property="Source" Value="/Images/PasswordVisibleBlack.png"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

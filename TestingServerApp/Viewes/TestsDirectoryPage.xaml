@@ -7,6 +7,7 @@
       mc:Ignorable="d"
       DataContext="{StaticResource baseVM}"
       d:DesignHeight="450" d:DesignWidth="800"
+      Margin="15 10 15 10"
       Title="TestsListPage">
 
     <DockPanel>

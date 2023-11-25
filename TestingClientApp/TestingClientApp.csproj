@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>EXAM_QuizApplication</RootNamespace>
+    <AssemblyName>EXAM_QuizApplication</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Images\PartialAnswer.png" />
+    <None Remove="Properties\Settings.settings" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Appconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CorrectAnswer.png" />
+    <Resource Include="Images\PartialAnswer.png" />
+    <Resource Include="Images\WrongAnswer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StartLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UserIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PasswordHiddenBlack.png" />
+    <Resource Include="Images\PasswordHiddenWhite.png" />
+    <Resource Include="Images\PasswordVisibleBlack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PasswordVisibleWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NextArrow.png" />
+    <Resource Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CourseProject_TestingApplication\TestingServerApp\TestingServerApp.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

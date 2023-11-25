@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <!-- LOGIN SIGN TEXTBLOCK WHITE -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="Style_LoginTextBlock_White">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Margin" Value="0 15 0 10"/>
+        <Setter Property="Foreground" Value="#ffffff"/>
+    </Style>
+
+    <!-- LOGIN SIGN TEXTBLOCK BLACK -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="Style_LoginTextBlock_Back" BasedOn="{StaticResource Style_LoginTextBlock_White}">
+        <Setter Property="Foreground" Value="#000000"/>
+        <Setter Property="Margin" Value="0 10 0 5"/>
+    </Style>
+
+    <!-- INFO TEXTBLOCK WHITE -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="Style_InfoTextBlock_White">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
+    <!-- INFO TEXTBLOCK GREEN -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="Style_InfoTextBlock_Green" BasedOn="{StaticResource Style_InfoTextBlock_White}">
+        <Setter Property="Foreground" Value="#1ed760"/>
+    </Style>
+
+    <!-- INFO HEADER TEXTBLOCK WHITE -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="Style_InfoHeaderTextBlock_White">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Foreground" Value="#1ed760"/>
+    </Style>
+
+    <!-- ANSWER OPTION TEXTBLOCK WHITE -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="Style_AnswerOptionTextBlock_White">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
+</ResourceDictionary>

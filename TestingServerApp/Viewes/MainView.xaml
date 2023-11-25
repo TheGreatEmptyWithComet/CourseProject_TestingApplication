@@ -11,6 +11,16 @@
     <DockPanel>
         <!-- Main menu -->
         <Menu DockPanel.Dock="Top" Background="{DynamicResource Main30Color}" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource Main60Color}">
+            <Menu.Style>
+                <Style TargetType="{x:Type Menu}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MenuIsVisibile}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.Style>
             <!-- Users -->
             <MenuItem Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml" BorderThickness="0" Cursor="Hand">
                 <MenuItem.Header>
@@ -60,6 +70,6 @@
             </MenuItem>
         </Menu>
 
-        <Frame Source="{Binding CurrentPage}" NavigationUIVisibility="Hidden" Margin="15 10 15 10"/>
+        <Frame Source="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
     </DockPanel>
 </Window>

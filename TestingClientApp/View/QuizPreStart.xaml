@@ -1,0 +1,81 @@
+﻿<Page x:Class="TestingClientApp.QuizPreStart"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestingClientApp"
+      xmlns:properties="clr-namespace:TestingClientApp.Properties"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="QuizPreStart"
+      Background="AliceBlue"
+      DataContext="{StaticResource baseVM}">
+
+
+    <Grid Background="#ffffff">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- Back to menu button -->
+        <Button HorizontalAlignment="Left"
+                    Grid.Row="0" 
+                    Margin="25 15 0 15"
+                    Style="{StaticResource Style_Button_Rounded_White}"
+                    Background="WhiteSmoke"
+                    Command="{Binding PageNavigationCommand}" CommandParameter="QuizMenu.xaml">Back</Button>
+
+        <!-- Main info -->
+        <StackPanel Orientation="Vertical" Margin="0 10 0 10" Grid.Row="1">
+
+            <!-- Test name -->
+            <TextBlock HorizontalAlignment="Center" 
+                       Style="{DynamicResource Style_InfoTextBlock_White}">Test:</TextBlock>
+
+            <TextBlock HorizontalAlignment="Center"
+                       Margin="0 10 0 0"
+                       Style="{DynamicResource Style_InfoHeaderTextBlock_White}" 
+                       Text="{Binding Quiz.CurrentTest.Name}"/>
+
+            <!-- Time for test -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
+                <TextBlock HorizontalAlignment="Right" Style="{DynamicResource Style_InfoTextBlock_White}" Margin="0 0 5 0">Time for a test, min:</TextBlock>
+                <TextBlock  Style="{DynamicResource Style_InfoTextBlock_Green}" Text="{Binding Quiz.CurrentTest.MinutsForTest}"/>
+            </StackPanel>
+
+            <!-- Amount of questions -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                <TextBlock HorizontalAlignment="Right" Style="{DynamicResource Style_InfoTextBlock_White}" Margin="0 0 5 0">Amount of questions:</TextBlock>
+                <TextBlock  Style="{DynamicResource Style_InfoTextBlock_Green}" Text="{Binding Quiz.CurrentTest.QuestionsAmountForTest}"/>
+            </StackPanel>
+
+            <!-- Total score -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                <TextBlock HorizontalAlignment="Right" Style="{DynamicResource Style_InfoTextBlock_White}" Margin="0 0 5 0">Total score:</TextBlock>
+                <TextBlock  Style="{DynamicResource Style_InfoTextBlock_Green}" Text="{Binding Quiz.CurrentTest.MaxTestScores}"/>
+            </StackPanel>
+
+            <!-- Attempts left -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
+                <TextBlock HorizontalAlignment="Right" Style="{DynamicResource Style_InfoTextBlock_White}" Margin="0 0 5 0">Attempts left:</TextBlock>
+                <TextBlock  Style="{DynamicResource Style_InfoTextBlock_Green}" Text="{Binding Quiz.CurrentTest.AttemptsLeft}"/>
+            </StackPanel>
+
+            <!-- Expired date left -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 10">
+                <TextBlock HorizontalAlignment="Right" Style="{DynamicResource Style_InfoTextBlock_White}" Margin="0 0 5 0">Expired date:</TextBlock>
+                <TextBlock  Style="{DynamicResource Style_InfoTextBlock_Green}" Text="{Binding Quiz.CurrentTest.ExiredDate, StringFormat='dd.MM.yyyy'}"/>
+            </StackPanel>
+
+            <!-- Statr quiz button -->
+            <Button HorizontalAlignment="Center" 
+                    Style="{DynamicResource Style_Button_Long_Rounded_Purple_Blue}"
+                    Width="200"
+                    Margin="40"
+                    Command="{Binding QuizPerformVM.StartTestCommand}" >Start test</Button>
+
+        </StackPanel>
+
+    </Grid>
+</Page>

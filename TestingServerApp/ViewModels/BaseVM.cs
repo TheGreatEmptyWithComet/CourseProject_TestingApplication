@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static CommunityToolkit.Mvvm.ComponentModel.__Internals.__TaskExtensions.TaskAwaitableWithoutEndValidation;
 
 namespace TestingServerApp
 {
@@ -30,6 +31,18 @@ namespace TestingServerApp
                 NotifyPropertyChanged(nameof(CurrentPage));
             }
         }
+        private bool menuIsVisibile = false;
+        public bool MenuIsVisibile
+        {
+            get { return menuIsVisibile; }
+            set
+            {
+                menuIsVisibile = value;
+                NotifyPropertyChanged(nameof(MenuIsVisibile));
+            }
+        }
+        public string Login { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
         #endregion
 
 
@@ -46,6 +59,7 @@ namespace TestingServerApp
         #region Commands
         /****************************************************************************************/
         public ICommand PageNavigationCommand { get; private set; }
+        public ICommand LoginCommand { get; private set; }
         public ICommand AtExitCommand { get; private set; }
 
         #endregion
@@ -58,7 +72,7 @@ namespace TestingServerApp
             context = new Context();
 
             // Set the start page
-            CurrentPage = "UsersMenuPage.xaml";
+            CurrentPage = "StartPage.xaml";
 
             // Init inner view models
             TestCategoriesVM = new TestCategoriesVM(context);
@@ -87,8 +101,26 @@ namespace TestingServerApp
         {
             PageNavigationCommand = new RelayCommand<string>(p => CurrentPage = p);
             AtExitCommand = new RelayCommand(AtExit);
+            LoginCommand = new RelayCommand(LoginMethod);
         }
 
+        private void LoginMethod()
+        {
+            using (Context context = new Context())
+            {
+                var currentUser = context.Users.Where((u) => u.Login == Login && u.UserGroup.Name == "Administrator").FirstOrDefault();
+                if (currentUser != null)
+                {
+                    string checkedPasswordHash = PasswordEncryption.GetPasswordHash(Password, currentUser.PasswordSalt);
+
+                    if (checkedPasswordHash == currentUser.PasswordHash)
+                    {
+                        MenuIsVisibile = true;
+                        CurrentPage = "UsersMenuPage.xaml";
+                    }
+                }
+            }
+        }
         // release context resources
         private void AtExit()
         {
