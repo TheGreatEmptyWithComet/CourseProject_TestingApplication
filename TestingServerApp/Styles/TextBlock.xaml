@@ -16,7 +16,7 @@
 
     <Style TargetType="{x:Type TextBlock}" x:Key="Style_WindowErrorMessageTextBlock">
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="Foreground" Value="{DynamicResource Accent10Color3}"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         <Setter Property="Margin" Value="0 0 0 15"/>
     </Style>

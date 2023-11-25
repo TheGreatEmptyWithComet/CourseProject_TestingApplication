@@ -37,7 +37,7 @@
             <!-- Load from Json button -->
             <Button Tag="Load from Json" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.LoadFromJsonCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="150">
                 <Button.Content>
-                    <Image>
+                    <Image Width="18">
                         <Image.Source>
                             <BitmapImage DecodePixelWidth="20" UriSource="\Images\Load_100.png"/>
                         </Image.Source>
@@ -48,22 +48,33 @@
 
         <!-- Error message -->
         <TextBlock Text="{Binding TestMaterialsVM.QuestionMaterialsVM.ErrorMessage }" Style="{DynamicResource Style_PageErrorMessageTextBlock}" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
-        
+
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" 
-                  Style="{DynamicResource Style_DataGridBase}" 
-                  AlternationCount="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"
-                  ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions}" 
-                  SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion}"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
-                <DataGridTextColumn Header="Text" Binding="{Binding Path=Text}" />
-                <DataGridTextColumn Header="Answers" Binding="{Binding Path=Answers.Count}" Width="*"/>
-                <DataGridTextColumn Header="Question weight" Binding="{Binding Path=QuestionWeight}" Width="*"/>
-                <DataGridCheckBoxColumn Header="Partial answer allower" Binding="{Binding Path=PartialAnswersAllowed}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Border Style="{DynamicResource Style_ElementsBorder_General}">
+            <Grid>
+              <Border Name="mask" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                <StackPanel>
+                    <StackPanel.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=mask}"/>
+                    </StackPanel.OpacityMask>
+
+                    <DataGrid x:Name="DataGrid" 
+                              Style="{DynamicResource Style_DataGridBase}" 
+                              AlternationCount="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions.Count}"
+                              ItemsSource="{Binding TestMaterialsVM.QuestionMaterialsVM.Questions}" 
+                              SelectedItem="{Binding TestMaterialsVM.QuestionMaterialsVM.CurrentQuestion}"
+                              MouseDoubleClick="DataGrid_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                            <DataGridTextColumn Header="Text" Binding="{Binding Path=Text}" />
+                            <DataGridTextColumn Header="Answers" Binding="{Binding Path=Answers.Count}" Width="*"/>
+                            <DataGridTextColumn Header="Question weight" Binding="{Binding Path=QuestionWeight}" Width="*"/>
+                            <DataGridCheckBoxColumn Header="Partial answer allower" Binding="{Binding Path=PartialAnswersAllowed}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
 
     </DockPanel>
 </Page>

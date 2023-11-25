@@ -31,9 +31,13 @@
             <!-- Tests -->
             <DockPanel Grid.Column="0">
                 <!-- Test category header -->
-                <TextBlock Text="Category:" DockPanel.Dock="Top" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 0" />
+                <TextBlock Text="Category:" DockPanel.Dock="Top" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 5" />
                 <!-- Test category selection -->
-                <ComboBox ItemsSource="{Binding TestCategoriesVM.TestCategories}" DockPanel.Dock="Top" SelectedItem="{Binding IssueTestsVM.CurrentTestCategory}" Style="{DynamicResource Style_ComboBoxBase}">
+                <ComboBox ItemsSource="{Binding TestCategoriesVM.TestCategories}" 
+                          DockPanel.Dock="Top"
+                          Margin="5 0 5 0"
+                          SelectedItem="{Binding IssueTestsVM.CurrentTestCategory}" 
+                          Style="{DynamicResource Style_ComboBoxBase}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"/>
@@ -45,20 +49,33 @@
                 <TextBlock Text="Tests:" DockPanel.Dock="Top" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 0"/>
 
                 <!-- Tests data table-->
-                <DataGrid  x:Name="DataGrid"
-                      Style="{DynamicResource Style_DataGridBase}"
-                      AlternationCount="{Binding IssueTestsVM.Tests.Count}"
-                      ItemsSource="{Binding IssueTestsVM.Tests}"
-                      SelectedItem="{Binding IssueTestsVM.CurrentTest, Mode=TwoWay}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
-                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                        <DataGridTextColumn Header="Questions&#x0a;for testing" Binding="{Binding Path=QuestionsAmountForTest}" />
-                        <DataGridTextColumn Header="Questions&#x0a;available" Binding="{Binding Path=Model.Questions.Count}" />
-                        <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
-                        <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <Border Style="{DynamicResource Style_ElementsBorder_General}">
+                    <Grid>
+                      <Border Name="mask" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                        <StackPanel>
+                            <StackPanel.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=mask}"/>
+                            </StackPanel.OpacityMask>
+
+                            <DataGrid  x:Name="DataGrid"
+                                       Style="{DynamicResource Style_DataGridBase}"
+                                       AlternationCount="{Binding IssueTestsVM.Tests.Count}"
+                                       ItemsSource="{Binding IssueTestsVM.Tests}"
+                                       SelectedItem="{Binding IssueTestsVM.CurrentTest, Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                                    <DataGridTextColumn Header="Questions&#x0a;for testing" Binding="{Binding Path=QuestionsAmountForTest}" />
+                                    <DataGridTextColumn Header="Questions&#x0a;available" Binding="{Binding Path=Model.Questions.Count}" />
+                                    <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
+                                    <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
             </DockPanel>
 
             <!-- Issued tests -->
@@ -66,7 +83,7 @@
                 <!-- Page info header -->
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" >
                     <TextBlock Text="Issued tests" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 0"/>
-                    <TextBlock Text="{Binding UserMaterialsVM.CurrentUserGroup.Name, Mode=OneWay}" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 0"/>
+                    <TextBlock Text="{Binding IssueTestsVM.CurrentTest.Name, Mode=OneWay}" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 0" Foreground="{DynamicResource Accent10Color1}"/>
                 </StackPanel>
 
                 <!-- Command buttons and filter-->
@@ -82,20 +99,33 @@
                 </StackPanel>
 
                 <!-- Data table-->
-                <DataGrid x:Name="DataGrid2" 
-                      Style="{DynamicResource Style_DataGridBase}"
-                      AlternationCount="{Binding IssueTestsVM.IssuedTests.Count}"
-                      ItemsSource="{Binding IssueTestsVM.IssuedTests}"
-                      SelectedItem="{Binding IssueTestsVM.CurrentIssuedTest}"
-                      MouseDoubleClick="DataGrid_MouseDoubleClick">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
-                        <DataGridTextColumn Header="Group" Binding="{Binding Path=UserGroup.Name}" />
-                        <DataGridTextColumn Header="Issue date" Binding="{Binding Path=IssueDate, StringFormat='dd-MM-yyyy'}" />
-                        <DataGridTextColumn Header="Expire date" Binding="{Binding Path=ExpiredDate, StringFormat='dd-MM-yyyy'}" />
-                        <DataGridTextColumn Header="Attempts amount" Binding="{Binding Path=AttemptsAmount}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <Border Style="{DynamicResource Style_ElementsBorder_General}">
+                    <Grid>
+                        <Border Name="mask2" Background="{DynamicResource Main60Color}" CornerRadius="20"/>
+                        <StackPanel>
+                            <StackPanel.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=mask}"/>
+                            </StackPanel.OpacityMask>
+
+                            <DataGrid x:Name="DataGrid2" 
+                                      Style="{DynamicResource Style_DataGridBase}"
+                                      AlternationCount="{Binding IssueTestsVM.IssuedTests.Count}"
+                                      ItemsSource="{Binding IssueTestsVM.IssuedTests}"
+                                      SelectedItem="{Binding IssueTestsVM.CurrentIssuedTest}"
+                                      MouseDoubleClick="DataGrid_MouseDoubleClick">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                                    <DataGridTextColumn Header="Group" Binding="{Binding Path=UserGroup.Name}" />
+                                    <DataGridTextColumn Header="Issue date" Binding="{Binding Path=IssueDate, StringFormat='dd-MM-yyyy'}" />
+                                    <DataGridTextColumn Header="Expire date" Binding="{Binding Path=ExpiredDate, StringFormat='dd-MM-yyyy'}" />
+                                    <DataGridTextColumn Header="Attempts amount" Binding="{Binding Path=AttemptsAmount}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
             </DockPanel>
         </Grid>
 

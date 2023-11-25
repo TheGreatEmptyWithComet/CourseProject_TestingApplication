@@ -20,7 +20,7 @@
             <!-- Page info header -->
             <TextBlock Text="Administrators" Style="{DynamicResource Style_WindowTextBlock}" Grid.Column="0" Margin="5 5 0 0"/>
             <!-- Exit button -->
-            <Button Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}"/>
         </Grid>
 
         <!-- Command buttons -->
@@ -39,19 +39,32 @@
         <TextBlock Text="{Binding UserMaterialsVM.ErrorMessage}" Style="{DynamicResource Style_PageErrorMessageTextBlock}" DockPanel.Dock="Bottom" Margin="5 0 5 5"/>
 
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" 
-                  Style="{DynamicResource Style_DataGridBase}"
-                  AlternationCount="{Binding UserMaterialsVM.Administrators.Count}"
-                  ItemsSource="{Binding UserMaterialsVM.Administrators}"
-                  SelectedItem="{Binding UserMaterialsVM.CurrentUser}"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
-                <DataGridTextColumn Header="Login" Binding="{Binding Path=Login}" />
-                <DataGridTextColumn Header="E-Mail" Binding="{Binding Path=Email}" />
-                <DataGridTextColumn Header="Password hash" Binding="{Binding Path=PasswordHash}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Border Style="{DynamicResource Style_ElementsBorder_General}">
+            <Grid>
+              <Border Name="mask" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                <StackPanel>
+                    <StackPanel.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=mask}"/>
+                    </StackPanel.OpacityMask>
+                    
+                    <DataGrid x:Name="DataGrid" 
+                      Style="{DynamicResource Style_DataGridBase}"
+                      AlternationCount="{Binding UserMaterialsVM.Administrators.Count}"
+                      ItemsSource="{Binding UserMaterialsVM.Administrators}"
+                      SelectedItem="{Binding UserMaterialsVM.CurrentUser}"
+                      MouseDoubleClick="DataGrid_MouseDoubleClick">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                            <DataGridTextColumn Header="Login" Binding="{Binding Path=Login}" />
+                            <DataGridTextColumn Header="E-Mail" Binding="{Binding Path=Email}" />
+                            <DataGridTextColumn Header="Password hash" Binding="{Binding Path=PasswordHash}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                </StackPanel>
+            </Grid>
+        </Border>
 
     </DockPanel>
 </Page>

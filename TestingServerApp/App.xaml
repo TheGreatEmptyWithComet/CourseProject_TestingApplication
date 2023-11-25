@@ -12,8 +12,6 @@
             <local:IntToIntIncrementConverter x:Key="intToIntIncrementConverter" />
             <local:BoolInvertConverter x:Key="boolInvertConverter" />
             <local:ByteArrayToBitmapImageConverter x:Key="byteArrayToBitmapImageConverter"/>
-            <!--<local:IsAdminModeToVisibilityBoolToEnumConverter x:Key="isAdminModeToVisibilityBoolToEnumConverter"/>
-            <local:ContentTextToQuantityIntToBoolConverter x:Key="contentTextToQuantityIntToBoolConverter"/>-->
 
             <!-- Styles -->
             <ResourceDictionary.MergedDictionaries>
@@ -24,6 +22,7 @@
                 <ResourceDictionary Source="Styles/ComboBox.xaml"/>
                 <ResourceDictionary Source="Styles/Hyperlink.xaml"/>
                 <ResourceDictionary Source="Styles/Brush.xaml"/>
+                <ResourceDictionary Source="Styles/Border.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>

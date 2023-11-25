@@ -14,12 +14,21 @@
     <Page.Resources>
         <!-- Single answer template -->
         <DataTemplate x:Key="AnswerTemplate_Single">
-            <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
+            <Border Height="50" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
                 <DockPanel>
                     <!-- Answer delete button -->
-                    <Button  Style="{DynamicResource Style_ExitButton}"
+                    <Button  Style="{DynamicResource Style_RoundAnswerButton}"
                              Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TestMaterialsVM.QuestionMaterialsVM.DeleteAnswerCommand}"
-                             CommandParameter="{Binding}"/>
+                             CommandParameter="{Binding}"
+                             Margin="5 5 10 5">
+                        <Button.Content>
+                            <Image Width="25">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelWidth="30" UriSource="\Images\Delete3_100.png" />
+                                </Image.Source>
+                            </Image>
+                        </Button.Content>
+                    </Button>
                     <!-- RadioButton -->
                     <Viewbox Height="25" Margin="0 0 15 0">
                         <RadioButton IsChecked="{Binding IsCorrect, Mode=TwoWay}" VerticalAlignment="Center" GroupName="UserAnswers" />
@@ -35,9 +44,18 @@
             <Border Height="40" BorderThickness="0 0 0 2" BorderBrush="WhiteSmoke">
                 <DockPanel>
                     <!-- Answer delete button -->
-                    <Button  Style="{DynamicResource Style_ExitButton}"
+                    <Button  Style="{DynamicResource Style_RoundAnswerButton}"
                              Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}, Path=DataContext.TestMaterialsVM.QuestionMaterialsVM.DeleteAnswerCommand}"
-                             CommandParameter="{Binding}"/>
+                             CommandParameter="{Binding}"
+                             Margin="5 5 10 5">
+                        <Button.Content>
+                            <Image Width="25">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelWidth="30" UriSource="\Images\Delete3_100.png" />
+                                </Image.Source>
+                            </Image>
+                        </Button.Content>
+                    </Button>
                     <!-- Checkbox -->
                     <Viewbox Height="25" Margin="0 0 15 0" VerticalAlignment="Center" >
                         <CheckBox IsChecked="{Binding IsCorrect, Mode=TwoWay}" IsEnabled="True"  />
@@ -83,7 +101,7 @@
                         Style="{DynamicResource Style_MenuButtonBase}"  
                         HorizontalAlignment="Left" Width="140">
                     <Button.Content>
-                        <Image>
+                        <Image Width="18">
                             <Image.Source>
                                 <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
                             </Image.Source>
@@ -92,7 +110,7 @@
                 </Button>
                 <Button Tag="Save" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.SaveQuestionWithoutExitingCommand}" Style="{DynamicResource Style_MenuButtonBase}" HorizontalAlignment="Left">
                     <Button.Content>
-                        <Image>
+                        <Image Width="18">
                             <Image.Source>
                                 <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
                             </Image.Source>
@@ -114,9 +132,9 @@
                 <!-- Questions button -->
                 <Button Tag="Previous" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.PreviousQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" >
                     <Button.Content>
-                        <Image>
+                        <Image Width="20">
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="20" UriSource="\Images\Previous_100.png"/>
+                                <BitmapImage DecodePixelWidth="25" UriSource="\Images\Previous_100.png"/>
                             </Image.Source>
                         </Image>
                     </Button.Content>
@@ -124,9 +142,9 @@
                 <!-- Questions button -->
                 <Button Tag="Next" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.NewOrNextQuestionCommand}" Style="{DynamicResource Style_MenuButtonBase}" >
                     <Button.Content>
-                        <Image>
+                        <Image Width="20">
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="20" UriSource="\Images\Next_100.png"/>
+                                <BitmapImage DecodePixelWidth="25" UriSource="\Images\Next_100.png"/>
                             </Image.Source>
                         </Image>
                     </Button.Content>
@@ -169,7 +187,7 @@
                                 Width="140"
                                 Margin="0 5 5 5">
                             <Button.Content>
-                                <Image>
+                                <Image Width="20">
                                     <Image.Source>
                                         <BitmapImage DecodePixelWidth="20" UriSource="\Images\Load_100.png"/>
                                     </Image.Source>
@@ -179,7 +197,7 @@
 
                         <Button Tag="Delete image" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5"  Width="140">
                             <Button.Content>
-                                <Image>
+                                <Image Width="20">
                                     <Image.Source>
                                         <BitmapImage DecodePixelWidth="20" UriSource="\Images\delete2_100.png"/>
                                     </Image.Source>
@@ -259,9 +277,9 @@
                 <!-- New answer button -->
                 <Button Style="{DynamicResource Style_RoundAnswerButton}" Command="{Binding TestMaterialsVM.QuestionMaterialsVM.AddAnswerCommand}">
                     <Button.Content>
-                        <Image>
+                        <Image Width="40">
                             <Image.Source>
-                                <BitmapImage DecodePixelWidth="40" UriSource="\Images\AddAnswer100.png" />
+                                <BitmapImage DecodePixelWidth="50" UriSource="\Images\AddAnswer100.png" />
                             </Image.Source>
                         </Image>
                     </Button.Content>

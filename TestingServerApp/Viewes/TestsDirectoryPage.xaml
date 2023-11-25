@@ -37,9 +37,9 @@
             <!-- Questions button -->
             <Button Tag="Questions" Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuButtonBase_Disabled}">
                 <Button.Content>
-                    <Image>
+                    <Image Width="19">
                         <Image.Source>
-                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Questions_100.png"/>
+                            <BitmapImage DecodePixelWidth="19" UriSource="\Images\Questions_100.png"/>
                         </Image.Source>
                     </Image>
                 </Button.Content>
@@ -47,20 +47,32 @@
         </StackPanel>
 
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" 
-                  Style="{DynamicResource Style_DataGridBase}" 
-                  ItemsSource="{Binding TestMaterialsVM.Tests}" 
-                  SelectedItem="{Binding TestMaterialsVM.CurrentTest}" 
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Category" Binding="{Binding Path=TestCategory.Name}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                <DataGridTextColumn Header="Questions&#x0a;for testing" Binding="{Binding Path=QuestionsAmountForTest}" />
-                <DataGridTextColumn Header="Questions&#x0a;available" Binding="{Binding Path=Model.Questions.Count}" />
-                <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
-                <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <Border Style="{DynamicResource Style_ElementsBorder_General}">
+            <Grid>
+              <Border Name="mask" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                <StackPanel>
+                    <StackPanel.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=mask}"/>
+                    </StackPanel.OpacityMask>
+
+                    <DataGrid x:Name="DataGrid" 
+                              Style="{DynamicResource Style_DataGridBase}" 
+                              ItemsSource="{Binding TestMaterialsVM.Tests}" 
+                              SelectedItem="{Binding TestMaterialsVM.CurrentTest}" 
+                              MouseDoubleClick="DataGrid_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Path=TestCategory.Name}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                            <DataGridTextColumn Header="Questions&#x0a;for testing" Binding="{Binding Path=QuestionsAmountForTest}" />
+                            <DataGridTextColumn Header="Questions&#x0a;available" Binding="{Binding Path=Model.Questions.Count}" />
+                            <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
+                            <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </StackPanel>
+            </Grid>
+        </Border>
 
     </DockPanel>
 </Page>

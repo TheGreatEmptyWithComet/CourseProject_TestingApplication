@@ -53,6 +53,7 @@ namespace TestingServerApp
                     // Show users from usergroup that was set
                     allStudents = context.Users.Where((u) => u.UserGroup == currentUserGroup.Model).ToList();
                     NotifyPropertyChanged(nameof(Students));
+                    NotifyPropertyChanged(nameof(CurrentUserGroup));
                 }
             }
         }
@@ -69,6 +70,7 @@ namespace TestingServerApp
             }
         }
         #endregion
+
 
         #region Commands
         /****************************************************************************************/

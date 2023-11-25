@@ -28,7 +28,7 @@
             <!-- Save and exit button -->
             <Button Tag="Save and exit" Command="{Binding TestMaterialsVM.SaveTestEndExitCommand}" Style="{DynamicResource Style_MenuButtonBase}" Width="140">
                 <Button.Content>
-                    <Image>
+                    <Image Width="18">
                         <Image.Source>
                             <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
                         </Image.Source>
@@ -39,9 +39,9 @@
             <!-- Questions button -->
             <Button Command="{Binding TestMaterialsVM.GoToQuestionsCommand}" Style="{DynamicResource Style_MenuButtonBase}" Tag="Questions" Width="140">
                 <Button.Content>
-                    <Image>
+                    <Image Width="20">
                         <Image.Source>
-                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Questions_100.png"/>
+                            <BitmapImage DecodePixelWidth="22" UriSource="\Images\Questions_100.png"/>
                         </Image.Source>
                     </Image>
                 </Button.Content>
@@ -135,7 +135,7 @@
                     <StackPanel Orientation="Vertical">
                         <Button Tag="Load image" Command="{Binding TestMaterialsVM.LoadImageCommand}" Style="{DynamicResource Style_MenuButtonBase}" ToolTip="Max image size = 1 Mb" Margin="0 0 5 5" Width="140">
                             <Button.Content>
-                                <Image>
+                                <Image Width="20">
                                     <Image.Source>
                                         <BitmapImage DecodePixelWidth="20" UriSource="\Images\Load_100.png"/>
                                     </Image.Source>
@@ -144,7 +144,7 @@
                         </Button>
                         <Button Tag="Delete image" Command="{Binding TestMaterialsVM.DeleteImageCommand}" Margin="0 5 5 5" Width="140">
                             <Button.Content>
-                                <Image>
+                                <Image Width="20">
                                     <Image.Source>
                                         <BitmapImage DecodePixelWidth="20" UriSource="\Images\Delete2_100.png"/>
                                     </Image.Source>

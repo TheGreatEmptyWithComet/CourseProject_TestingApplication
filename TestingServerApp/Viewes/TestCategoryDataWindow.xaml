@@ -7,12 +7,13 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         DataContext="{StaticResource baseVM}"
-        Title="Test category" Height="210" Width="230">
-    
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="UserGroupDataWindow" Height="280" Width="300">
+
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="10">
+        <StackPanel Orientation="Vertical" Margin="20">
             <!-- Data -->
-            <StackPanel Orientation="Vertical" Height="110">
+            <StackPanel Orientation="Vertical" Height="150">
                 <!-- Name -->
                 <TextBlock Text="Test category:" Style="{DynamicResource Style_WindowTextBlock}"/>
                 <TextBox Text="{Binding TestCategoriesVM.CurrentTestCategory.Name}" Style="{DynamicResource Style_WindowTextBox}"/>
@@ -22,7 +23,15 @@
             </StackPanel>
 
             <!-- Command button -->
-            <Button Content="Save" Command="{Binding TestCategoriesVM.SaveCommand}" FontSize="16"/>
+            <Button Tag="Save and close" Command="{Binding TestCategoriesVM.SaveCommand}" FontSize="16" Style="{DynamicResource Style_MenuButtonBase}" Width="180">
+                <Button.Content>
+                    <Image Width="18">
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -5,8 +5,22 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="IsReadOnly" Value="True"/>
-        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="Background" Value="{DynamicResource Main60Color}"/>
+        <Setter Property="VerticalGridLinesBrush" Value="Azure"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="LightGray"/>
+        <Setter Property="RowBackground" Value="{DynamicResource Main60Color}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <Setter Property="Foreground" Value="{DynamicResource Accent10Color1}"/>
+                    <Setter Property="MinHeight" Value="35"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

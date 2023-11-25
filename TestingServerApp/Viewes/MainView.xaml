@@ -15,7 +15,11 @@
             <MenuItem Command="{Binding PageNavigationCommand}" CommandParameter="UsersMenuPage.xaml" BorderThickness="0" Cursor="Hand">
                 <MenuItem.Header>
                     <StackPanel Orientation="Vertical" Width="80">
-                        <Image Width="35" Height="35" Source="\Images\Users.png" Margin="5 5 5 0"/>
+                        <Image Width="30" Margin="5 5 5 0">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="35" UriSource="\Images\User_100.png"/>
+                            </Image.Source>
+                        </Image>
                         <ContentPresenter Content="Users" HorizontalAlignment="Center" Margin="5 0 5 5"/>
                     </StackPanel>
                 </MenuItem.Header>
@@ -35,7 +39,11 @@
             <MenuItem Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml" BorderThickness="0" Cursor="Hand" >
                 <MenuItem.Header>
                     <StackPanel Orientation="Vertical" Width="80">
-                        <Image Width="35" Height="35" Source="\Images\Tests.png" Margin="5 5 5 0"/>
+                        <Image Width="40" Margin="5 5 5 0">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="45" UriSource="\Images\Tests_100.png"/>
+                            </Image.Source>
+                        </Image>
                         <ContentPresenter Content="Tests" HorizontalAlignment="Center" Margin="5 0 5 5"/>
                     </StackPanel>
                 </MenuItem.Header>

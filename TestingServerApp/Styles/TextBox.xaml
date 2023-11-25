@@ -15,7 +15,7 @@
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="Background" Value="{DynamicResource Main60Color2}"/>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color1_light}"/>
                                     
                                     <!-- change border and background color -->
                                     <Style.Triggers>
@@ -24,6 +24,7 @@
                                         </Trigger>
                                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                                             <Setter Property="Background" Value="{DynamicResource AmazonTextBoxBackground}"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource Main30Color}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>

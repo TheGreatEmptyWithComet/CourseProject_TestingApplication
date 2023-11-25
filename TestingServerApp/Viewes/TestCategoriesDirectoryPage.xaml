@@ -36,15 +36,27 @@
         </StackPanel>
 
         <!-- Data table -->
-        <DataGrid x:Name="DataGrid" 
-                  Style="{DynamicResource Style_DataGridBase}" 
-                  ItemsSource="{Binding TestCategoriesVM.TestCategories}" 
-                  SelectedItem="{Binding TestCategoriesVM.CurrentTestCategory}"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Test category" Binding="{Binding Path=Name}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Border Style="{DynamicResource Style_ElementsBorder_General}">
+            <Grid>
+              <Border Name="mask" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                <StackPanel>
+                    <StackPanel.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=mask}"/>
+                    </StackPanel.OpacityMask>
+
+                    <DataGrid x:Name="DataGrid" 
+                              Style="{DynamicResource Style_DataGridBase}" 
+                              ItemsSource="{Binding TestCategoriesVM.TestCategories}" 
+                              SelectedItem="{Binding TestCategoriesVM.CurrentTestCategory}"
+                              MouseDoubleClick="DataGrid_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Test category" Binding="{Binding Path=Name}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </StackPanel>
+            </Grid>
+        </Border>
 
     </DockPanel>
 </Page>

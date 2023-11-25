@@ -7,37 +7,46 @@
         mc:Ignorable="d"
         DataContext="{StaticResource baseVM}"
         WindowStartupLocation="CenterOwner"
-        Title="User" Height="410" Width="250">
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="User" Height="470" Width="300">
     
     <Grid>
         <StackPanel Orientation="Vertical" Margin="10">
             <!-- Data -->
-            <StackPanel Orientation="Vertical" Height="310">
+            <StackPanel Orientation="Vertical" Height="370">
                 <!-- Group -->
                 <TextBlock Text="Group:" Style="{DynamicResource Style_WindowTextBlock}"/>
                 <TextBlock Text="{Binding UserMaterialsVM.CurrentUser.UserGroup.Name}" Style="{DynamicResource Style_WindowSearchTextBlock}"/>
                 
                 <!-- Login -->
                 <TextBlock Text="Login:" Style="{DynamicResource Style_WindowTextBlock}"/>
-                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Login}" Style="{DynamicResource Style_WindowTextBox}"/>
+                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Login}" Style="{DynamicResource Style_WindowTextBox}"  Margin="0 0 0 12"/>
 
                 <!-- Email -->
                 <TextBlock Text="E-mail:" Style="{DynamicResource Style_WindowTextBlock}"/>
-                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Email}" Style="{DynamicResource Style_WindowTextBox}"/>
+                <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Email}" Style="{DynamicResource Style_WindowTextBox}" Margin="0 0 0 12"/>
                 
                 <!-- Password -->
                 <TextBlock Text="Password:" Style="{DynamicResource Style_WindowTextBlock}"/>
                 <TextBox Text="{Binding UserMaterialsVM.CurrentUser.Password, Mode=OneWayToSource}" 
                          Style="{DynamicResource Style_WindowTextBox}" 
                          Margin="0"/>
-                <TextBlock Text="*Leave the field blank to avoid making changes" TextWrapping="WrapWithOverflow"/>
+                <TextBlock Text="*Leave the field blank to avoid making changes" TextWrapping="WrapWithOverflow" Margin="0 0 0 12"/>
 
                 <!-- Error message -->
                 <TextBlock Text="{Binding UserMaterialsVM.ErrorMessage}" Style="{DynamicResource Style_WindowErrorMessageTextBlock}" />
             </StackPanel>
 
             <!-- Command button -->
-            <Button Content="Save" Command="{Binding UserMaterialsVM.SaveUserCommand}" FontSize="16"/>
+            <Button Tag="Save and close" Command="{Binding UserMaterialsVM.SaveUserCommand}" FontSize="16" Style="{DynamicResource Style_MenuButtonBase}" Width="180">
+                <Button.Content>
+                    <Image Width="18">
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

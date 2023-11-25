@@ -15,11 +15,11 @@ namespace TestingServerApp
         public DateTime Date { get; set; }
         public int TestMaxScores { get; set; }
         public double UserScores { get; set; }
+        public User User { get; set; } = null!;
+        public Test Test { get; set; } = null!;
         
         
         // Navigation properties
-        public User User { get; set; } = null!;
-        public Test Test { get; set; } = null!;
         public ObservableCollection<DetailedResult> DetailedResults { get; set; } = null!;
     }
 }

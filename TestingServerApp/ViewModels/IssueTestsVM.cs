@@ -80,6 +80,7 @@ namespace TestingServerApp
                 {
                     currentTest = value;
                     NotifyPropertyChanged(nameof(IssuedTests));
+                    NotifyPropertyChanged(nameof(CurrentTest));
                 }
             }
         }
@@ -110,6 +111,7 @@ namespace TestingServerApp
             }
         }
         #endregion
+
 
         #region Commands
         /****************************************************************************************/

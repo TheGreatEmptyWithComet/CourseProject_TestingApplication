@@ -128,7 +128,7 @@ namespace TestingServerApp
                     if (currentUser != null)
                     {
                         List<TestInfo> testsInfo = context.IssuedTests
-                            .Where((it) => it.UserGroup == currentUser.UserGroup)
+                            .Where((it) => it.UserGroup == currentUser.UserGroup && it.ExpiredDate>=DateTime.Now)
                             .Select((it) => new TestInfo()
                             {
                                 Id = it.Test.Id,
@@ -169,9 +169,13 @@ namespace TestingServerApp
         {
             using (Context context = new Context())
             {
-                int allAttempts = context.IssuedTests.Where((it) => it.UserGroup == currentUser.UserGroup).Select((it) => it.AttemptsAmount).FirstOrDefault();
-                int usedAttempts = context.ShortResults.Count((it) => it.Test.Id == testId);
-                return allAttempts - usedAttempts;
+                try
+                {
+                    int allAttempts = context.IssuedTests.Where((it) => it.UserGroup == currentUser.UserGroup).Select((it) => it.AttemptsAmount).FirstOrDefault();
+                    int usedAttempts = context.ShortResults.Count((r) => r.Test.Id == testId && r.User.Id == currentUser.Id);
+                    return allAttempts - usedAttempts;
+                }
+                catch (Exception e) { return 0; }
             }
         }
         private void StartTest()
@@ -342,16 +346,6 @@ namespace TestingServerApp
             }
         }
 
-
-        private void ProcessLogin2()
-        {
-            try
-            {
-
-
-            }
-            catch { }
-        }
         public void CloseConnections()
         {
             writer.Close();

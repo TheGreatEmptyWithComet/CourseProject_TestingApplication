@@ -7,16 +7,18 @@
         mc:Ignorable="d"
         DataContext="{StaticResource baseVM}"
         WindowStartupLocation="CenterOwner"
-        Title="TestIssuesDataWindow" Height="340" Width="250">
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Title="TestIssuesDataWindow" Height="410" Width="300">
 
     <Grid>
-        <StackPanel Orientation="Vertical" Margin="10">
+        <StackPanel Orientation="Vertical" Margin="20 10 20 10">
             <!-- Data -->
-            <StackPanel Orientation="Vertical" Height="240">
+            <StackPanel Orientation="Vertical" Height="300">
                 <!-- Group -->
                 <TextBlock Text="Group:" Style="{DynamicResource Style_WindowTextBlock}"/>
                 <ComboBox ItemsSource="{Binding UserMaterialsVM.UserGroups}" DockPanel.Dock="Top" 
                           SelectedItem="{Binding IssueTestsVM.CurrentIssuedTest.UserGroup}" 
+                          Margin="0 0 0 20"
                           Style="{DynamicResource Style_ComboBoxBase}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -27,18 +29,26 @@
 
                 <!-- Expired date -->
                 <TextBlock Text="Expired date:" Style="{DynamicResource Style_WindowTextBlock}"/>
-                <DatePicker SelectedDate="{Binding IssueTestsVM.CurrentIssuedTest.ExpiredDate}" Margin="0 0 0 15"/>
+                <DatePicker SelectedDate="{Binding IssueTestsVM.CurrentIssuedTest.ExpiredDate}" Margin="0 0 0 20"/>
 
                 <!-- Attempts amount -->
                 <TextBlock Text="Attempts amount:" Style="{DynamicResource Style_WindowTextBlock}"/>
-                <TextBox Text="{Binding IssueTestsVM.CurrentIssuedTest.AttemptsAmount}" Style="{DynamicResource Style_WindowTextBox}" />
+                <TextBox Text="{Binding IssueTestsVM.CurrentIssuedTest.AttemptsAmount}" Style="{DynamicResource Style_WindowTextBox}" Margin="0 0 0 10"/>
 
                 <!-- Error message -->
                 <TextBlock Text="{Binding IssueTestsVM.ErrorMessage}" Style="{DynamicResource Style_WindowErrorMessageTextBlock}" />
             </StackPanel>
 
             <!-- Command button -->
-            <Button Content="Save" Command="{Binding IssueTestsVM.SaveIssuedTestCommand}" FontSize="16"/>
+            <Button Tag="Save and close" Command="{Binding IssueTestsVM.SaveIssuedTestCommand}" FontSize="16" Style="{DynamicResource Style_MenuButtonBase}" Width="180">
+                <Button.Content>
+                    <Image Width="18">
+                        <Image.Source>
+                            <BitmapImage DecodePixelWidth="20" UriSource="\Images\Save_100.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button.Content>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

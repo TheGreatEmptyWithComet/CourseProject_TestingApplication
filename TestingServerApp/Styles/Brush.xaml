@@ -18,7 +18,10 @@
     <LinearGradientBrush StartPoint="1,0" EndPoint="1,1"  x:Key="MainBackgroundBrush">
         <GradientStop Color="#ffffff" Offset="0"/>
         <GradientStop Color="#dee2f8" Offset="1" />
-        <!--<GradientStop Color="#e5e5e5" Offset="1"/>-->
+    </LinearGradientBrush>
+    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1"  x:Key="WindowBackgroundBrush">
+        <GradientStop Color="#ffffff" Offset="1"/>
+        <GradientStop Color="#e5e5e5" Offset="0" />
     </LinearGradientBrush>
 
     <!-- Color set2 -->

@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Element's border style -->
+    <Style TargetType="{x:Type Border}" x:Key="Style_ElementsBorder_General">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="#f8f8f8"/>
+        <Setter Property="Padding" Value="0.3"/>
+        <Setter Property="CornerRadius" Value="7"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color1_light}"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color1}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
+    
+    
+    

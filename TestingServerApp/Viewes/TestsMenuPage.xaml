@@ -33,7 +33,7 @@
                 <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="TestIssuesDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Issue tests</Hyperlink>
             </TextBlock>
             <TextBlock Style="{DynamicResource Style_MenuHeaderTextBlock}">
-                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="" Style="{DynamicResource Style_MenuHeaderHyperlink}">Tests results</Hyperlink>
+                <Hyperlink Command="{Binding PageNavigationCommand}" CommandParameter="TestShortResultsDirectoryPage.xaml" Style="{DynamicResource Style_MenuHeaderHyperlink}">Tests results</Hyperlink>
             </TextBlock>
         </StackPanel>
 

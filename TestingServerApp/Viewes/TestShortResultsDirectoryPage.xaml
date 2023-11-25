@@ -1,0 +1,151 @@
+﻿<Page x:Class="TestingServerApp.Viewes.TestShortResultsDirectoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestingServerApp.Viewes"
+      mc:Ignorable="d"
+      DataContext="{StaticResource baseVM}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TestShortResultsDirectoryPage">
+
+    <DockPanel>
+        <!-- Header & exit button -->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Exit button -->
+            <Button Command="{Binding PageNavigationCommand}" CommandParameter="TestsMenuPage.xaml"  Grid.Column="1" Style="{DynamicResource Style_ExitButton}" />
+        </Grid>
+
+        <!-- Data tables & command buttons-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Tests -->
+            <DockPanel Grid.Column="0">
+                <!-- Test category header -->
+                <TextBlock Text="Category:" DockPanel.Dock="Top" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 5" />
+                <!-- Test category selection -->
+                <ComboBox ItemsSource="{Binding TestCategoriesVM.TestCategories}" 
+                      DockPanel.Dock="Top"
+                      Margin="5 0 5 0"
+                      SelectedItem="{Binding TestResultsVM.CurrentTestCategory}" 
+                      Style="{DynamicResource Style_ComboBoxBase}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <!-- Test selection header-->
+                <TextBlock Text="Tests:" DockPanel.Dock="Top" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 15 0 0"/>
+
+                <!-- Tests data table-->
+                <Border Style="{DynamicResource Style_ElementsBorder_General}">
+                    <Grid>
+                        <Border Name="mask" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                        <StackPanel>
+                            <StackPanel.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=mask}"/>
+                            </StackPanel.OpacityMask>
+
+                            <DataGrid
+                                   Style="{DynamicResource Style_DataGridBase}"
+                                   AlternationCount="{Binding IssueTestsVM.Tests.Count}"
+                                   ItemsSource="{Binding TestResultsVM.Tests}"
+                                   SelectedItem="{Binding TestResultsVM.CurrentTest, Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                                    <DataGridTextColumn Header="Questions&#x0a;for testing" Binding="{Binding Path=QuestionsAmountForTest}" />
+                                    <DataGridTextColumn Header="Questions&#x0a;available" Binding="{Binding Path=Model.Questions.Count}" />
+                                    <DataGridTextColumn Header="Minuts&#x0a;for test" Binding="{Binding Path=MinutsForTest}" />
+                                    <DataGridTextColumn Header="Max test&#x0a;scores" Binding="{Binding Path=MaxTestScores}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DockPanel>
+
+            <!-- User groups -->
+            <DockPanel Grid.Column="1">
+                <!-- Test category header -->
+                <TextBlock Text="User groups:" DockPanel.Dock="Top" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 5" />
+
+                <!-- Tests data table-->
+                <Border Style="{DynamicResource Style_ElementsBorder_General}">
+                    <Grid>
+                        <Border Name="mask2" Background="{DynamicResource Main60Color}" CornerRadius="10"/>
+                        <StackPanel>
+                            <StackPanel.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=mask2}"/>
+                            </StackPanel.OpacityMask>
+
+                            <DataGrid Style="{DynamicResource Style_DataGridBase}"
+                                      AlternationCount="{Binding TestResultsVM.UserGroups.Count}"
+                                      ItemsSource="{Binding TestResultsVM.UserGroups}"
+                                      SelectedItem="{Binding TestResultsVM.CurrentUserGroup, Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"  Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DockPanel>
+
+
+            <!-- Test results -->
+            <DockPanel Grid.Column="2">
+                <!-- Page info header -->
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" >
+                    <TextBlock Text="Test results:" Style="{DynamicResource Style_WindowTextBlock}" Margin="5 5 0 0"/>
+                </StackPanel>
+
+                <!-- Data table-->
+
+                <Border Style="{DynamicResource Style_ElementsBorder_General}">
+                    <Grid>
+                        <Border Name="mask3" Background="{DynamicResource Main60Color}" CornerRadius="20"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <StackPanel.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=mask}"/>
+                                </StackPanel.OpacityMask>
+
+                                <DataGrid
+                                    Style="{DynamicResource Style_DataGridBase}"
+                                    AlternationCount="{Binding TestResultsVM.ShortResults.Count}"
+                                    ItemsSource="{Binding TestResultsVM.ShortResults}">
+
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="#" Binding="{Binding Path=AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}, Converter={StaticResource intToIntIncrementConverter}}" />
+                                        <DataGridTextColumn Header="Student login" Binding="{Binding Path=User.Login}" />
+                                        <DataGridTextColumn Header="Date" Binding="{Binding Path=Date, StringFormat='dd-MM-yyyy'}"/>
+                                        <DataGridTextColumn Header="Students score" Binding="{Binding Path=UserScores, StringFormat='0.0'}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+            </DockPanel>
+        </Grid>
+
+    </DockPanel>
+</Page>

@@ -12,8 +12,23 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource Accent10Color4_light}"/>
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect BlurRadius="3" Opacity="0.3">
-                        </DropShadowEffect>
+                        <DropShadowEffect BlurRadius="3" Opacity="0.3"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--STYLE FOR BUTTON'S INNER BORDER 2-->
+    <Style TargetType="{x:Type Border}" x:Key="Style_AddRemoveAnswerButtonsInnerBorder">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Opacity" Value="0.5"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="9" Opacity="0.9" ShadowDepth="0" Color="#252C4A"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -41,7 +56,7 @@
                                 <ColumnDefinition Width="30*"/>
                                 <ColumnDefinition Width="70*"/>
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="0" Height="17" Width="17"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" Grid.Column="0"/>
                             <TextBlock Text="{TemplateBinding Tag}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1"/>
                         </Grid>
                     </Border>
@@ -53,8 +68,7 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect BlurRadius="8" Opacity="0.9" ShadowDepth="0" Color="#107EEB">
-                        </DropShadowEffect>
+                        <DropShadowEffect BlurRadius="8" Opacity="0.9" ShadowDepth="0" Color="#107EEB"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -190,7 +204,7 @@
 
 
     <!--EXIT BUTTON-->
-    <Style TargetType="{x:Type Button}" x:Key="Style_ExitButton" BasedOn="{StaticResource Style_MenuButtonBase}">
+    <Style TargetType="{x:Type Button}" x:Key="Style_ExitButton2" BasedOn="{StaticResource Style_MenuButtonBase}">
         <Setter Property="Margin" Value="5 5 5 5"/>
         <Setter Property="Width" Value="25"/>
         <Setter Property="Height" Value="25"/>
@@ -224,118 +238,39 @@
     </Style>
 
 
-
     <!--ADD ANSWER BUTTON-->
     <Style TargetType="{x:Type Button}" x:Key="Style_RoundAnswerButton">
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="Width" Value="40"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Margin" Value="5 5 5 5"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="50" BorderThickness="0">
+                    <Border CornerRadius="50" Style="{DynamicResource Style_AddRemoveAnswerButtonsInnerBorder}">
                         <ContentPresenter Content="{TemplateBinding Content}"/>
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="Opacity" Value="0.5"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect
-                                            Opacity="0.5">
-                                        </DropShadowEffect>
-                                    </Setter.Value>
-                                </Setter>
-
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Opacity" Value="1"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-
     </Style>
 
 
+    <!--EXIT BUTTON-->
+    <Style TargetType="{x:Type Button}" x:Key="Style_ExitButton" BasedOn="{StaticResource Style_RoundAnswerButton}">
 
-
-
-    <!--<Setter Property="Effect">
-         <Setter.Value>
-             <DropShadowEffect
-                 ShadowDepth="0"
-                 Color="#107EEB"
-                 BlurRadius = "10"
-                 Opacity="0.5">
-             </DropShadowEffect>
-         </Setter.Value>
-     </Setter>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- The style is intended to multiple datagrids on different pages. To work properly datagrid name must be "DataGrid"  -->
-    <Style TargetType="{x:Type Button}" x:Key="Style_MenuVisibleOnSelectionButton" BasedOn="{StaticResource Style_MenuButtonBase}">
-        <Setter Property="IsEnabled" Value="True"></Setter>
-        <Style.Triggers>
-            <DataTrigger Binding ="{Binding ElementName=DataGrid, Path=SelectedIndex}" Value="-1">
-                <Setter Property="IsEnabled" Value="False"></Setter>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!-- The style is intended to multiple datagrids on different pages. To work properly datagrid name must be "DataGrid"  -->
-    <Style TargetType="{x:Type Button}" x:Key="Style_MenuVisibleOnSelectionButton2" BasedOn="{StaticResource Style_MenuButtonBase}">
-        <Setter Property="IsEnabled" Value="True"></Setter>
-        <Style.Triggers>
-            <DataTrigger Binding ="{Binding ElementName=DataGrid2, Path=SelectedIndex}" Value="-1">
-                <Setter Property="IsEnabled" Value="False"></Setter>
-            </DataTrigger>
-        </Style.Triggers>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="50" Style="{DynamicResource Style_AddRemoveAnswerButtonsInnerBorder}">
+                        <Image Width="25">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="25" UriSource="\Images\Delete3_100.png"/>
+                            </Image.Source>
+                        </Image>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
